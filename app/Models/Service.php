@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Service extends Model
 {
+    use SoftDeletes;
     protected $fillable = [
         'user_id',
         'title',
@@ -15,7 +17,7 @@ class Service extends Model
         'min_price',
         'max_price',
         'hourly_rate',
-        'city',
+        'city_id',
         'address',
         'views',
     ];
@@ -27,4 +29,26 @@ class Service extends Model
     public function images() {
         return $this->hasMany(ServiceImage::class);
     }
+
+    public function categories() {
+        return $this->belongsToMany(Category::class);
+    }
+
+    public function proposals() {
+        return $this->hasMany(Proposal::class);
+    }
+
+    public function savedBy() {
+        return $this->belongsToMany(User::class, 'saved_services');
+    }
+
+    public function city() {
+        return $this->belongsTo(City::class);
+    }
+
+    public function reviews() {
+        return $this->hasMany(Review::class);
+    }
+
+    protected $dates = ['deleted_at'];
 }

@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -10,22 +11,24 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
+    {   
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('username');
+            $table->string('username')->unique()->index();
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('email')->unique();
+            $table->string('email')->unique()->index();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('image')->nullable();
             $table->enum('role', ['user', 'admin'])->default('user');
-            $table->int('rating')->default(0);
-            $table->enum('city' , ['amman', 'irbid', 'zarqa', 'aqaba', 'mafraq', 'madaba', 'karak', 'tafila', 'ramtha', 'salt', 'jerash', 'ajloun', 'maan', 'balqa', 'dead sea', 'others']);
-            $table->string('phone_number')->nullable();
+            $table->decimal('rating', 2 , 1)->default(0);
+            $table->foreignId('city_id')->nullable()->constrained()->onDelete('set null');
+            $table->string('phone_number', 15)->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -42,6 +45,7 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 
     /**

@@ -6,15 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class ServiceImage extends Model
-{
+class Proposal extends Model
+{   
     use SoftDeletes;
-    protected $fillable = ['service_id', 'image'];
+    protected $fillable = ['user_id', 'service_id', 'content', 'price', 'status'];
 
-    public function service()
-    {
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
+    public function service() {
         return $this->belongsTo(Service::class);
     }
 
     protected $dates = ['deleted_at'];
+    
 }

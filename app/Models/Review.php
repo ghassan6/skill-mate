@@ -5,11 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
-class ServiceImage extends Model
-{
+class Review extends Model
+{   
     use SoftDeletes;
-    protected $fillable = ['service_id', 'image'];
+    protected $fillable = ['user_id', 'service_id', 'comment', 'rating'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function service()
     {
