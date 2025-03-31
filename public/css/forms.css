@@ -1,0 +1,11 @@
+.red-asterisk {
+    color: red;
+}
+
+.image-section {
+    height: 100%;
+    min-height: 500px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+}

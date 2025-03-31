@@ -37,16 +37,14 @@
 <body>
 <div class="container-fluid nav-bar bg-light">
         <nav class="navbar navbar-expand-lg navbar-light bg-white p-3 py-lg-0 px-lg-4">
-            <a href="" class="navbar-brand d-flex align-items-center m-0 p-0 d-lg-none">
+            <a href="/" class="navbar-brand d-flex align-items-center m-0 p-0 d-lg-none">
                 <h1 class="text-primary m-0">SkillMate</h1>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="fa fa-bars"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
-                <a href="/" class="navbar-brand">
-                    <img src="{{asset('images/main/logo.png')}}" alt="" class="d-none d-lg-inline" style="height: 50px;"> 
-                </a>
+                <x-application-logo></x-application-logo>
                 <div class="navbar-nav me-auto">
                     <x-nav-link href="/" class=" nav-item nav-link " :active="request()->is('/')">Home</x-nav-link>
                     <x-nav-link href="/about" class=" nav-item nav-link" :active="request()->is('about')" >About</x-nav-link>
@@ -73,8 +71,8 @@
                 </div> -->
                 
                 <div class="navbar-nav">
-                    <a href="/login" class="nav-item nav-link ">Login</a>
-                    <a href="/register" class="nav-item nav-link">Register</a>
+                    <x-nav-link href="/login" class="nav-item nav-link " :active="request()->is('login')">Login</x-nav-link >
+                    <x-nav-link  href="/register" class="nav-item nav-link" :active="request()->is('register')">Register</x-nav-link >
                 </div>
             </div>
         </nav>
