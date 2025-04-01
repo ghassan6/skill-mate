@@ -24,7 +24,7 @@
                         <h4>Login</h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('login') }}" method="POST">
+                        <form action="{{ route('login') }}" method="POST" id="login-form">
                             @csrf
 
                             <!-- Email or Username -->
@@ -59,7 +59,7 @@
 
                             <!-- Submit Button -->
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Login</button>
+                                <button type="submit" class="btn btn-primary" id="login-btn" disabled>Login</button>
                             </div>
 
                             <div class="text-center mt-3">
@@ -71,4 +71,6 @@
             </div>
         </div>
     </div>
+
+    <script src="{{asset('js/login.js')}}"></script>
 </x-layout>
