@@ -69,15 +69,31 @@
                         <h5 class="m-0 text-secondary">+012 345 6789</h5>
                     </div>
                 </div> -->
-                
+                @if(Auth::check()) 
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">{{ Auth::user()->username }}</a>
+                        <div class="dropdown-menu fade-up m-0">
+                            <x-nav-link href="/dashboard" class="dropdown-item">Dashboard</x-nav-link>
+                            <form action="{{ route('logout') }}" method="POST" class="dropdown-item">
+                                @csrf
+                                @method('POST')
+                                <button type="submit" class="btn btn-link p-0 m-0 text-decoration-none text-black">Logout</button>
+                            </form>
+                        </div>
+                    </div>
+                @else
                 <div class="navbar-nav">
                     <x-nav-link href="/login" class="nav-item nav-link " :active="request()->is('login')">Login</x-nav-link >
                     <x-nav-link  href="/register" class="nav-item nav-link" :active="request()->is('register')">Register</x-nav-link >
                 </div>
+                @endif
             </div>
         </nav>
     </div>
 
     {{ $slot }}
+
+
+    
 </body>
 </html>

@@ -18,6 +18,11 @@ Route::get('/services', function () {
     return view('services');
 });
 
+Route::prefix('legal')->group(function () {
+    Route::get('/terms-and-conditions', function () {
+        return view('legal.terms');
+    })->name('terms');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let form = document.getElementById('register-form');
     let regBtn = document.getElementById('register-btn');
 
-    document.querySelectorAll('.form-control').forEach(function(input) {
+    document.querySelectorAll('.form-control, .form-check-input').forEach(function(input) {
         input.addEventListener('keyup', checkInput)   
         input.addEventListener('change', checkInput)
       
@@ -11,16 +11,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function checkInput() {
         let filled = true;
-         document.querySelectorAll('.form-control').forEach(function(input) {
+         document.querySelectorAll('.form-control, .form-check-input').forEach(function(input) {
                 if(input.type === "checkbox") {
                     if (!input.checked) filled = false;
                     
                 }  
-                else if (input.value === "") filled = false;
+                else if (input.value.trim() === "") filled = false;
             })
 
         filled ? regBtn.removeAttribute('disabled') : regBtn.setAttribute('disabled', 'true');
-        filled ? signInBtn.removeAttribute('disabled') : signInBtn.setAttribute('disabled', 'true');
     }
 
 

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('saved_services', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('service_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('service_id')->constrained()->cascadeOnDelete();
             $table->unique(['user_id', 'service_id']);
             $table->softDeletes();
             $table->timestamps();

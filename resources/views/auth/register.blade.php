@@ -17,7 +17,7 @@
                     <div class="card-header text-center bg-primary text-white">
                         <h4>Register</h4>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body bg-light">
                         <form action="{{ route('register') }}" method="POST" id="register-form">
                             @csrf
 
@@ -82,11 +82,18 @@
                              <!-- City Dropdown -->
                              <div class="mb-3">
                                 <x-input-label for="city" >City</x-input-label>
-                                <select name="city" id="city" class="form-select">
+                                <select name="city_id" id="city_id" class="form-select">
+                                    <option value='0' selected disabled>Please select a city</option>
                                     @foreach($cities as $city)
                                         <option value="{{ $city->id }}">{{Str::ucfirst( $city->name )}}</option>
                                     @endforeach
                                 </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <x-input-label for="terms" hidden></x-input-label>
+                                <input type="checkbox" name="terms" id="terms" required class="form-check-input border-primary">   
+                                <span>By registering you agree to <a href="{{ route('terms')}}" target="_blank">Terms and conditions</a><span class="red-asterisk"> *</span></span>
                             </div>
 
                             <div class="text-muted mt-3 mb-3">

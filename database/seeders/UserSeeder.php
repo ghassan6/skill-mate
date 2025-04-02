@@ -22,6 +22,7 @@ class UserSeeder extends Seeder
                 'email' => 'admin@ex.com',
                 'password' => bcrypt('qwerty'),
                 'role' => 'admin',
+                'city_id' => 1,
             ],
             [
                 'username' => 'user',
@@ -30,6 +31,8 @@ class UserSeeder extends Seeder
                 'email' => 'user@ex.com',
                 'password' => bcrypt('qwerty'),
                 'role' => 'user',
+                'city_id' => 1,
+
             ],
             [
                 'username' => 'john_doe',
@@ -38,6 +41,8 @@ class UserSeeder extends Seeder
                 'email' => 'jon@ex.com',
                 'password' => bcrypt('qwerty'),
                 'role' => 'user',
+                'city_id' => 1,
+
             ],
             [
                 'username' => 'jane_smith',
@@ -46,6 +51,8 @@ class UserSeeder extends Seeder
                 'email' => 'jane@ex.com',
                 'password' => bcrypt('qwerty'),
                 'role' => 'user',
+                'city_id' => 1,
+
             ],
             [
                 'username' => 'bob_brown',
@@ -54,6 +61,7 @@ class UserSeeder extends Seeder
                 'email' => 'bob@ex.com',
                 'password' => bcrypt('qwerty'),
                 'role' => 'user',
+                'city_id' => 1,
             ]
 
         ];

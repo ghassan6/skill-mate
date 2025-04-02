@@ -21,10 +21,10 @@ return new class extends Migration
             $table->string('email')->unique()->index();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('image')->nullable();
+            $table->string('image')->default('images/main/defaultUser.jpg');
             $table->enum('role', ['user', 'admin'])->default('user');
             $table->decimal('rating', 2 , 1)->default(0);
-            $table->foreignId('city_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('city_id')->nullable()->constrained()->onDelete('set null')->default(null);
             $table->string('phone_number', 15)->nullable();
             $table->rememberToken();
             $table->timestamps();

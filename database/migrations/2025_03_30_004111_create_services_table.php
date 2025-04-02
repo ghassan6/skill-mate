@@ -15,7 +15,7 @@ return new class extends Migration
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('title');
             $table->text('description');
             $table->enum('type', ['offer', 'request']);
@@ -23,11 +23,19 @@ return new class extends Migration
             $table->decimal('min_price', 8, 2)->nullable();
             $table->decimal('max_price', 8, 2)->nullable();
             $table->decimal('hourly_rate', 8 , 2)->nullable();
-            $table->foreignId('city_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('city_id')->nullable()->constrained()->nullOnDelete();
             $table->string('address')->nullable();
             $table->integer('views')->default(0);
             $table->timestamps();
             $table->softDeletes();
+        });
+
+        Schema::create('service_images', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('service_id')->constrained()->cascadeOnDelete();
+            $table->string('image');
+            $table->softDeletes();
+            $table->timestamps();
         });
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
@@ -38,5 +46,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('services');
+        Schema::dropIfExists('service_images');
     }
 };

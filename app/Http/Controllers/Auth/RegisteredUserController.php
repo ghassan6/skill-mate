@@ -31,24 +31,34 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {   
-        dd($request->all());
+
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'username' => ['required', 'string', 'max:255', 'min:5','unique:'.User::class],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string','email', 'max:255', 'unique:'.User::class. ',email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'phone' => ['required', 'string', 'max:20' , 'unique:'.User::class. ',phone_number'],
+            'city_id' => ['nullable', 'integer', 'exists:'.City::class.',id'],
+            'terms' => ['required', 'accepted'],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'username' => $request->username,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => bcrypt($request->password),
+            'phone_number' => $request->phone,
+            'city_id' => $request->city_id,
+            'role' => 'user',
         ]);
 
-        event(new Registered($user));
+        // event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect()->back()->with('success', 'Registration successful!');
+        return redirect('/')->with('success', 'Registration successful!');
 
     }
 }
