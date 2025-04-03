@@ -76,7 +76,7 @@
 
             <section class="text-center">
                 <h4 class="text-dark">Contact Us</h4>
-                <p>If you have any questions, contact us at <a href="mailto:[Your Email]" class="text-primary">[Your Email]</a>.</p>
+                <p>If you have any questions, contact us at <a href="mailto:[Your Email]" class="text-primary">skilmate@example.com</a>.</p>
             </section>
 
         </div>

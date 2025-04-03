@@ -13,4 +13,10 @@ class HomeController extends Controller
         // dd($categories);
         return view('index' , compact('categories'));
     }
+
+    public function about()
+    {
+        return view('about');
+    }
+    
 }
