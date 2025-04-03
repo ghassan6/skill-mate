@@ -1,5 +1,5 @@
 <x-layout>
-    <x-slot:title>Home</x-slot>
+    <x-slot:title>Skill Mate</x-slot>
     
     <h2>This is the home page</h2>
 

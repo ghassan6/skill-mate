@@ -33,9 +33,6 @@
 
     <!-- boxicon link -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
-
-
 </head>
 <body>
 <div class="container-fluid nav-bar bg-light">
@@ -53,26 +50,20 @@
                     <x-nav-link href="{{route('about')}}" class=" nav-item nav-link" :active="request()->is('about')" >About</x-nav-link>
                     <x-nav-link href="{{route('services')}}" class="nav-item nav-link" :active="request()->is('services')" >Services</x-nav-link>
                     <x-nav-link href="{{route('contact')}}" class="nav-item nav-link" :active="request()->is('contact')">Contact</x-nav-link>
-                    <!-- <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                        <div class="dropdown-menu fade-up m-0">
-                            <a href="booking.html" class="dropdown-item">Booking</a>
-                            <a href="team.html" class="dropdown-item">Technicians</a>
-                            <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                            <a href="404.html" class="dropdown-item">404 Page</a>
-                        </div>
-                    </div> -->
                 </div>
                 @if(Auth::check()) 
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">{{ Auth::user()->username }}</a>
-                        <div class="dropdown-menu fade-up m-0">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        <img src="{{asset(str_contains(Auth::user()->image, 'profile') ? 'storage/' . Auth::user()->image : Auth::user()->image)}}" alt="" class="profile-image-dropdown">
+                        {{ Auth::user()->username }}
+                        </a>
+                        <div class="dropdown-menu fade-up m-0 box-shadow">
                             <x-nav-link href="/dashboard" class="dropdown-item">Dashboard</x-nav-link>
                             <x-nav-link href="{{route('user.profile')}}" class="dropdown-item">Account</x-nav-link>
                             <form action="{{ route('logout') }}" method="POST" class="dropdown-item">
                                 @csrf
                                 @method('POST')
-                                <button type="submit" class="btn btn-link p-0 m-0 text-decoration-none text-black">Logout</button>
+                                <button type="submit" class="btn btn-link p-0 ms-n3 text-decoration-none text-black">Logout</button>
                             </form>
                         </div>
                     </div>
