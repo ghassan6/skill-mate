@@ -1,4 +1,8 @@
 /********** Template CSS **********/
+
+* {
+    font-family: "Vazirmatn", sans-serif;
+}
 :root {
     --primary: #1E60AA;
     --secondary: #FF4917;
@@ -586,9 +590,54 @@
     color: var(--light);
 }
 
+/* Gh */
+/* nav */
 .profile-image-dropdown {
     object-fit: cover;
     width: 50px;
     height: 50px;
     border-radius: 50%;
 }
+
+/* end of nav */
+
+/* banner service*/
+.service-banner {
+    background-color: #f3f2f7;
+    margin: 4vh 0 ;
+    padding: 3vh 5vh ;
+}
+
+.service-banner > div {
+    width: 33%;
+}
+
+.service-banner strong {
+    font-size: 23px;
+}
+.service-banner img {
+    width: 350px;
+    height: 250px;
+    object-fit: contain;
+}
+
+.banner-box {
+    height: 100%;
+    padding: 1.1rem;
+    background-color: #fff;
+    border: solid 1.5px white;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.service-banner .btn {
+    color: #fff !important;
+    font-size: 26px !important;
+}
+
+.btn-orange {
+    background-color: #f39c11 !important;
+
+}
+/* end of banner service */

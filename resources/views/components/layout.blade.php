@@ -46,24 +46,24 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <x-application-logo></x-application-logo>
                 <div class="navbar-nav me-auto">
-                    <x-nav-link href="{{route('home')}}" class=" nav-item nav-link " :active="request()->is('/')">Home</x-nav-link>
-                    <x-nav-link href="{{route('about')}}" class=" nav-item nav-link" :active="request()->is('about')" >About</x-nav-link>
-                    <x-nav-link href="{{route('services')}}" class="nav-item nav-link" :active="request()->is('services')" >Services</x-nav-link>
-                    <x-nav-link href="{{route('contact.index')}}" class="nav-item nav-link" :active="request()->is('contact')">Contact</x-nav-link>
+                    <x-nav-link href="{{route('home')}}" :active="request()->is('/')">Home</x-nav-link>
+                    <x-nav-link href="{{route('about')}}" :active="request()->is('about')" >About</x-nav-link>
+                    <x-nav-link href="{{route('services')}}" :active="request()->is('services')" >Services</x-nav-link>
+                    <x-nav-link href="{{route('contact.index')}}" :active="request()->is('contact')">Contact</x-nav-link>
                 </div>
                 @if(Auth::check()) 
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <img src="{{asset(str_contains(Auth::user()->image, 'profile') ? 'storage/' . Auth::user()->image : Auth::user()->image)}}" alt="" class="profile-image-dropdown">
+                        <img src="{{asset(str_contains(Auth::user()->image, 'profile') ? 'storage/' . Auth::user()->image : Auth::user()->image)}}" alt="{{Auth::user()->username . '\'s image'}}" class="profile-image-dropdown">
                         {{ Auth::user()->username }}
                         </a>
-                        <div class="dropdown-menu fade-up m-0 box-shadow">
-                            <x-nav-link href="/dashboard" class="dropdown-item">Dashboard</x-nav-link>
-                            <x-nav-link href="{{route('user.profile')}}" class="dropdown-item">Account</x-nav-link>
-                            <form action="{{ route('logout') }}" method="POST" class="dropdown-item">
+                        <div class="dropdown-menu fade-up m-0 box-shadow px-2 mt-2">
+                            <x-nav-link href="/dashboard" class="dropdown-item mb-2 fs-5">Dashboard</x-nav-link>
+                            <x-nav-link href="{{route('user.profile')}}" class="dropdown-item mb-2 fs-5">Account</x-nav-link>
+                            <form action="{{ route('logout') }}" method="POST" class="dropdown-item ">
                                 @csrf
                                 @method('POST')
-                                <button type="submit" class="btn btn-link p-0 ms-n3 text-decoration-none text-black">Logout</button>
+                                <button type="submit" class="btn btn-link p-0 ms-n3 text-decoration-none text-black fs-5">Logout</button>
                             </form>
                         </div>
                     </div>

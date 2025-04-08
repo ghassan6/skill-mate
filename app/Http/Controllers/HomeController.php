@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Service;
 use App\Models\Category;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
     {
         $categories = Category::take(3)->get();
-        // dd($categories);
-        return view('index' , compact('categories'));
+        $services = Service::all();
+        return view('index' , compact('categories', 'services'));
     }
 
     public function about()
