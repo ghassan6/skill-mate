@@ -1,9 +1,10 @@
 <x-layout>
     <x-slot:title>Skill Mate</x-slot>
-    
-    <h2>This is the home page</h2>
 
-    <div class="container-xxl py-5">
+
+
+    <div class="container-xxl py-5 border border-5">
+        <h2></h2>
         <div class="container">
             <div class="row g-4">
                 @foreach ($categories as $category)
@@ -15,5 +16,16 @@
             </div>
         </div>
     </div>
+
+    <section class="service-banner flex">
+        <div class="flex-column">
+            <h4>Professional worker? a Handyman? or simply can provide a service?</h4>
+        </div>
+        <div>
+            <h4></h4>
+        </div>
+        <div></div>
+
+    </section>
 </x-layout>
 
