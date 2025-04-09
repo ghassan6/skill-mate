@@ -1,0 +1,13 @@
+.about-page img {
+    width: 500px;
+}
+
+.about-page .row p {
+    line-height: 2em;
+    font-size: 1.125em;
+}
+
+.about-page h3 {
+    font-size: 2em;
+    font-weight: bold;
+}
