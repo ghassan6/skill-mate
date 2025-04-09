@@ -18,7 +18,7 @@
             </div>
 
             <!-- Right Side: Login Form -->
-            <div class="col-md-6 d-flex align-items-center">
+            <div class="col-md-4 d-flex align-items-center ms-5">
                 <div class="card w-100 shadow-lg">
                     <div class="card-header text-center bg-primary text-white">
                         <h4>Login</h4>

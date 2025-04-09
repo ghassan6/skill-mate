@@ -1,12 +1,14 @@
 <x-layout>
     <x-slot:title>Skill Mate</x-slot>
 
-
-
     <div class="container-xxl py-5">
-        <h2></h2>
         <div class="container">
             <div class="row g-4">
+                <div class="latest d-flex justify-content-between">
+                    <strong><span  class="header">Latest Categories</span></strong>
+                    <x-index-button url='services' color='orange'>See All <i class='bx bx-right-arrow-alt '></i></x-index-button>
+
+                </div>
                 @foreach ($categories as $category)
                 <x-service-main>
                     <x-slot:image_path>{{$category->slug}}</x-slot:image_path>
@@ -21,7 +23,7 @@
         <div class="d-flex flex-column gap-4">
             <strong >Professional worker? a Handyman? or simply can provide a service?</strong>
             <img src="{{asset('images/main/banner-service-left.png')}}" alt="banner-service-left">
-            <x-service-banner-button url="services">Search for services</x-service-banner-button>
+            <x-index-button url="services">Search for services</x-index-button>
         </div>
         <div class="d-flex flex-column">
             <x-service-banner-box>{{$services->count()}} Services</x-service-banner-box>
@@ -33,7 +35,7 @@
         <div class="d-flex flex-column gap-4">
             <strong>Need something to be done?</strong>
             <img src="{{asset('images/main/banner-service-right3.png')}}" alt="banner-service-right">
-            <x-service-banner-button url="home" color="orange">List your request </x-service-banner-button>
+            <x-index-button url="home" color="orange">List your request </x-index-button>
         </div>
 
     </section>

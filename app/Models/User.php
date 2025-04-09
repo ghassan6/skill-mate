@@ -29,6 +29,7 @@ class User extends Authenticatable
         'rating',
         'city_id',
         'phone_number',
+        'listing_limit',
     ];
 
     /**
@@ -63,7 +64,7 @@ class User extends Authenticatable
         return $this->hasMany(Proposal::class);
     }
 
-    
+
     public function city() {
         return $this->belongsTo(City::class);
     }
@@ -82,15 +83,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Review::class);
     }
-    
+
     protected $dates = ['deleted_at'];
-    
+
     // methos realeated to saved services
-    
+
     public function savedServices() {
         return $this->hasMany(SavedService::class);
     }
-    
+
     public function isServiceSaved($serviceId)
     {
         return SavedService::where('user_id', $this->id)->where('service_id', $serviceId)->exists();

@@ -34,7 +34,8 @@ class CategorySeeder extends Seeder
             ['name' => 'Education Services', 'slug' => 'education-services'],
             ['name' => 'Transport Services', 'slug' => 'transport-services'],
             ['name' => 'Travel Services', 'slug' => 'travel-services'],
-            
+            ['name' => 'other', 'slug' => 'other'],
+
         ];
 
         foreach ($categories as $category) {

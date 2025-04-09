@@ -187,7 +187,7 @@
         position: relative;
         min-height: 500px;
     }
-    
+
     .header-carousel .owl-carousel-item img {
         position: absolute;
         width: 100%;
@@ -601,6 +601,34 @@
 
 /* end of nav */
 
+/* latest */
+.latest  .header {
+    border-left: #f39c11 15px solid;
+    padding-left: 2vh;
+    font-size: 24px;
+}
+
+.latest i {
+    font-size: 20px;
+}
+
+.latest > .btn {
+    color: #fff;
+    font-size: 18px;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.8s ease;
+}
+
+.latest > .btn:hover i {
+    transform: translateX(10px);
+    color: #fff;
+}
+
+.latest > .btn:hover  {
+    color: #fff;
+}
+/* end of latest */
 /* banner service*/
 .service-banner {
     background-color: #f3f2f7;
@@ -633,7 +661,7 @@
 
 .service-banner .btn {
     color: #fff !important;
-    font-size: 26px !important;
+    font-size: 24px !important;
 }
 
 .btn-orange {

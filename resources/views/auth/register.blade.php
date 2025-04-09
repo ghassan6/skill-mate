@@ -12,7 +12,7 @@
     <div class="container mt-2">
         <div class="row justify-content-center">
             <!--  Registration Form -->
-            <div class="col-md-6 d-flex align-items-center">
+            <div class="col-md-5 d-flex align-items-center me-5 ">
                 <div class="card w-100 shadow-lg">
                     <div class="card-header text-center bg-primary text-white">
                         <h4>Register</h4>
@@ -70,7 +70,7 @@
 
                             </div>
 
-                           
+
 
                             <!-- Phone Number -->
                             <div class="mb-3">
@@ -92,7 +92,7 @@
 
                             <div class="mb-3">
                                 <x-input-label for="terms" hidden></x-input-label>
-                                <input type="checkbox" name="terms" id="terms" required class="form-check-input border-primary">   
+                                <input type="checkbox" name="terms" id="terms" required class="form-check-input border-primary">
                                 <span>By registering you agree to <a href="{{ route('terms')}}" target="_blank">Terms and conditions</a><span class="red-asterisk"> *</span></span>
                             </div>
 

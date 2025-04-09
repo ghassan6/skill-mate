@@ -10,6 +10,7 @@ class Service extends Model
     use SoftDeletes;
     protected $fillable = [
         'user_id',
+        'category_id',
         'title',
         'description',
         'type',
@@ -31,7 +32,7 @@ class Service extends Model
     }
 
     public function categories() {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function proposals() {

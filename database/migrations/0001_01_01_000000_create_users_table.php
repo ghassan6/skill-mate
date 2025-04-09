@@ -11,7 +11,7 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {   
+    {
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         Schema::create('users', function (Blueprint $table) {
             $table->id();
@@ -26,6 +26,7 @@ return new class extends Migration
             $table->decimal('rating', 2 , 1)->default(0);
             $table->foreignId('city_id')->nullable()->constrained()->onDelete('set null')->default(null);
             $table->string('phone_number', 15)->nullable();
+            $table->integer('listing_limit')->default(5);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

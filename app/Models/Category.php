@@ -9,7 +9,7 @@ class Category extends Model
     protected $fillable = ['name', 'slug'];
 
     public function services() {
-        return $this->belongsToMany(Service::class);
+        return $this->hasMany(Service::class);
     }
 }
 

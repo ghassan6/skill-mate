@@ -5,6 +5,8 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/main/wrench-tool.png')}}">
+
     <title>{{ $title}}</title>
 
         <!-- Google Web Fonts -->
@@ -13,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
 
 
-    
+
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -51,7 +53,7 @@
                     <x-nav-link href="{{route('services')}}" :active="request()->is('services')" >Services</x-nav-link>
                     <x-nav-link href="{{route('contact.index')}}" :active="request()->is('contact')">Contact</x-nav-link>
                 </div>
-                @if(Auth::check()) 
+                @if(Auth::check())
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                         <img src="{{asset(str_contains(Auth::user()->image, 'profile') ? 'storage/' . Auth::user()->image : Auth::user()->image)}}" alt="{{Auth::user()->username . '\'s image'}}" class="profile-image-dropdown">
@@ -82,6 +84,6 @@
 
   <x-footer></x-footer>
 
-    
+
 </body>
 </html>
