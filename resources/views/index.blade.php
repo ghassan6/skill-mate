@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row g-4">
                 <div class="latest d-flex justify-content-between">
-                    <strong><span  class="header">Latest Categories</span></strong>
+                    <strong><span  class="header">Our Categories</span></strong>
                     <x-index-button url='services.index' color='orange' class="py-3 px-4">See All <i class='bx bx-right-arrow-alt '></i></x-index-button>
 
                 </div>

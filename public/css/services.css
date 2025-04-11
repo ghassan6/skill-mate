@@ -37,11 +37,28 @@
     margin: 2vh 0;
 }
 
-.service-section > .btn:hover i {
+.service-section > :nth-child(1) {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.service-section .btn {
+    transition: all 1.2s ease;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.service-section .btn:hover i {
     transform: translateX(8px);
+    color: #007bff;
+}
+
+.btn-text-blue {
+    color: #007bff;
 }
 
 /* end of service section */
+
 
 
 

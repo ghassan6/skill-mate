@@ -10,8 +10,9 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $categories = Category::orderBy('created_at' , 'desc')
+        $categories = Category::orderBy('created_at' , 'asc')
         ->take(3)->get();
+
         $services = Service::all();
         return view('index' , compact('categories', 'services'));
     }
