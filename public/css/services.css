@@ -1,0 +1,48 @@
+
+.services-list {
+    background-color: #f2f9ff;
+    padding: 0 10%;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4 , 1fr);
+    gap: 1.5vh;
+}
+.service-box-mini {
+    display: flex;
+    justify-content: space-between;
+    text-decoration: none;
+    color: #000;
+    background-color: #fff;
+    padding: 0 2vh;
+    border-radius: 15px;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.service-box-mini:hover {
+    color: #000;
+    cursor: pointer;
+}
+
+.service-icon {
+    height: 100px;
+    width: 100px;
+}
+
+/* service section */
+.service-section {
+    padding: 0 10%;
+    margin: 2vh 0;
+}
+
+.service-section > .btn:hover i {
+    transform: translateX(8px);
+}
+
+/* end of service section */
+
+
+
+

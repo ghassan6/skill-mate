@@ -21,7 +21,7 @@
                     <x-footer-hr></x-footer-hr>
                     <x-footer-link  href="{{route('home')}}">Home </x-footer-link>
                     <x-footer-link href="{{ route('about')}}">About</x-footer-link>
-                    <x-footer-link  href="{{ route('services') }}">Browse Services</x-footer-link>
+                    <x-footer-link  href="{{ route('services.index') }}">Browse Services</x-footer-link>
                     <x-footer-link  href="{{ route('contact.index')}}">Contact</x-footer-link>
                     <a  href=""></a>
                 </div>
@@ -44,7 +44,7 @@
                     <li><a href="{{route('terms')}}" class="text-light text-decoration-none">Terms of Service</a></li>
                 </ul>
             </div>
-                
+
             </div>
         </div>
         <div class="container">
