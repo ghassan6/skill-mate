@@ -12,7 +12,7 @@
                     @csrf
                     @method('PUT')
                     <label for="file-upload" class="edit-pic">
-                        <i class='bx bx-edit-alt'></i> 
+                        <i class='bx bx-edit-alt'></i>
                     </label>
                     <input id="file-upload" type="file" name="image" accept="image/*" onchange="this.form.submit()" hidden>
                 </form>
@@ -41,6 +41,16 @@
                 {{ session('status') }}
             </div>
         @endif
+        {{-- show errors --}}
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <!-- Account navbar -->
         <div class="tabs container-fluid nav-bar bg-light mb-3">
             <div class="navbar-nav d-flex gap-3 flex-row">
@@ -48,7 +58,7 @@
                 <x-nav-link id="edit-profile-tab">Edit Profile</x-nav-link>
             </div>
         </div>
-        
+
         <!-- Account cards -->
         <section class="summary" id="summary-section">
             <h4 class="mb-3">Summary</h4>

@@ -31,7 +31,7 @@ class Service extends Model
         return $this->hasMany(ServiceImage::class);
     }
 
-    public function categories() {
+    public function category() {
         return $this->belongsTo(Category::class);
     }
 

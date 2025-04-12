@@ -7,8 +7,8 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about',[HomeController::class , 'about'])->name('about');
 
 Route::Resource('/contact', ContactController::class);

@@ -1,6 +1,10 @@
-@props(['img' => ""])
-<a class="service-box-mini d-flex align-items-center" href="/">
-    <span> {{ $title }}</span>
+@props(['img' => "", 'title' => ""])
 
-    <img src="{{asset('images/services-icons/'.  $img . '.png')}}" alt="{{$title}}" class="service-icon">
+<a class="service-box-mini" href="/">
+    <div class="image-wrapper">
+        <img src="{{ asset("$img") }}" alt="{{ $title }}">
+        <div class="overlay">
+            <span class="title">{{ $title }}</span>
+        </div>
+    </div>
 </a>

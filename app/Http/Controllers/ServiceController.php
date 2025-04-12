@@ -13,10 +13,8 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $categories = Category::take(10)->get();
-        $categories = $categories->merge(Category::where('name', 'other')->get());
-
-        return view('services' , compact('categories'));
+        $allCategories = Category::all();
+        return view('services' , compact('allCategories'));
     }
 
     /**
@@ -40,7 +38,8 @@ class ServiceController extends Controller
      */
     public function show(Service $service)
     {
-        //
+
+        return view('services.singleService' , compact('service'));
     }
 
     /**

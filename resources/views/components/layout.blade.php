@@ -6,7 +6,8 @@
     <meta content="" name="keywords">
     <meta content="" name="description">
     <link rel="icon" type="image/x-icon" href="{{ asset('images/main/wrench-tool.png')}}">
-
+    @livewireStyles
+    @livewireScripts
     <title>{{ $title}}</title>
 
         <!-- Google Web Fonts -->

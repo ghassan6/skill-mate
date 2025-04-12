@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->enum('type', ['offer', 'request']);
-            $table->enum('status' , ['completed' , 'pending']);
+            $table->enum('status' , ['completed' , 'pending'])->nullable();
             $table->decimal('min_price', 8, 2)->nullable();
             $table->decimal('max_price', 8, 2)->nullable();
             $table->decimal('hourly_rate', 8 , 2)->nullable();

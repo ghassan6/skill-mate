@@ -52,5 +52,20 @@ class ServiceSeeder extends Seeder
                 ]);
             }
         }
+
+        Service::create([
+            'user_id' => 3,
+            'category_id' => 1,
+            'title' => ' Fast & Affordable Fixes for your House',
+            'description' => 'Need quick and professional help around the house? Our expert home repair technicians are here to tackle everything from leaky faucets and electrical issues to drywall repair and general maintenance. Serving your local area with same-day or next-day availability, we offer fair pricing, quality workmanship, and peace of mind. No job is too small – we fix it all!',
+            'type' => 'offer',
+            'status' => null,
+            'min_price' => null,
+            'max_price' => null,
+            'hourly_rate' => 20,
+            'city_id' => 1,
+            'address' => fake()->address(),
+            'views' => 0,
+        ]);
     }
 }
