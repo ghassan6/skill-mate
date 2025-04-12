@@ -9,7 +9,7 @@
     <div class="row">
         @foreach ($category->services->take(3) as $service)
             <a class="col-md-4" href="{{route('services.show', $service->id)}}">
-                    <img src="{{ asset($service->images->first()->image)}}" alt="{{$service->title}}" class="service-section-image" loading='lazy'>
+                    <img src="{{ asset($service->images->first()->image)}}" alt="{{$service->title}}" class="categories-section-image" loading='lazy'>
                     <div class="d-flex justify-content-between">
                         <div class="detail-box">
                             {{Str::ucfirst($service->type)}}

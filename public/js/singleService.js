@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const carousel = document.querySelector('#serviceGallary');
+    const carousel = document.querySelector('#serviceGallery');
     const counter = document.querySelector('#carousel-counter');
     const totalItems = carousel.querySelectorAll('.carousel-item').length;
 
