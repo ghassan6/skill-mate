@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -13,7 +14,7 @@ Route::get('/about',[HomeController::class , 'about'])->name('about');
 
 Route::Resource('/contact', ContactController::class);
 
-
+Route::Resource('/categories', CategoryController::class);
 Route::Resource('/services', ServiceController::class);
 
 // Legal routes

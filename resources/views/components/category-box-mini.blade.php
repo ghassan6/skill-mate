@@ -1,6 +1,6 @@
 @props(['img' => "", 'title' => ""])
 
-<a class="service-box-mini" href="/">
+<a class="category-box-mini" href="/">
     <div class="image-wrapper">
         <img src="{{ asset("$img") }}" alt="{{ $title }}">
         <div class="overlay">

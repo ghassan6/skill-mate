@@ -13,8 +13,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $allCategories = Category::all();
-        return view('services' , compact('allCategories'));
+      
     }
 
     /**

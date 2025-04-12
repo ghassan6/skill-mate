@@ -1,6 +1,6 @@
 <x-layout>
     <x-slot:title>{{$service->title}}</x-slot>
-    <link rel="stylesheet" href="{{ asset('css/services.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/categories.css') }}">
     <script src="{{ asset('js/singleService.js')}}" defer></script>
 <div>
     <div class="container mt-5">

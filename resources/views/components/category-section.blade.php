@@ -1,6 +1,6 @@
 @props(['category'])
 
-<div class="service-section">
+<div class="categories-section">
     <div class="d-flex justify-content-between mb-4">
         <span>{{$category->name}}</span>
         <x-index-button url="home" color="" btnTextColor="btn-text-blue" >More <i class='bx bx-right-arrow-alt'></i></x-index-button>
