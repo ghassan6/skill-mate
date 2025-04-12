@@ -23,6 +23,7 @@ class UserSeeder extends Seeder
                 'password' => bcrypt('qwerty'),
                 'role' => 'admin',
                 'city_id' => 1,
+                'phone_number' => '0785479999',
             ],
             [
                 'username' => 'user',
@@ -32,6 +33,8 @@ class UserSeeder extends Seeder
                 'password' => bcrypt('qwerty'),
                 'role' => 'user',
                 'city_id' => 1,
+                'phone_number' => '0785545697',
+
 
             ],
             [
@@ -42,6 +45,8 @@ class UserSeeder extends Seeder
                 'password' => bcrypt('qwerty'),
                 'role' => 'user',
                 'city_id' => 1,
+                'phone_number' => '0795478852',
+
 
             ],
             [
@@ -52,6 +57,8 @@ class UserSeeder extends Seeder
                 'password' => bcrypt('qwerty'),
                 'role' => 'user',
                 'city_id' => 1,
+                'phone_number' => '0795475521',
+
 
             ],
             [
@@ -62,6 +69,8 @@ class UserSeeder extends Seeder
                 'password' => bcrypt('qwerty'),
                 'role' => 'user',
                 'city_id' => 1,
+                'phone_number' => '0785459963',
+
             ]
 
         ];
@@ -69,6 +78,6 @@ class UserSeeder extends Seeder
         foreach ($users as $user) {
             User::create($user);
         }
-  
+
     }
 }
