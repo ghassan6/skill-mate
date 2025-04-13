@@ -36,6 +36,10 @@
 
     <!-- boxicon link -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    {{-- favicon --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
 <body>
 <div class="container-fluid nav-bar bg-light">
@@ -61,8 +65,8 @@
                         {{ Auth::user()->username }}
                         </a>
                         <div class="dropdown-menu fade-up m-0 box-shadow px-2 mt-2">
-                            <x-nav-link href="/dashboard" class="dropdown-item mb-2 fs-5">Dashboard</x-nav-link>
                             <x-nav-link href="{{route('user.profile')}}" class="dropdown-item mb-2 fs-5">Account</x-nav-link>
+                            <x-nav-link href="{{route('saved-services.index')}}" class="dropdown-item mb-2 fs-5">Favorites</x-nav-link>
                             <form action="{{ route('logout') }}" method="POST" class="dropdown-item ">
                                 @csrf
                                 @method('POST')

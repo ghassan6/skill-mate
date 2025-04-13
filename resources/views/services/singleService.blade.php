@@ -71,9 +71,22 @@
                                     @endif
                                 </p>
                             </div>
-                            <button class="btn btn-warning btn-lg px-4 py-2 fw-bold" style="background-color: #f39c11; color: white;">
-                                <i class="fas fa-paper-plane me-2"></i> Contact Owner
-                            </button>
+                            <div class="d-flex gap-2">
+                                <!-- Add to Favorites Button -->
+                                <form action="{{ route('services.save', $service->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button type="submit"
+                                    class="btn btn-lg px-3 py-2 save-service-btn"
+                                        data-saved="{{ Auth::check() && auth()->user()->isServiceSaved($service->id) ? '1' : '0' }}"
+                                        title="{{ Auth::check() && auth()->user()->isServiceSaved($service->id) ? 'Remove from saved services' : 'Save this service' }}"
+                                        style="color: {{ Auth::check() && auth()->user()->isServiceSaved($service->id) ? '#dc3545' : '#6c757d' }};  background: transparent;">
+                                        <i class="{{ Auth::check() && auth()->user()->isServiceSaved($service->id) ? 'fas' : 'far' }} fa-heart"></i>                                </button>
+                                </form>
+                                <!-- Contact Owner Button -->
+                                <button class="btn btn-warning btn-lg px-4 py-2 fw-bold" style="background-color: #f39c11; color: white;">
+                                    <i class="fas fa-paper-plane me-2"></i> Contact Owner
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

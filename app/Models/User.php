@@ -88,13 +88,22 @@ class User extends Authenticatable
 
     // methos realeated to saved services
 
+
     public function savedServices() {
-        return $this->hasMany(SavedService::class);
+        return $this->hasMany(SavedService::class, 'user_id')->whereNull('deleted_at');
+
     }
 
     public function isServiceSaved($serviceId)
     {
-        return SavedService::where('user_id', $this->id)->where('service_id', $serviceId)->exists();
+        return $this->savedServices()->withTrashed()->where('service_id', $serviceId)->exists();
+    }
+
+    public function savedServiceItems()
+    {
+        return $this->belongsToMany(Service::class, 'saved_services', 'user_id', 'service_id')
+        ->whereNull('saved_services.deleted_at') // Only if you're using soft deletes
+        ->withTimestamps();
     }
 
 

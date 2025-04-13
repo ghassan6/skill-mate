@@ -8,6 +8,8 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Models\Category;
+use App\Http\Controllers\SavedServiceController;
+
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -25,6 +27,21 @@ Route::get('/category/{slug}/services', function ($slug) {
 
 Route::Resource('/services', ServiceController::class);
 
+// saved services
+
+Route::middleware(['auth'])->group(function () {
+    // Display saved services
+    Route::get('/saved-services', [SavedServiceController::class, 'index'])
+        ->name('saved-services.index');
+
+    // Toggle save status (using POST for security)
+    Route::post('/services/{service}/save', [SavedServiceController::class, 'toggleSaved'])
+        ->name('services.save');
+
+    // Bulk remove saved services
+    Route::delete('/saved-services/remove', [SavedServiceController::class, 'bulkRemove'])
+        ->name('saved-services.bulk-remove');
+});
 // Legal routes
 
 Route::prefix('legal')->group(function () {
