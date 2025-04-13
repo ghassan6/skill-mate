@@ -6,15 +6,17 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-8">
-                    <h1 class="text-white fw-bold mb-3">{{ str_contains($category->name , 'Services') ? $category->name : $category->name . ' Services' }} </h1>
+                    <h1 class="text-white fw-bold mb-3">{{ str_contains($category->name , 'Services') ? $category->name : $category->name . ' Services' }}</h1>
                     <p class="text-white-50 lead mb-4">{{ $category->description ?? 'Find professional services in this category' }}</p>
                     <div class="d-flex align-items-center">
                         <span class="badge bg-warning text-dark me-2 px-3 py-2">
                             <i class="fas fa-fire me-1"></i> {{ $services->total() }} Services Available
                         </span>
-                        <span class="text-white small"><i class="fas fa-star me-1"></i> {{ number_format($category->services->avg(function($service) {
-                            return $service->reviews->avg('rating');
-                        }), 1) }} Average Rating</span>
+                        <span class="text-white small">
+                            <i class="fas fa-star me-1"></i> {{ number_format($category->services->avg(function($service) {
+                                return $service->reviews->avg('rating');
+                            }), 1) }} Average Rating
+                        </span>
                     </div>
                 </div>
                 <div class="col-md-4 text-end d-none d-md-block">
@@ -34,15 +36,12 @@
                         <h5 class="mb-0 fw-bold"><i class="fas fa-filter me-2 text-primary"></i> Filters</h5>
                     </div>
                     <div class="card-body">
-                        <form id="filter-form" method="GET" action="{{ route('category.services', $category->slug) }}">
+                        <form wire:submit.prevent="applyFilters">
                             <!-- Search by Name -->
                             <div class="mb-4">
                                 <h6 class="fw-bold mb-3">Search by Name</h6>
                                 <div class="input-group">
-                                    <input type="text" name="search" class="form-control" placeholder="Service name..." value="{{ request('search') }}">
-                                    <button class="btn btn-outline-primary" type="button">
-                                        <i class="fas fa-search"></i>
-                                    </button>
+                                    <input type="text" wire:model.debounce.500ms="search" class="form-control" placeholder="Service name...">
                                 </div>
                             </div>
 
@@ -52,16 +51,12 @@
                                 <div class="d-flex">
                                     <div class="input-group me-2">
                                         <span class="input-group-text">Min</span>
-                                        <input type="number" name="min_price" class="form-control" value="{{ request('min_price', 0) }}" min="0">
+                                        <input type="number" wire:model="minPrice" class="form-control" min="0">
                                     </div>
                                     <div class="input-group">
                                         <span class="input-group-text">Max</span>
-                                        <input type="number" name="max_price" class="form-control" value="{{ request('max_price', 500) }}" min="0">
+                                        <input type="number" wire:model="maxPrice" class="form-control" min="0">
                                     </div>
-                                </div>
-                                <div class="d-flex justify-content-between mt-2">
-                                    <span class="badge bg-light text-dark">10 JOD</span>
-                                    <span class="badge bg-light text-dark">500+ JOD</span>
                                 </div>
                             </div>
 
@@ -69,13 +64,13 @@
                             <div class="mb-4">
                                 <h6 class="fw-bold mb-3">Service Type</h6>
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" name="type[]" value="offer" id="type-offer" {{ in_array('offer', request('type', ['offer', 'request'])) ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="checkbox" wire:model="selectedTypes" value="offer" id="type-offer">
                                     <label class="form-check-label" for="type-offer">
                                         Offers (Hourly Rate)
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="type[]" value="request" id="type-request" {{ in_array('request', request('type', ['offer', 'request'])) ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="checkbox" wire:model="selectedTypes" value="request" id="type-request">
                                     <label class="form-check-label" for="type-request">
                                         Requests (Budget Price)
                                     </label>
@@ -85,10 +80,10 @@
                             <!-- City Filter -->
                             <div class="mb-4">
                                 <h6 class="fw-bold mb-3">City</h6>
-                                <select class="form-select" name="city_id">
+                                <select class="form-select" wire:model="selectedCityId">
                                     <option value="">All Cities</option>
                                     @foreach($cities as $city)
-                                        <option value="{{ $city->id }}" {{ request('city_id') == $city->id ? 'selected' : '' }}>{{ $city->name }}</option>
+                                        <option value="{{ $city->id }}">{{ $city->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -99,7 +94,7 @@
                                 <div class="star-rating">
                                     @for($i = 5; $i >= 1; $i--)
                                         <div class="form-check mb-2">
-                                            <input class="form-check-input" type="radio" name="rating" value="{{ $i }}" id="rating-{{ $i }}" {{ request('rating', 1) == $i ? 'checked' : '' }}>
+                                            <input class="form-check-input" type="radio" wire:model="selectedRating" value="{{ $i }}" id="rating-{{ $i }}">
                                             <label class="form-check-label" for="rating-{{ $i }}">
                                                 @for($j = 1; $j <= $i; $j++)
                                                     <i class="fas fa-star text-warning"></i>
@@ -136,12 +131,12 @@
                         <span class="text-muted">Showing {{ $services->firstItem() }}-{{ $services->lastItem() }} of {{ $services->total() }} services</span>
                     </div>
                     <div>
-                        <select class="form-select form-select-sm" style="width: auto; display: inline-block;">
-                            <option selected>Sort by: Recommended</option>
-                            <option>Price: Low to High</option>
-                            <option>Price: High to Low</option>
-                            <option>Rating: Highest</option>
-                            <option>Newest First</option>
+                        <select class="form-select form-select-sm" wire:model="sort">
+                            <option value="recommended">Sort by: Recommended</option>
+                            <option value="price_low">Price: Low to High</option>
+                            <option value="price_high">Price: High to Low</option>
+                            <option value="rating">Rating: Highest</option>
+                            <option value="newest">Newest First</option>
                         </select>
                     </div>
                 </div>
@@ -153,9 +148,9 @@
                             <div class="card service-card h-100 border-0 shadow-sm">
                                 <div class="position-relative">
                                     <img src="{{ $service->images->first() ? asset($service->images->first()->image) : asset('images/services/service-default.png') }}"
-                                            class="card-img-top"
-                                            alt="{{ $service->title }}"
-                                            style="height: 180px; object-fit: cover;">
+                                        class="card-img-top"
+                                        alt="{{ $service->title }}"
+                                        style="height: 180px; object-fit: cover;">
                                     <div class="card-badge position-absolute top-0 end-0 m-2">
                                         <span class="badge bg-{{ $service->type == 'offer' ? 'warning text-dark' : 'primary' }}">
                                             {{ $service->type == 'offer' ? 'Hourly Rate' : 'Budget Price' }}
@@ -197,10 +192,10 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="d-flex align-items-center">
                                             <img src="{{ $service->user->image ? asset(str_contains($service->user->image, 'profile') ? 'storage/' . $service->user->image : $service->user->image) : asset('images/user-placeholder.jpg') }}"
-                                                    class="rounded-circle me-2"
-                                                    width="30"
-                                                    height="30"
-                                                    alt="{{ $service->user->username }}">
+                                                class="rounded-circle me-2"
+                                                width="30"
+                                                height="30"
+                                                alt="{{ $service->user->username }}">
                                             <span class="small">{{ Str::limit($service->user->username, 12) }}</span>
                                         </div>
                                         <a href="{{ route('services.show', $service->id) }}" class="btn btn-sm btn-outline-primary py-1 px-3">
@@ -221,6 +216,3 @@
         </div>
     </div>
 </div>
-
-
-

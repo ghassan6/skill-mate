@@ -39,6 +39,12 @@ class CategoryServices extends Component
         'sort' => ['except' => 'recommended'],
     ];
 
+        public function applyFilters()
+    {
+        // This will trigger a re-render with the updated filter values
+        $this->resetPage();
+    }
+
     public function mount($categorySlug)
     {
         $this->categorySlug = $categorySlug;
@@ -97,78 +103,63 @@ class CategoryServices extends Component
     }
 
 
-    public function render(Request $request)
+    public function render()
     {
         $category = Category::where('slug', $this->categorySlug)->first();
         $query = Service::where('category_id', $category->id);
 
-
-        // Apply search filter
-        if ($request->filled('search')) {
-            $query->where('title', 'like', '%' . $request->search . '%');
-        }
-        // Apply type filter (offer/request)
-        if (!empty($request->type)) {
-            $query->whereIn('type', $request->type);
+        // Apply search filter using component property
+        if ($this->search) {
+            $query->where('title', 'like', '%' . $this->search . '%');
         }
 
+        // Apply type filter (offer/request) using selectedTypes
+        if (!empty($this->selectedTypes)) {
+            $query->whereIn('type', $this->selectedTypes);
+        }
 
-
-        // Apply price filter
-        if (is_numeric($request->min_price)) {
-            $query->where(function ($q) use ($request) {
-                $q->where(function ($q1) use ($request) {
+        // Apply price filter for minPrice
+        if (is_numeric($this->minPrice)) {
+            $query->where(function ($q) {
+                $q->where(function ($q1) {
                     $q1->where('type', 'offer')
-                       ->where('hourly_rate', '>=', $request->min_price);
-                })->orWhere(function ($q2) use ($request) {
+                       ->where('hourly_rate', '>=', $this->minPrice);
+                })->orWhere(function ($q2) {
                     $q2->where('type', 'request')
-                       ->where('min_price', '>=', $request->min_price);
+                       ->where('min_price', '>=', $this->minPrice);
                 });
             });
         }
 
-        if (is_numeric($request->max_price)) {
-            $query->where(function($q) {
-                $q->where(function($q1) {
+        // Apply price filter for maxPrice
+        if (is_numeric($this->maxPrice)) {
+            $query->where(function ($q) {
+                $q->where(function ($q1) {
                     $q1->where('type', 'offer')
                        ->where('hourly_rate', '<=', $this->maxPrice);
-                })->orWhere(function($q2) {
+                })->orWhere(function ($q2) {
                     $q2->where('type', 'request')
                        ->where('max_price', '<=', $this->maxPrice);
                 });
             });
         }
 
-        // Apply city filter
-        if (!empty($request->city_id)) {
-            $query->where('city_id', $request->city_id);
+        // Apply city filter using selectedCityId
+        if ($this->selectedCityId) {
+            $query->where('city_id', $this->selectedCityId);
         }
 
-        // Apply rating filter
-        // if (is_numeric($this->selectedRating) && $this->selectedRating > 0) {
-        //     $rating = $this->selectedRating;
-
-        //     // Use a subquery approach to avoid the GROUP BY issue
-        //     $query->whereIn('id', function($subquery) use ($rating) {
-        //         $subquery->select('service_id')
-        //             ->from('reviews')
-        //             ->groupBy('service_id')
-        //             ->havingRaw('AVG(rating) >= ?', [$rating]);
-        //     });
-        // }
-
-        if (is_numeric($request->rating) && $request->rating > 0) {
-            $query->leftJoin('reviews', 'services.id', '=', 'reviews.service_id')
-                  ->select('services.*', DB::raw('COALESCE(AVG(reviews.rating), 0) as avg_rating'))
-                  ->groupBy('services.id')
-                  ->having('avg_rating', '>=', $request->rating);
+        // Apply rating filter using selectedRating
+        if ($this->selectedRating > 0) {
+            $query->whereHas('reviews', function($q) {
+                $q->select('service_id', DB::raw('AVG(rating) as avg_rating'))
+                  ->groupBy('service_id')
+                  ->having('avg_rating', '>=', $this->selectedRating);
+            });
         }
 
-
-        // $serviceCount = $query->count();
-        // dd($serviceCount);
         // Apply sorting
-        switch($this->sort) {
+        switch ($this->sort) {
             case 'price_low':
                 $query->orderByRaw("CASE WHEN type = 'offer' THEN hourly_rate ELSE min_price END ASC");
                 break;
@@ -191,13 +182,10 @@ class CategoryServices extends Component
                 break;
         }
 
-
         $services = $query->paginate(12);
         $cities = City::all();
 
-
-
-        return view('livewire.category-services', compact('services' , 'cities', 'category'));
+        return view('livewire.category-services', compact('services', 'cities', 'category'));
     }
-}
 
+}

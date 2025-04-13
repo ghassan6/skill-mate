@@ -35,12 +35,20 @@
         <div class="mb-3">
             <div class="d-flex align-items-center mb-2 p-2 bg-light rounded">
                 <i class="fas fa-envelope me-2"></i>
-                <span>{{ $service->user->email }}</span>
+                @if(Auth::check())
+                    <span>{{ $service->user->email }}</span>
+                @else
+                    <span>login</span>
+                @endif
             </div>
             @if($service->user->phone_number)
             <div class="d-flex align-items-center p-2 bg-light rounded">
                 <i class="fas fa-phone me-2"></i>
-                <span>{{ $service->user->phone_number }}</span>
+                @if(Auth::check())
+                    <span>{{ $service->user->phone_number }}</span>
+                @else
+                    <span>{{ $service->user->phone_number }}</span>
+                @endif
             </div>
             @endif
         </div>
