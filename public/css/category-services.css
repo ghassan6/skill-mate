@@ -1,0 +1,89 @@
+/* Category Services Page Styles */
+.category-header {
+    margin-bottom: 2rem;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 4px 12px rgba(30, 96, 170, 0.2);
+    background: linear-gradient(135deg, #1E60AA 0%, #0d47a1 100%);
+}
+
+.badge.bg-warning {
+    cursor: default;
+}
+.service-card {
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.service-card .card-img-top {
+    border-radius: 10px 10px 0 0;
+}
+
+.service-card .card-badge .badge {
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+}
+
+.service-card .card-views .badge {
+    font-size: 0.7rem;
+    padding: 0.25em 0.5em;
+}
+
+/* Price Range Slider */
+.price-range-slider {
+    height: 4px;
+    background-color: #e9ecef;
+    border-radius: 2px;
+    position: relative;
+}
+
+.price-range-slider::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 30%;
+    height: 100%;
+    background-color: #f39c11;
+    border-radius: 2px;
+}
+
+/* Star Rating Filter */
+.star-rating .form-check-label {
+    cursor: pointer;
+}
+
+/* Pagination Styles */
+.pagination .page-item.active .page-link {
+    background-color: #1E60AA;
+    border-color: #1E60AA;
+}
+
+.pagination .page-link {
+    color: #1E60AA;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .service-card {
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .category-header {
+        padding: 2rem 0;
+    }
+
+    .category-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .category-header .lead {
+        font-size: 1rem;
+    }
+}

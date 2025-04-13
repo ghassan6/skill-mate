@@ -7,6 +7,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
+use App\Models\Category;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -15,6 +16,13 @@ Route::get('/about',[HomeController::class , 'about'])->name('about');
 Route::Resource('/contact', ContactController::class);
 
 Route::Resource('/categories', CategoryController::class);
+
+// service routes
+Route::get('/category/{slug}/services', function ($slug) {
+    $category = Category::where('slug', $slug)->firstOrFail();
+    return view('services.category-services-page', compact('category'));
+})->name('category.services');
+
 Route::Resource('/services', ServiceController::class);
 
 // Legal routes

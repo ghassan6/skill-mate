@@ -21,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Livewire::component('categories-list', \App\Http\Livewire\CategoriesList::class);
+        Livewire::component('category-services' , \App\Http\Livewire\CategoryServices::class);
 
     }
 }
