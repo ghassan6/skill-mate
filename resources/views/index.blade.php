@@ -10,7 +10,7 @@
 
                 </div>
                 @foreach ($categories as $category)
-                <x-service-main>
+                <x-service-main :category="$category">
                     <x-slot:image_path>{{$category->slug}}</x-slot:image_path>
                     <x-slot:title>{{$category->name}}</x-slot:title>
                 </x-service-main>
