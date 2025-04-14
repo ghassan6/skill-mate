@@ -22,9 +22,12 @@
             </div>
             <!-- User Info -->
             <div>
-                <h5 class="mb-1 fw-bold">
-                    {{ Str::ucfirst($service->user->first_name) }} {{ Str::ucfirst($service->user->last_name) }}
-                </h5>
+                <a href="{{route('users.show' , $service->user->id)}}" class="text-decoration-none">
+
+                    <h5 class="mb-1 fw-bold">
+                        {{ Str::ucfirst($service->user->first_name) }} {{ Str::ucfirst($service->user->last_name) }}
+                    </h5>
+                </a>
                 <small class="text-muted">
                     <i class="fas fa-star text-warning"></i> {{$service->user->rating}}
                 </small>

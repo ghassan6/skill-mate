@@ -8,7 +8,8 @@
         <nav aria-label="breadcrumb" class="mb-4">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-                <li class="breadcrumb-item"><a href="/services">Services</a></li>
+                <li class="breadcrumb-item"><a href="{{route('categories.index')}}">Categories</a></li>
+                <li class="breadcrumb-item"><a href="{{route('category.services', $service->category->slug)}}">{{$service->category->name}}</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $service->title }}</li>
             </ol>
         </nav>
@@ -51,7 +52,7 @@
                     </button>
                 </div>
 
-                <!-- Price Card -->
+                <!-- Price Card , contact and favorite  -->
                 <div class="card border-0 shadow-sm mb-4">
                     <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-center">

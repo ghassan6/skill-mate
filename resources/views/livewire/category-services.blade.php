@@ -162,6 +162,8 @@
                                         </span>
                                     </div>
                                 </div>
+                                <h2></h2>
+
                                 <div class="card-body">
                                     <h5 class="card-title mb-2">
                                         <a href="{{ route('services.show', $service->id) }}" class="text-decoration-none text-dark">{{ Str::limit($service->title, 50) }}</a>
@@ -178,26 +180,48 @@
                                                 @endif
                                             </span>
                                         </div>
+
+                                        @php
+                                            $avgRating = $service->reviews->avg('rating');
+                                            $fullStars = floor($avgRating);
+                                            $halfStar = ($avgRating - $fullStars) >= 0.5;
+                                            $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0);
+                                        @endphp
+
                                         <div class="text-warning">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star-half-alt"></i>
-                                            <span class="text-muted small">(24)</span>
+                                            @if($service->reviews->isNotEmpty())
+                                                {{-- full stars display --}}
+                                                @for($i = 0; $i < $fullStars; $i++)
+                                                    <i class="fas fa-star"></i>
+                                                @endfor
+
+                                                {{-- half star the if to ensure that if exists --}}
+                                                @if($halfStar)
+                                                    <i class="fas fa-star-half-alt"></i>
+                                                @endif
+
+                                                {{-- Show empty stars --}}
+                                                @for($i = 0; $i < $emptyStars; $i++)
+                                                    <i class="far fa-star"></i>
+                                                @endfor
+
+                                                <span class="text-muted small">({{ $service->reviews->count() }})</span>
+                                            @else
+                                                No reviews yet.
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-footer bg-white border-0 pt-0">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <div class="d-flex align-items-center">
+                                        <a class="d-flex align-items-center owner-link" href="{{route('users.show', $service->user_id)}}">
                                             <img src="{{ $service->user->image ? asset(str_contains($service->user->image, 'profile') ? 'storage/' . $service->user->image : $service->user->image) : asset('images/user-placeholder.jpg') }}"
                                                 class="rounded-circle me-2"
                                                 width="30"
                                                 height="30"
                                                 alt="{{ $service->user->username }}">
-                                            <span class="small">{{ Str::limit($service->user->username, 12) }}</span>
-                                        </div>
+                                            <span class="small">{{ Str::ucfirst(Str::limit($service->user->username, 12)) }}</span>
+                                        </a>
                                         <a href="{{ route('services.show', $service->id) }}" class="btn btn-sm btn-outline-primary py-1 px-3">
                                             View <i class="fas fa-chevron-right ms-1"></i>
                                         </a>

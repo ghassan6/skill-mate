@@ -19,6 +19,13 @@ Route::Resource('/contact', ContactController::class);
 
 Route::Resource('/categories', CategoryController::class);
 
+// public user profile route
+Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+Route::get('/users/{user}/services', [UserController::class, 'services'])->name('users.services');
+Route::get('/users/{user}/reviews', [UserController::class, 'reviews'])->name('users.reviews');
+
+
+
 // service routes
 Route::get('/category/{slug}/services', function ($slug) {
     $category = Category::where('slug', $slug)->firstOrFail();

@@ -87,3 +87,14 @@
         font-size: 1rem;
     }
 }
+
+.owner-link {
+    text-decoration: none;
+    color: black;
+}
+
+.owner-link:hover {
+    text-decoration: none;
+    color: black;
+    transform: scale(1.1);
+}
