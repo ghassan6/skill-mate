@@ -1,65 +1,131 @@
-<footer class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-lg-3 col-md-6 col-xl-2 mx-auto mb-0">
-                    <h5 class="text-uppercase fw-bold">About</h5>
-                    <x-footer-hr></x-footer-hr>
-                    <p>
-                    We connect freelancers and clients, offering a seamless platform for hiring and providing services.
+<footer class="bg-dark text-light pt-5">
+    <div class="container">
+        <div class="row g-4">
+            <!-- Logo Column -->
+            <div class="col-lg-2 col-md-4 col-6 mb-4">
+                <a href="{{ route('home') }}" class="d-flex align-items-center mb-3">
+                    <img src="{{ asset('images/main/logo.svg') }}" alt="SkillMate Logo" class="img-fluid" style="max-height: 80px;">
+                </a>
+            </div>
 
-                    </p>
-                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>skilmate@example.com</p>
-                    <!-- <div class="d-flex pt-2">
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                    </div> -->
+            <!-- About Column -->
+            <div class="col-lg-2 col-md-4 col-6 mb-4">
+                <h5 class="text-uppercase fw-bold mb-4">About Us</h5>
+                <p class="small">
+                    Connecting talented freelancers with clients worldwide through our seamless platform.
+                </p>
+                <div class="footer-contact">
+                    <p class="small mb-2"><i class="fas fa-envelope me-2 text-primary"></i> contact@skillmate.com</p>
                 </div>
-                <div class="col-lg-3 col-md-6 col-xl-2 mx-auto mb-0">
-                    <h5 class="text-uppercase fw-bold">Quick Links</h5>
-                    <x-footer-hr></x-footer-hr>
-                    <x-footer-link  href="{{route('home')}}">Home </x-footer-link>
-                    <x-footer-link href="{{ route('about')}}">About</x-footer-link>
-                    <x-footer-link  href="{{ route('categories.index') }}">Browse Categories</x-footer-link>
-                    <x-footer-link  href="{{ route('contact.index')}}">Contact</x-footer-link>
-                    <a  href=""></a>
-                </div>
-                <!-- <div class="col-lg-3 col-md-6">
-                    <h5 class="text-light mb-4">Newsletter</h5>
-                    <x-footer-hr></x-footer-hr>
-                    <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-                    <div class="position-relative mx-auto" style="max-width: 400px;">
-                        <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
-                    </div>
-                </div> -->
+            </div>
 
-            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-0">
-                <h5 class="text-uppercase fw-bold">Support</h5>
-                <x-footer-hr></x-footer-hr>
-                <ul class="list-unstyled">
-                    <li><a href="#" class="text-light text-decoration-none">FAQs</a></li>
-                    <li><a href="#" class="text-light text-decoration-none">Privacy Policy</a></li>
-                    <li><a href="{{route('terms')}}" class="text-light text-decoration-none">Terms of Service</a></li>
+            <!-- Quick Links Column -->
+            <div class="col-lg-2 col-md-4 col-6 mb-4">
+                <h5 class="text-uppercase fw-bold mb-4">Explore</h5>
+                <ul class="list-unstyled footer-links small">
+                    <li class="mb-2">
+                        <a href="{{ route('home') }}" class="text-light text-decoration-none hover-primary">
+                            <i class="fas fa-angle-right me-2 text-primary"></i> Home
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="{{ route('about') }}" class="text-light text-decoration-none hover-primary">
+                            <i class="fas fa-angle-right me-2 text-primary"></i> About
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="{{ route('categories.index') }}" class="text-light text-decoration-none hover-primary">
+                            <i class="fas fa-angle-right me-2 text-primary"></i> Categories
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('services.index') }}" class="text-light text-decoration-none hover-primary">
+                            <i class="fas fa-angle-right me-2 text-primary"></i> Services
+                        </a>
+                    </li>
                 </ul>
             </div>
 
+            <!-- Support Column -->
+            <div class="col-lg-2 col-md-4 col-6 mb-4">
+                <h5 class="text-uppercase fw-bold mb-4">Support</h5>
+                <ul class="list-unstyled footer-links small">
+                    <li class="mb-2">
+                        <a href="{{ route('contact.index') }}" class="text-light text-decoration-none hover-primary">
+                            <i class="fas fa-angle-right me-2 text-primary"></i> Contact
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#" class="text-light text-decoration-none hover-primary">
+                            <i class="fas fa-angle-right me-2 text-primary"></i> Privacy Policy
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('terms') }}" class="text-light text-decoration-none hover-primary">
+                            <i class="fas fa-angle-right me-2 text-primary"></i> Terms
+                        </a>
+                    </li>
+                </ul>
             </div>
+
+            <!-- Newsletter Column -->
+            {{-- <div class="col-lg-2 col-md-4 col-6 mb-4">
+                <h5 class="text-uppercase fw-bold mb-4">Stay Updated</h5>
+                <p class="small">Subscribe for updates and offers</p>
+                <form class="newsletter-form">
+                    <div class="input-group input-group-sm mb-3">
+                        <input type="email" class="form-control bg-transparent text-light border-secondary"
+                               placeholder="Your Email" aria-label="Your Email">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </form>
+            </div> --}}
         </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="border-top border-secondary py-3" style="color: white">
         <div class="container">
-            <div class="copyright">
-                <div class="row">
-                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy; <a class="text-decoration-none" href=""><strong>Skill mate</strong></a>, All Right Reserved.
-                    </div>
-                    <div class="col-md-6 text-center text-md-end">
-                        <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                        Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
-                    </div>
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+                    <small class="text-light ">
+                        &copy; <span id="current-year"></span> SkillMate. All Rights Reserved.
+                    </small>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <small class="text-light">
+                        Made with <i class="fas fa-heart text-danger"></i> by SkillMate Team
+                    </small>
                 </div>
             </div>
         </div>
-    </footer>
+    </div>
+
     <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-0 back-to-top"><i class="bi bi-arrow-up"></i></a>
+    <a href="#" class="btn btn-primary btn-lg back-to-top rounded-circle">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</footer>
+
+
+<script>
+    // Auto-update copyright year
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    // Back to top button
+    window.addEventListener('scroll', function() {
+        var backToTop = document.querySelector('.back-to-top');
+        if (window.pageYOffset > 300) {
+            backToTop.style.display = 'flex';
+        } else {
+            backToTop.style.display = 'none';
+        }
+    });
+
+    document.querySelector('.back-to-top').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+</script>

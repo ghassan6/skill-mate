@@ -26,6 +26,7 @@ return new class extends Migration
             $table->decimal('rating', 2 , 1)->default(0);
             $table->foreignId('city_id')->nullable()->constrained()->onDelete('set null')->default(null);
             $table->string('phone_number', 15)->nullable();
+            $table->text('bio')->nullable();
             $table->integer('listing_limit')->default(5);
             $table->rememberToken();
             $table->timestamps();

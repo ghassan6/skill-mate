@@ -2,13 +2,6 @@
     <x-slot:title>{{ Str::ucfirst($user->first_name) }}'s Profile</x-slot>
     <link rel="stylesheet" href="{{ asset('css/public-profile.css') }}">
     <div class="container py-4">
-        <!-- Breadcrumb -->
-        <nav aria-label="breadcrumb" class="mb-4">
-            <ol class="breadcrumb bg-transparent px-0">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none text-muted">Home</a></li>
-                <li class="breadcrumb-item active text-primary" aria-current="page">{{ $user->username }}</li>
-            </ol>
-        </nav>
 
         <!-- Profile Header -->
         <div class="card border-0 shadow-sm mb-4 overflow-hidden">
@@ -174,23 +167,6 @@
                     </div>
                     <div class="card-body">
                         <ul class="list-unstyled mb-0">
-                            <!-- Phone Number -->
-                            <li class="d-flex align-items-center mb-3 pb-3 border-bottom">
-                                <span class="bg-primary bg-opacity-10 text-primary p-2 rounded-circle me-3 flex-shrink-0">
-                                    <i class="fas fa-phone fs-6"></i>
-                                </span>
-                                <div>
-                                    <small class="text-muted d-block">Phone</small>
-                                    <span class="fw-bold">
-                                        {{-- && $user->show_phone --}}
-                                        @if($user->phone_number )
-                                            {{ $user->phone_number }}
-                                        @else
-                                            <span class="text-muted">Not provided</span>
-                                        @endif
-                                    </span>
-                                </div>
-                            </li>
 
                             <!-- Rating -->
                             <li class="d-flex align-items-center mb-3 pb-3 border-bottom">
@@ -206,17 +182,6 @@
                                         </div>
                                         <small class="text-muted ms-2">({{ $user->reviews_count }} reviews)</small>
                                     </div>
-                                </div>
-                            </li>
-
-                            <!-- Email -->
-                            <li class="d-flex align-items-center mb-3 pb-3 border-bottom">
-                                <span class="bg-primary bg-opacity-10 text-primary p-2 rounded-circle me-3 flex-shrink-0">
-                                    <i class="fas fa-envelope fs-6"></i>
-                                </span>
-                                <div>
-                                    <small class="text-muted d-block">Email</small>
-                                    <span class="fw-bold">{{ $user->email }}</span>
                                 </div>
                             </li>
 

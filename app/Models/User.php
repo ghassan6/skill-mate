@@ -29,6 +29,7 @@ class User extends Authenticatable
         'rating',
         'city_id',
         'phone_number',
+        'bio',
         'listing_limit',
     ];
 

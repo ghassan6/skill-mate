@@ -6,7 +6,7 @@
             <div class="row g-4">
                 <div class="latest d-flex justify-content-between">
                     <strong><span  class="header">Our Categories</span></strong>
-                    <x-index-button url='categories.index' color='orange' class="py-3 px-4">See All <i class='bx bx-right-arrow-alt '></i></x-index-button>
+                    <x-index-button url='categories.index' color='orange' class="py-3 px-4 fw-bold fs-5">See All <i class='bx bx-right-arrow-alt '></i></x-index-button>
 
                 </div>
                 @foreach ($categories as $category)
@@ -41,5 +41,7 @@
     </section>
 
     <!-- here continue browing section -->
+    <!-- here following section -->
+    
 </x-layout>
 
