@@ -1,4 +1,4 @@
-<footer class="bg-dark text-light pt-5">
+<footer class="bg-dark text-light pt-5 mt-5">
     <div class="container">
         <div class="row g-4">
             <!-- Logo Column -->

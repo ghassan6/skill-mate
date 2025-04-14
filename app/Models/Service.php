@@ -51,5 +51,10 @@ class Service extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function inquiries() {
+        return $this->hasMany(Inquiry::class);
+    }
+
+
     protected $dates = ['deleted_at'];
 }

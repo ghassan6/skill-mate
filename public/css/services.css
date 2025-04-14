@@ -82,3 +82,20 @@ h1, h2, h3, h4, h5, h6 {
         font-size: 0.9rem;
     }
 }
+
+
+/* contact owener button */
+
+.contact-btn {
+    background-color: #f39c11; 
+    color: white;
+}
+
+.contact-btn:hover {
+    color: #fff;
+}
+
+.contact-btn:hover i {
+    transform: rotate(30deg); 
+    transition: transform 0.3s ease;
+}

@@ -107,5 +107,9 @@ class User extends Authenticatable
         ->withTimestamps();
     }
 
+    public function inquiries() {
+        return $this->hasMany(Inquiry::class);
+    }
+
 
 }

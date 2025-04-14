@@ -35,7 +35,7 @@
         </div>
 
         <!-- Contact Info -->
-        <div class="mb-3">
+        <!-- <div class="mb-3">
             <div class="d-flex align-items-center mb-2 p-2 bg-light rounded">
                 <i class="fas fa-envelope me-2"></i>
                 @if(Auth::check())
@@ -54,13 +54,14 @@
                 @endif
             </div>
             @endif
-        </div>
+        </div> -->
 
         <!-- Action Buttons -->
         <div class="d-grid gap-2">
-            <button class="btn btn-outline-primary">
-                <i class="fas fa-comment me-2"></i> Send Message
-            </button>
+            
+            <a class="btn btn-warning btn-lg px-4 py-2 fw-bold contact-btn" href="{{route(Auth::check() ? 'home' : 'login')}}">
+                <i class="fas fa-paper-plane me-2"></i> Request Contact
+            </a>
         </div>
     </div>
 </div>
