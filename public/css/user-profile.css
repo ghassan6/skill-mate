@@ -233,3 +233,41 @@
     background-color: #dc3545;
     color: white;
 }
+
+
+/* Edit profile */
+.form-floating label {
+    color: #6c757d;
+}
+.form-control, .form-select {
+    border-radius: 8px;
+    padding: 16px;
+    border: 1px solid #e0e0e0;
+}
+.form-control:focus, .form-select:focus {
+    border-color: #1E60AA;
+    box-shadow: 0 0 0 0.25rem rgba(30, 96, 170, 0.25);
+}
+.form-check-input {
+    width: 2.5em;
+    height: 1.5em;
+}
+.form-check-input:checked {
+    background-color: #1E60AA;
+    border-color: #1E60AA;
+}
+.card {
+    border-radius: 12px;
+    overflow: hidden;
+}
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.rounded-circle.shadow-sm {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border: 3px solid #fff;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}

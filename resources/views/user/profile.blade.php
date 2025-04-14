@@ -59,20 +59,21 @@
         @endif
 
         <!-- Navigation Tabs -->
-        <ul class="nav nav-tabs" id="profileTabs" role="tablist">
+        {{-- <ul class="nav nav-tabs" id="profileTabs" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="summary-tab" data-bs-toggle="tab" data-bs-target="#summary" type="button" role="tab">Summary</button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="edit-profile-tab" data-bs-toggle="tab" data-bs-target="#edit-profile" type="button" role="tab">Edit Profile</button>
             </li>
-        </ul>
+        </ul> --}}
 
         <!-- Tab Content -->
         <div class="tab-content" id="profileTabsContent">
             <!-- Summary Tab -->
-            <div class="tab-pane fade show active" id="summary" role="tabpanel">
-                <h4 class="mb-4">Activity Summary</h4>
+            {{-- class="tab-pane fade show active" id="summary" role="tabpanel" --}}
+            <div >
+                {{-- <h4 class="mb-4">Activity Summary</h4> --}}
                 <section class="summary" id="summary-section">
                     <h4 class="mb-3">Summary</h4>
                     <div class="d-flex gap-3 flex-wrap">
@@ -111,7 +112,7 @@
             </div>
 
             <!-- Edit Profile Tab -->
-            <div class="tab-pane fade" id="edit-profile" role="tabpanel">
+            {{-- <div class="tab-pane fade" id="edit-profile" role="tabpanel">
                 <div class="edit-profile-form">
                     <h4 class="mb-4">Edit Profile Information</h4>
                     <form action="{{route('profile.update')}}" method="POST" id="update-form">
@@ -182,15 +183,15 @@
                         </div>
                     </form>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </x-user-sidebar>
 
     <!-- JavaScript -->
-    <script src="{{asset('js/profile.js')}}"></script>
+    {{-- <script src="{{asset('js/profile.js')}}"></script>
     <script>
         // Initialize Bootstrap tabs
         const profileTabs = new bootstrap.Tab(document.getElementById('summary-tab'));
         profileTabs.show();
-    </script>
+    </script> --}}
 </x-layout>

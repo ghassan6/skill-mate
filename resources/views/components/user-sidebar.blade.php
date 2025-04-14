@@ -25,7 +25,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{route('saved-services.index')}}" class="{{ request()->routeIs('user.favorites') ? 'active' : '' }}">
+                <a href="{{route('saved-services.index')}}" class="{{ request()->routeIs('saved-services.index') ? 'active' : '' }}">
                     <i class='bx bx-heart'></i> Favorites
                     <span class="badge bg-primary ms-auto">{{ auth()->user()->savedServices()->count() }} </span>
                 </a>
@@ -33,6 +33,11 @@
             <li>
                 <a href="#">
                     <i class='bx bx-message-square-dots'></i> Messages
+                </a>
+            </li>
+            <li>
+                <a href="{{route('profile.edit')}}" class="{{ request()->routeIs('profile.edit') ? 'active' : '' }}">
+                    <i class='bx bx-wrench'></i> Edit Profile
                 </a>
             </li>
             <li>

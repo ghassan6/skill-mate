@@ -33,7 +33,7 @@
                 @else
                     <div class="list-group list-group-flush">
                         @foreach($services as $service)
-                        <div class="list-group-item border-0 py-3 px-4">
+                        <div class="list-group-item border-0 py-3 px-4 my-4" style="background-color: #f1f1f1">
                             <div class="row align-items-center">
                                 <!-- Service Image -->
                                 <div class="col-md-2">

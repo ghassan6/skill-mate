@@ -143,93 +143,97 @@
 
                 <!-- Services Grid -->
                 <div class="row">
-                    @foreach($services as $service)
-                        <div class="col-md-6 col-lg-4 mb-4">
-                            <div class="card service-card h-100 border-0 shadow-sm">
-                                <div class="position-relative">
-                                    <img src="{{ $service->images->first() ? asset($service->images->first()->image) : asset('images/services/service-default.png') }}"
-                                        class="card-img-top"
-                                        alt="{{ $service->title }}"
-                                        style="height: 180px; object-fit: cover;">
-                                    <div class="card-badge position-absolute top-0 end-0 m-2">
-                                        <span class="badge bg-{{ $service->type == 'offer' ? 'warning text-dark' : 'primary' }}">
-                                            {{ $service->type == 'offer' ? 'Hourly Rate' : 'Budget Price' }}
-                                        </span>
-                                    </div>
-                                    <div class="card-views position-absolute bottom-0 start-0 m-2">
-                                        <span class="badge bg-dark bg-opacity-75 text-white">
-                                            <i class="fas fa-eye me-1"></i> {{ $service->views }}
-                                        </span>
-                                    </div>
-                                </div>
-                                <h2></h2>
-
-                                <div class="card-body">
-                                    <h5 class="card-title mb-2">
-                                        <a href="{{ route('services.show', $service->id) }}" class="text-decoration-none text-dark">{{ Str::limit($service->title, 50) }}</a>
-                                    </h5>
-                                    <p class="card-text text-muted small mb-3">{{ Str::limit($service->description, 100) }}</p>
-
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <div>
-                                            <span class="fw-bold" style="color: #1E60AA;">
-                                                @if($service->type == 'offer')
-                                                    {{ $service->hourly_rate }} JOD/Hour
-                                                @else
-                                                    {{ $service->min_price }} - {{ $service->max_price }} JOD
-                                                @endif
+                    @if($services->count() > 0)
+                        @foreach($services as $service)
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="card service-card h-100 border-0 shadow-sm">
+                                    <div class="position-relative">
+                                        <img src="{{ $service->images->first() ? asset($service->images->first()->image) : asset('images/services/service-default.png') }}"
+                                            class="card-img-top"
+                                            alt="{{ $service->title }}"
+                                            style="height: 180px; object-fit: cover;">
+                                        <div class="card-badge position-absolute top-0 end-0 m-2">
+                                            <span class="badge bg-{{ $service->type == 'offer' ? 'warning text-dark' : 'primary' }}">
+                                                {{ $service->type == 'offer' ? 'Hourly Rate' : 'Budget Price' }}
                                             </span>
                                         </div>
-
-                                        @php
-                                            $avgRating = $service->reviews->avg('rating');
-                                            $fullStars = floor($avgRating);
-                                            $halfStar = ($avgRating - $fullStars) >= 0.5;
-                                            $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0);
-                                        @endphp
-
-                                        <div class="text-warning">
-                                            @if($service->reviews->isNotEmpty())
-                                                {{-- full stars display --}}
-                                                @for($i = 0; $i < $fullStars; $i++)
-                                                    <i class="fas fa-star"></i>
-                                                @endfor
-
-                                                {{-- half star the if to ensure that if exists --}}
-                                                @if($halfStar)
-                                                    <i class="fas fa-star-half-alt"></i>
-                                                @endif
-
-                                                {{-- Show empty stars --}}
-                                                @for($i = 0; $i < $emptyStars; $i++)
-                                                    <i class="far fa-star"></i>
-                                                @endfor
-
-                                                <span class="text-muted small">({{ $service->reviews->count() }})</span>
-                                            @else
-                                                No reviews yet.
-                                            @endif
+                                        <div class="card-views position-absolute bottom-0 start-0 m-2">
+                                            <span class="badge bg-dark bg-opacity-75 text-white">
+                                                <i class="fas fa-eye me-1"></i> {{ $service->views }}
+                                            </span>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="card-footer bg-white border-0 pt-0">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <a class="d-flex align-items-center owner-link" href="{{route('users.show', $service->user_id)}}">
-                                            <img src="{{ $service->user->image ? asset(str_contains($service->user->image, 'profile') ? 'storage/' . $service->user->image : $service->user->image) : asset('images/user-placeholder.jpg') }}"
-                                                class="rounded-circle me-2"
-                                                width="30"
-                                                height="30"
-                                                alt="{{ $service->user->username }}">
-                                            <span class="small">{{ Str::ucfirst(Str::limit($service->user->username, 12)) }}</span>
-                                        </a>
-                                        <a href="{{ route('services.show', $service->id) }}" class="btn btn-sm btn-outline-primary py-1 px-3">
-                                            View <i class="fas fa-chevron-right ms-1"></i>
-                                        </a>
+                                    <h2></h2>
+
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-2">
+                                            <a href="{{ route('services.show', $service->id) }}" class="text-decoration-none text-dark">{{ Str::limit($service->title, 50) }}</a>
+                                        </h5>
+                                        <p class="card-text text-muted small mb-3">{{ Str::limit($service->description, 100) }}</p>
+
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <div>
+                                                <span class="fw-bold" style="color: #1E60AA;">
+                                                    @if($service->type == 'offer')
+                                                        {{ $service->hourly_rate }} JOD/Hour
+                                                    @else
+                                                        {{ $service->min_price }} - {{ $service->max_price }} JOD
+                                                    @endif
+                                                </span>
+                                            </div>
+
+                                            @php
+                                                $avgRating = $service->reviews->avg('rating');
+                                                $fullStars = floor($avgRating);
+                                                $halfStar = ($avgRating - $fullStars) >= 0.5;
+                                                $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0);
+                                            @endphp
+
+                                            <div class="text-warning">
+                                                @if($service->reviews->isNotEmpty())
+                                                    {{-- full stars display --}}
+                                                    @for($i = 0; $i < $fullStars; $i++)
+                                                        <i class="fas fa-star"></i>
+                                                    @endfor
+
+                                                    {{-- half star the if to ensure that if exists --}}
+                                                    @if($halfStar)
+                                                        <i class="fas fa-star-half-alt"></i>
+                                                    @endif
+
+                                                    {{-- Show empty stars --}}
+                                                    @for($i = 0; $i < $emptyStars; $i++)
+                                                        <i class="far fa-star"></i>
+                                                    @endfor
+
+                                                    <span class="text-muted small">({{ $service->reviews->count() }})</span>
+                                                @else
+                                                    No reviews yet.
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer bg-white border-0 pt-0">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <a class="d-flex align-items-center owner-link" href="{{route('users.show', $service->user_id)}}">
+                                                <img src="{{ $service->user->image ? asset(str_contains($service->user->image, 'profile') ? 'storage/' . $service->user->image : $service->user->image) : asset('images/user-placeholder.jpg') }}"
+                                                    class="rounded-circle me-2"
+                                                    width="30"
+                                                    height="30"
+                                                    alt="{{ $service->user->username }}">
+                                                <span class="small">{{ Str::ucfirst(Str::limit($service->user->username, 12)) }}</span>
+                                            </a>
+                                            <a href="{{ route('services.show', $service->id) }}" class="btn btn-sm btn-outline-primary py-1 px-3">
+                                                View <i class="fas fa-chevron-right ms-1"></i>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    @else
+                    <p class="text-muted fs-4">No Services Found</p>
+                    @endif
                 </div>
 
                 <!-- Pagination -->

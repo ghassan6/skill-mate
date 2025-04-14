@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\City;
 
 class ProfileController extends Controller
 {
@@ -16,28 +17,29 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $cities = City::all();
+        $user = Auth::user();
+
+        return view('user.edit', compact('cities' ,"user"));
     }
 
     /**
      * Update the user's profile information.
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
-    {     
+    {
         $data = $request->validated();
         if (isset($data['password'])) {
-            $data['password'] = bcrypt($data['password']); 
+            $data['password'] = bcrypt($data['password']);
         } else {
             unset($data['password']); // Remove password from the update array
         }
         $request->user()->fill($data);
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
-        }   
+        }
 
-        
+
         Auth::user()->image = $request->file('image') ? $request->file('image')->store('images/user-profile', 'public') : $request->user()->image;
         $request->user()->save();
 

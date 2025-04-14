@@ -36,9 +36,9 @@ Route::Resource('/services', ServiceController::class);
 
 // saved services
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware('auth')->group(function () {
     // Display saved services
-    Route::get('/saved-services', [SavedServiceController::class, 'index'])
+    Route::get('/user/saved-services', [SavedServiceController::class, 'index'])
         ->name('saved-services.index');
 
     // Toggle save status (using POST for security)
@@ -48,6 +48,12 @@ Route::middleware(['auth'])->group(function () {
     // Bulk remove saved services
     Route::delete('/saved-services/remove', [SavedServiceController::class, 'bulkRemove'])
         ->name('saved-services.bulk-remove');
+
+    // private profile
+    Route::get('/user/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
 });
 // Legal routes
 
@@ -57,15 +63,10 @@ Route::prefix('legal')->group(function () {
     })->name('terms');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
 Route::prefix('user')->middleware('auth')->group(function () {
     Route::get('/profile', [UserController::class, 'account'])->name('user.profile');
