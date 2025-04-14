@@ -13,7 +13,11 @@
                 <li class="breadcrumb-item active" aria-current="page">{{ $service->title }}</li>
             </ol>
         </nav>
-
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="row">
             <!-- Main Content Column -->
             <div class="col-lg-8">
@@ -80,8 +84,9 @@
                                     class="btn btn-lg px-3 py-2 save-service-btn"
                                         data-saved="{{ Auth::check() && auth()->user()->isServiceSaved($service->id) ? '1' : '0' }}"
                                         title="{{ Auth::check() && auth()->user()->isServiceSaved($service->id) ? 'Remove from saved services' : 'Save this service' }}"
-                                        style="color: {{ Auth::check() && auth()->user()->isServiceSaved($service->id) ? '#dc3545' : '#6c757d' }};  background: transparent;">
-                                        <i class="{{ Auth::check() && auth()->user()->isServiceSaved($service->id) ? 'fas' : 'far' }} fa-heart"></i></button>
+                                        style="color: {{ Auth::check() && auth()->user()->isServiceSaved($service->id) ? '#dc3545' : '#6c757d' }};">
+                                        <i class="{{ Auth::check() && auth()->user()->isServiceSaved($service->id) ? 'fas' : 'far' }} fa-heart"></i>
+                                    </button>
                                 </form>
                             </div>
                         </div>

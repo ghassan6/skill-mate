@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inquiry;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreInquiryRequest;
 use App\Http\Requests\UpdateInquiryRequest;
-use App\Models\Inquiry;
 
 class InquiryController extends Controller
 {
@@ -29,7 +30,15 @@ class InquiryController extends Controller
      */
     public function store(StoreInquiryRequest $request)
     {
-        //
+        // dd($request->validated());
+
+        Inquiry::create([
+            'user_id' => Auth::user()->id,
+            'service_id' => $request->service_id,
+            'message' => $request->message
+        ]);
+
+        return redirect()->back()->with('success' , 'Message has been sent');
     }
 
     /**

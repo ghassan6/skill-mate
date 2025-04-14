@@ -7,6 +7,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\InquiryController;
 use App\Models\Category;
 use App\Http\Controllers\SavedServiceController;
 
@@ -54,6 +55,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // inquires 
+    Route::Resource('/inquiries', InquiryController::class);
 });
 // Legal routes
 

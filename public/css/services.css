@@ -47,9 +47,9 @@ body {
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
+/* h1, h2, h3, h4, h5, h6 {
     color: #1E60AA;
-}
+} */
 
 .lead {
     line-height: 1.8;
@@ -64,6 +64,7 @@ h1, h2, h3, h4, h5, h6 {
  .fa-calendar-check
  {
     color: #1E60AA;
+    color: #000;
 }
 
 /* Responsive Adjustments */
@@ -98,4 +99,30 @@ h1, h2, h3, h4, h5, h6 {
 .contact-btn:hover i {
     transform: rotate(30deg); 
     transition: transform 0.3s ease;
+}
+
+/* Modal styling */
+.modal-content {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.quick-message {
+    transition: all 0.2s;
+}
+
+.quick-message:hover {
+    background-color: #1E60AA;
+    color: white;
+}
+
+#message {
+    border-radius: 8px;
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-check-input:checked {
+    background-color: #1E60AA;
+    border-color: #1E60AA;
 }

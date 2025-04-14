@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreInquiryRequest extends FormRequest
@@ -11,7 +12,7 @@ class StoreInquiryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Auth::check();
     }
 
     /**
@@ -22,7 +23,9 @@ class StoreInquiryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'service_id' => ['required'],
+            'message' => 'required|string',
+            'agree_terms' => 'required|accepted',
         ];
     }
 }

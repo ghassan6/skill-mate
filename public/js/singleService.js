@@ -73,4 +73,41 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+
+    // for contact modal
+
+    const contactBtn = document.querySelector('.contact-btn');
+    if(contactBtn) {
+
+        contactBtn.addEventListener('click', function(e) {
+            const isAuthenticated = this.dataset.authenticated === 'true';
+            if (!isAuthenticated) {
+                window.location.href = "{{ route('login') }}";
+                return;
+            }
+            e.preventDefault();
+            let inquiryModal = new bootstrap.Modal(document.getElementById('inquiryModal'));
+            inquiryModal.show();
+        });
+    }
+    
+    // Quick message buttons
+    document.querySelectorAll('.quick-message').forEach(button => {
+        button.addEventListener('click', function() {
+            const template = this.getAttribute('data-template');
+            const textarea = document.getElementById('message');
+            textarea.value = template;
+            textarea.focus();
+        });
+    });
+    
+    // Form submission handling
+    document.getElementById('inquiryForm').addEventListener('submit', function(e) {
+        if(!document.getElementById('agreeTerms').checked) {
+            e.preventDefault();
+            alert('Please agree to the terms before submitting');
+        }
+        // Add AJAX submission here if needed
+    });
+
 });
