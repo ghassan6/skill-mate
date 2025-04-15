@@ -25,7 +25,13 @@ Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show')
 Route::get('/users/{user}/services', [UserController::class, 'services'])->name('users.services');
 Route::get('/users/{user}/reviews', [UserController::class, 'reviews'])->name('users.reviews');
 
+// Legal routes
 
+Route::prefix('legal')->group(function () {
+    Route::get('/terms-and-conditions', function () {
+        return view('legal.terms');
+    })->name('terms');
+});
 
 // service routes
 Route::get('/category/{slug}/services', function ($slug) {
@@ -35,7 +41,7 @@ Route::get('/category/{slug}/services', function ($slug) {
 
 Route::Resource('/services', ServiceController::class);
 
-// saved services
+
 
 Route::middleware('auth')->group(function () {
     // Display saved services
@@ -55,16 +61,18 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // inquires 
+    // inquires
     Route::Resource('/inquiries', InquiryController::class);
-});
-// Legal routes
 
-Route::prefix('legal')->group(function () {
-    Route::get('/terms-and-conditions', function () {
-        return view('legal.terms');
-    })->name('terms');
+    Route::get('/profile', [UserController::class, 'account'])->name('user.profile');
+    Route::get('/{user}/services', [UserController::class, 'services'])->name('user.services');
+
+    // notification routes
+    Route::get('/notifications', [UserController::class, 'notifications'])->name('user.notifications');
+    Route::post('/notifications/mark-all-read', [UserController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
 });
+
+
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -72,9 +80,7 @@ Route::prefix('legal')->group(function () {
 
 
 Route::prefix('user')->middleware('auth')->group(function () {
-    Route::get('/profile', [UserController::class, 'account'])->name('user.profile');
-    Route::get('/notifications', [UserController::class, 'notifications'])->name('user.notifications');
-    Route::get('/services', [UserController::class, 'services'])->name('user.services');
+
 });
 
 require __DIR__.'/auth.php';

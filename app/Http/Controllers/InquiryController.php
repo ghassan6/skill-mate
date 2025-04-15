@@ -6,6 +6,7 @@ use App\Models\Inquiry;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreInquiryRequest;
 use App\Http\Requests\UpdateInquiryRequest;
+use App\Notifications\NewInquiryNotification;
 
 class InquiryController extends Controller
 {
@@ -32,11 +33,17 @@ class InquiryController extends Controller
     {
         // dd($request->validated());
 
-        Inquiry::create([
+        $inquiry = Inquiry::create([
             'user_id' => Auth::user()->id,
             'service_id' => $request->service_id,
-            'message' => $request->message
+            'message' => $request->message,
+            'status' => 'pending'
         ]);
+
+        $provider = $inquiry->service->user;
+        $provider->notify(new NewInquiryNotification($inquiry));
+
+
 
         return redirect()->back()->with('success' , 'Message has been sent');
     }

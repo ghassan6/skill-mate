@@ -9,14 +9,6 @@
                      alt="profile-picture"
                      class="profile-image"
                      onerror="this.src='{{ asset('images/main/defaultUser.jpg') }}'">
-                <form action="{{route('profile.update')}}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                    <label for="file-upload" class="edit-pic">
-                        <i class='bx bx-camera'></i>
-                    </label>
-                    <input id="file-upload" type="file" name="image" accept="image/*" onchange="this.form.submit()" hidden>
-                </form>
             </div>
 
             <div class="profile-info">
@@ -47,16 +39,16 @@
             </div>
         @endif
 
-        @if($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <ul class="mb-0">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+        {{-- @error('image')
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @enderror --}}
 
         <!-- Navigation Tabs -->
         {{-- <ul class="nav nav-tabs" id="profileTabs" role="tablist">
@@ -188,8 +180,8 @@
     </x-user-sidebar>
 
     <!-- JavaScript -->
-    {{-- <script src="{{asset('js/profile.js')}}"></script>
-    <script>
+    <script src="{{asset('js/profile.js')}}"></script>
+    {{-- <script>
         // Initialize Bootstrap tabs
         const profileTabs = new bootstrap.Tab(document.getElementById('summary-tab'));
         profileTabs.show();

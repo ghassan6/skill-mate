@@ -59,27 +59,51 @@
                     <x-nav-link href="{{route('contact.index')}}" :active="request()->is('contact')">Contact</x-nav-link>
                 </div>
                 @if(Auth::check())
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <img src="{{asset(str_contains(Auth::user()->image, 'profile') ? 'storage/' . Auth::user()->image : Auth::user()->image)}}" alt="{{Auth::user()->username . '\'s image'}}" class="profile-image-dropdown">
-                        {{ Auth::user()->username }}
-                        </a>
-                        <div class="dropdown-menu fade-up m-0 box-shadow px-2 mt-2">
-                            <x-nav-link href="{{route('user.profile')}}" class="dropdown-item mb-2 fs-5">Account</x-nav-link>
-                            <x-nav-link href="{{route('saved-services.index')}}" class="dropdown-item mb-2 fs-5">Favorites</x-nav-link>
-                            <form action="{{ route('logout') }}" method="POST" class="dropdown-item ">
-                                @csrf
-                                @method('POST')
-                                <button type="submit" class="btn btn-link p-0 ms-n3 text-decoration-none text-black fs-5">Logout</button>
-                            </form>
+                    <div class="d-flex align-items-center">
+                        <!-- Notification Bell Icon with Badge -->
+                        <div class="position-relative me-3">
+                            <a href="{{ route('user.notifications') }}" class="nav-link position-relative">
+                                <i class="fas fa-bell fa-lg"></i>
+                                @if($unreadCount = Auth::user()->unreadNotifications->count())
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {{ $unreadCount > 9 ? '9+' : $unreadCount }}
+                                        <span class="visually-hidden">unread notifications</span>
+                                    </span>
+                                @endif
+                            </a>
+                        </div>
+
+                        <!-- User Dropdown -->
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                <img src="{{ asset(str_contains(Auth::user()->image, 'profile') ? 'storage/' . Auth::user()->image : Auth::user()->image) }}"
+                                    alt="{{ Auth::user()->username }}'s image"
+                                    class="profile-image-dropdown rounded-circle me-2">
+                                    {{ Auth::user()->username }}
+                            </a>
+                            <div class="dropdown-menu fade-up m-0 box-shadow px-2 mt-2">
+                                <x-nav-link href="{{ route('user.profile') }}" class="dropdown-item mb-2 fs-5">
+                                    <i class="fas fa-user me-2"></i> Account
+                                </x-nav-link>
+                                <x-nav-link href="{{ route('saved-services.index') }}" class="dropdown-item mb-2 fs-5">
+                                    <i class="fas fa-heart me-2"></i> Favorites
+                                </x-nav-link>
+                                <form action="{{ route('logout') }}" method="POST" class="dropdown-item">
+                                    @csrf
+                                    @method('POST')
+                                    <button type="submit" class="btn btn-link p-0 ms-n3 text-decoration-none text-black fs-5">
+                                        <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 @else
                 <div class="navbar-nav">
-                    <x-nav-link href="/login" class="nav-item nav-link " :active="request()->is('login')">Login</x-nav-link >
-                    <x-nav-link  href="/register" class="nav-item nav-link" :active="request()->is('register')">Register</x-nav-link >
+                    <x-nav-link href="/login" class="nav-item nav-link" :active="request()->is('login')">Login</x-nav-link>
+                    <x-nav-link href="/register" class="nav-item nav-link" :active="request()->is('register')">Register</x-nav-link>
                 </div>
-                @endif
+            @endif
             </div>
         </nav>
     </div>

@@ -16,18 +16,18 @@
             <li>
                 <a href="{{ route('user.notifications') }}" class="{{ request()->routeIs('user.notifications') ? 'active' : '' }}">
                     <i class='bx bx-bell'></i> Notifications
-                    <span class="badge bg-danger ms-auto">3</span>
+                    <span class="badge bg-danger ms-auto">{{ auth()->user()->unreadNotifications()->count() > 9 ? '9+' : auth()->user()->unreadNotifications()->count()}}</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('user.services') }}" class="{{ request()->routeIs('user.services') ? 'active' : '' }}">
+                <a href="{{ route('user.services' , Auth::user()->username) }}" class="{{ request()->routeIs('user.services') ? 'active' : '' }}">
                     <i class='bx bx-briefcase'></i> My Services
                 </a>
             </li>
             <li>
                 <a href="{{route('saved-services.index')}}" class="{{ request()->routeIs('saved-services.index') ? 'active' : '' }}">
                     <i class='bx bx-heart'></i> Favorites
-                    <span class="badge bg-primary ms-auto">{{ auth()->user()->savedServices()->count() }} </span>
+                    <span class="badge bg-primary ms-auto">{{ auth()->user()->savedServices()->count() > 9 ? "9+" :  auth()->user()->savedServices()->count() }} </span>
                 </a>
             </li>
             <li>

@@ -87,7 +87,7 @@ class User extends Authenticatable
 
     protected $dates = ['deleted_at'];
 
-    // methos realeated to saved services
+    // methos releated to saved services
 
 
     public function savedServices() {

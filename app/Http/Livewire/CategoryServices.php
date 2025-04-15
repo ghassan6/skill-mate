@@ -9,6 +9,8 @@ use App\Models\Category;
 use App\Models\City;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 class CategoryServices extends Component
 {
@@ -50,40 +52,40 @@ class CategoryServices extends Component
         $this->categorySlug = $categorySlug;
     }
 
-    public function updatedSearch()
-    {
-        $this->resetPage();
-    }
+    // public function updatedSearch()
+    // {
+    //     $this->resetPage();
+    // }
 
-    public function updatedMinPrice()
-    {
-        $this->resetPage();
-    }
+    // public function updatedMinPrice()
+    // {
+    //     $this->resetPage();
+    // }
 
-    public function updatedMaxPrice()
-    {
-        $this->resetPage();
-    }
+    // public function updatedMaxPrice()
+    // {
+    //     $this->resetPage();
+    // }
 
-    public function updatedSelectedTypes()
-    {
-        $this->resetPage();
-    }
+    // public function updatedSelectedTypes()
+    // {
+    //     $this->resetPage();
+    // }
 
-    public function updatedSelectedCityId()
-    {
-        $this->resetPage();
-    }
+    // public function updatedSelectedCityId()
+    // {
+    //     $this->resetPage();
+    // }
 
-    public function updatedSelectedRating()
-    {
-        $this->resetPage();
-    }
+    // public function updatedSelectedRating()
+    // {
+    //     $this->resetPage();
+    // }
 
-    public function updatedSort()
-    {
-        $this->resetPage();
-    }
+    // public function updatedSort()
+    // {
+    //     $this->resetPage();
+    // }
 
     public function clearFilters()
     {
@@ -106,7 +108,8 @@ class CategoryServices extends Component
     public function render()
     {
         $category = Category::where('slug', $this->categorySlug)->first();
-        $query = Service::where('category_id', $category->id);
+
+        Auth::check() ? $query = Service::where('category_id', $category->id)->where('user_id' , '!=' , Auth::user()->id) :  $query = Service::where('category_id', $category->id) ;
 
         // Apply search filter using component property
         if ($this->search) {

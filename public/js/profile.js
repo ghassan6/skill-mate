@@ -1,25 +1,28 @@
-// document.addEventListener("DOMContentLoaded", function () {
-//     // Get the elements
-//     const summaryTab = document.getElementById("summary-tab");
-//     const editProfileTab = document.getElementById("edit-profile-tab");
-//     const summarySection = document.getElementById("summary-section");
-//     const editProfileSection = document.getElementById("edit-profile-section");
+document.addEventListener('DOMContentLoaded', function() {
+    const bioTextarea = document.getElementById('bio');
+    const charLimit = 500;
 
-//     // Show Summary and hide Edit Profile initially
-//     summaryTab.addEventListener("click", function () {
-//         summarySection.style.display = "block";
-//         editProfileSection.style.display = "none";
+    if (bioTextarea) {
+        // Create counter element
+        const counter = document.createElement('div');
+        counter.className = 'text-muted small text-end mt-1';
+        bioTextarea.parentNode.appendChild(counter);
 
-//         summaryTab.classList.add("active");
-//         editProfileTab.classList.remove("active");
-//     });
+        // Update counter on input
+        bioTextarea.addEventListener('input', function() {
+            const remaining = charLimit - this.value.length;
+            counter.textContent = `${remaining} characters remaining`;
 
-//     // Show Edit Profile and hide Summary
-//     editProfileTab.addEventListener("click", function () {
-//         summarySection.style.display = "none";
-//         editProfileSection.style.display = "block";
+            if (remaining < 0) {
+                counter.classList.add('text-danger');
+                this.classList.add('is-invalid');
+            } else {
+                counter.classList.remove('text-danger');
+                this.classList.remove('is-invalid');
+            }
+        });
 
-//         summaryTab.classList.remove("active");
-//         editProfileTab.classList.add("active");
-//     });
-// });
+        // Initial update
+        bioTextarea.dispatchEvent(new Event('input'));
+    }
+});

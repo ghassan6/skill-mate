@@ -43,7 +43,7 @@ class ProfileController extends Controller
         Auth::user()->image = $request->file('image') ? $request->file('image')->store('images/user-profile', 'public') : $request->user()->image;
         $request->user()->save();
 
-        return Redirect::route('user.profile')->with('status', 'profile-updated');
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**

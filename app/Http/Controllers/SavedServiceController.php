@@ -67,7 +67,7 @@ class SavedServiceController extends Controller
         $services = Auth::user()->savedServiceItems()
                     ->with(['user', 'category', 'city', 'images'])
                     ->paginate(10);
-        // dd($services);
+
 
         return view('user.saved-services', compact('services'));
     }

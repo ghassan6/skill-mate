@@ -31,6 +31,26 @@
                                     </form>
                             </div>
                         </div>
+                        {{-- for successfully updated information --}}
+                        @if(session('status'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session('status') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
+
+                        {{-- for images errors --}}
+                        @if($errors->has('image'))
+                            <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                                <ul class="mb-0">
+                                    @foreach ($errors->get('image') as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
+
 
                         <!-- Edit Form -->
                         <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" id="update-form">
@@ -118,6 +138,24 @@
                                             @enderror
                                         </div>
                                     </div>
+
+                                    <!-- Bio Textarea -->
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <textarea class="form-control @error('bio') is-invalid @enderror"
+                                                      id="bio"
+                                                      name="bio"
+                                                      placeholder="About me"
+                                                      style="height: 120px">{{ old('bio', $user->bio) }}</textarea>
+                                            <label for="bio">About Me</label>
+                                            @error('bio')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                            <small class="text-muted mt-1 d-block">
+                                                <i class="fas fa-info-circle me-1"></i> Tell others about yourself (max 500 characters)
+                                            </small>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -165,24 +203,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Privacy Settings Section -->
-                            {{-- <div class="mb-4">
-                                <h5 class="fw-bold mb-3 d-flex align-items-center">
-                                    <span class="bg-primary bg-opacity-10 text-primary p-2 rounded-circle me-2">
-                                        <i class="fas fa-eye-slash"></i>
-                                    </span>
-                                    Privacy Settings
-                                </h5>
-
-                                <div class="form-check form-switch mb-3">
-                                    <input class="form-check-input" type="checkbox" id="show_phone" name="show_phone"
-                                           @if(old('show_phone', $user->show_phone)) checked @endif>
-                                    <label class="form-check-label" for="show_phone">
-                                        Show my phone number publicly
-                                    </label>
-                                </div>
-                            </div> --}}
 
                             <!-- Form Actions -->
                             <div class="d-grid gap-3 mt-5">
