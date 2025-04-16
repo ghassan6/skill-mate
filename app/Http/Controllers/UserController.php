@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Notifications\NewInquiryNotification;
+use Illuminate\Notifications\DatabaseNotification;
+
 
 
 class UserController extends Controller
@@ -21,6 +23,9 @@ class UserController extends Controller
     // public function notifications() {
     //      return view('user.notifications');
     // }
+
+
+    // Notifications functions
 
     public function notifications(Request $request)
     {
@@ -42,6 +47,13 @@ class UserController extends Controller
     {
         Auth::user()->unreadNotifications->markAsRead();
         return back()->with('success', 'All notifications marked as read');
+    }
+
+    public function markAsRead($notificationId)
+    {
+        $notification = DatabaseNotification::findOrFail($notificationId);
+        $notification->markAsRead();
+        return back()->with('success', 'Notification marked as read');
     }
 
 

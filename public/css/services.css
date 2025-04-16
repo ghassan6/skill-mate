@@ -102,6 +102,9 @@ body {
 }
 
 /* Modal styling */
+.modal.fade {
+    z-index: 99999;
+}
 .modal-content {
     border-radius: 12px;
     overflow: hidden;

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreInquiryRequest;
 use App\Http\Requests\UpdateInquiryRequest;
 use App\Notifications\NewInquiryNotification;
+use App\Notifications\InquiryResponseNotification;
+use Illuminate\Auth\Events\Validated;
 
 class InquiryController extends Controller
 {
@@ -37,10 +39,12 @@ class InquiryController extends Controller
             'user_id' => Auth::user()->id,
             'service_id' => $request->service_id,
             'message' => $request->message,
+            'preferred_datetime' => $request->preferred_datetime,
             'status' => 'pending'
         ]);
 
         $provider = $inquiry->service->user;
+
         $provider->notify(new NewInquiryNotification($inquiry));
 
 
@@ -69,7 +73,20 @@ class InquiryController extends Controller
      */
     public function update(UpdateInquiryRequest $request, Inquiry $inquiry)
     {
-        //
+        $action = $request->input('action');
+
+        if ($action === 'accept') {
+            $inquiry->status = 'accepted';
+            } elseif ($action === 'reject') {
+                $inquiry->status = 'rejected';
+            }
+
+        // dd($inquiry->user_id);
+        $seeker = $inquiry->user;
+        $seeker->notify(new InquiryResponseNotification($inquiry, $action));
+        $inquiry->save();
+
+        return back()->with('success', 'Inquiry has been ' . $action . 'ed successfully.');
     }
 
     /**

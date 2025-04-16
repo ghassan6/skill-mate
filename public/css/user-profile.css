@@ -321,3 +321,12 @@ textarea.form-control {
         max-width: 200px;
     }
 }
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+.action-buttons {
+    gap: 0.5rem;
+}

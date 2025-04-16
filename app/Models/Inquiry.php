@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Inquiry extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['user_id', 'service_id', 'message', 'status'];
+    protected $fillable = ['user_id', 'service_id', 'message', 'status' , 'preferred_datetime'];
 
     public function user() {
         return $this->belongsTo(User::class);

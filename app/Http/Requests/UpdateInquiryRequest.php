@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+
 
 class UpdateInquiryRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class UpdateInquiryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Auth::check();
     }
 
     /**
@@ -22,7 +24,8 @@ class UpdateInquiryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'action' => 'required|in:accept,reject',
+
         ];
     }
 }

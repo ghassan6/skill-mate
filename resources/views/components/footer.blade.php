@@ -12,7 +12,7 @@
             <div class="col-lg-2 col-md-4 col-6 mb-4">
                 <h5 class="text-uppercase fw-bold mb-4">About Us</h5>
                 <p class="small">
-                    Connecting talented freelancers with clients worldwide through our seamless platform.
+                    Connecting talented freelance service providers with clients locally through our seamless platform.
                 </p>
                 <div class="footer-contact">
                     <p class="small mb-2"><i class="fas fa-envelope me-2 text-primary"></i> contact@skillmate.com</p>

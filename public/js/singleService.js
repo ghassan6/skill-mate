@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
         updateCounter();  // Update the counter on slide
     });
 
-    // In your singleService.js
+    // add to favorites , save the service
     document.querySelectorAll('.save-service-btn').forEach(button => {
         button.addEventListener('click', async function(e) {
             e.preventDefault(); // Prevent default form submission
@@ -76,9 +76,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // for contact modal
 
+    // Contact Button Logic (for triggering the modal)
     const contactBtn = document.querySelector('.contact-btn');
-    if(contactBtn) {
-
+    if (contactBtn) {
         contactBtn.addEventListener('click', function(e) {
             const isAuthenticated = this.dataset.authenticated === 'true';
             if (!isAuthenticated) {
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
             inquiryModal.show();
         });
     }
-    
+
     // Quick message buttons
     document.querySelectorAll('.quick-message').forEach(button => {
         button.addEventListener('click', function() {
@@ -100,14 +100,27 @@ document.addEventListener('DOMContentLoaded', function () {
             textarea.focus();
         });
     });
-    
+
+    // Initialize flatpickr on the datetime input (combining date and time)
+    flatpickr(".flatpickr-datetime", {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+        minuteIncrement: 30,
+        minDate: "today",
+        disable: [
+            function(date) {
+                // Disable weekends (Saturday=6, Sunday=0)
+                return (date.getDay() === 0 || date.getDay() === 6);
+            }
+        ]
+    });
+
     // Form submission handling
     document.getElementById('inquiryForm').addEventListener('submit', function(e) {
-        if(!document.getElementById('agreeTerms').checked) {
+        if (!document.getElementById('agreeTerms').checked) {
             e.preventDefault();
             alert('Please agree to the terms before submitting');
         }
-        // Add AJAX submission here if needed
+        // Optionally add AJAX submission logic here
     });
-
 });
