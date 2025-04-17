@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ReviewController;
 use App\Models\Category;
 use App\Http\Controllers\SavedServiceController;
 
@@ -39,7 +40,7 @@ Route::get('/category/{slug}/services', function ($slug) {
     $category = Category::where('slug', $slug)->firstOrFail();
     return view('services.category-services-page', compact('category'));
 })->name('category.services');
-
+Route::get('/services/{service-name}', [ServiceController::class , 'show'])->name('servicse.show');
 Route::Resource('/services', ServiceController::class);
 
 
@@ -74,6 +75,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
     Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
     Route::get('/user/inquires-requests' , [NotificationController::class , 'getInquiriesRequests'])->name('user.inquiresRequests');
+
+    // for reviews
+    Route::Resource('/reviews', ReviewController::class);
 });
 
 

@@ -70,7 +70,7 @@
                 @if(Auth::check())
                     <div class="d-flex align-items-center">
                         <!-- Notification Bell Icon with Badge -->
-                        <div class="position-relative me-3">
+                        <div class="position-relative me-4">
                             <a href="{{ route('user.notifications') }}" class="nav-link position-relative">
                                 <i class="fas fa-bell fa-lg"></i>
                                 @if($unreadCount = Auth::user()->unreadNotifications->where('type' , '!=', \App\Notifications\NewInquiryNotification::class)->count())

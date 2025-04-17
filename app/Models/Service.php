@@ -21,6 +21,7 @@ class Service extends Model
         'city_id',
         'address',
         'views',
+        'slug',
     ];
 
     public function user() {
@@ -56,22 +57,34 @@ class Service extends Model
     }
 
     // this for mark the service as completed
-    public function hasAcceptedInquiry($userId)
-    {
-        return $this->inquiries()
-            ->where('user_id', $userId)
-            ->where('status', 'accepted')
-            ->exists();
-    }
+    // public function hasAcceptedInquiry($userId)
+    // {
+    //     return $this->inquiries()
+    //         ->where('user_id', $userId)
+    //         ->where('status', 'accepted')
+    //         ->exists();
+    // }
 
-    public function getAcceptedInquiryId($userId)
-    {
-        return $this->inquiries()
-            ->where('user_id', $userId)
-            ->where('status', 'accepted')
-            ->value('id');
-    }
+    // public function getAcceptedInquiryId($userId)
+    // {
+    //     return $this->inquiries()
+    //         ->where('user_id', $userId)
+    //         ->where('status', 'accepted')
+    //         ->value('id');
+    // }
 
+    // for review related
+    public function canReview(User $user)
+    {
+        // dd($user->id);
+        // dd($this->reviews);
+        return !$this->reviews()
+        ->where('user_id', $user->id)->exists()
+        && $this->inquiries()->where('user_id', $user->id)
+        ->where('status', 'completed')->exists();
+
+
+    }
 
     protected $dates = ['deleted_at'];
 }

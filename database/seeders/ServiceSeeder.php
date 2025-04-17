@@ -8,6 +8,7 @@ use Faker\Factory as Faker;
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Service;
+use Illuminate\Support\Str;
 class ServiceSeeder extends Seeder
 {
     /**
@@ -49,6 +50,7 @@ class ServiceSeeder extends Seeder
                     'city_id' => $faker->numberBetween(1 , City::max('id')),
                     'address' => fake()->address(),
                     'views' => $faker->numberBetween(0 , 100),
+                    'slug'=> Str::slug($title),
                 ]);
             }
         }

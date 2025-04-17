@@ -28,6 +28,7 @@ return new class extends Migration
             $table->foreignId('city_id')->nullable()->constrained()->nullOnDelete();
             $table->string('address')->nullable();
             $table->integer('views')->default(0);
+            $table->string('slug')->unique();
             $table->timestamps();
             $table->softDeletes();
         });

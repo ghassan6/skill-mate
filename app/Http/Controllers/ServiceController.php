@@ -40,7 +40,7 @@ class ServiceController extends Controller
     public function show(Service $service)
     {
         $userId = Auth::id();
-
+        
         //  Check if current user has an accepted inquiry on this service
         $hasAccepted = Inquiry::where([
                             ['service_id', $service->id],
@@ -48,7 +48,7 @@ class ServiceController extends Controller
                             ['status',     'accepted'],
                         ])->exists();
 
-        //   grab that inquiry’s ID only if the provider accepted his inquiry
+        //  grab that inquiry’s ID only if the provider accepted his inquiry
         $acceptedInquiryId = $hasAccepted
             ? Inquiry::where([
                   ['service_id', $service->id],
@@ -57,7 +57,12 @@ class ServiceController extends Controller
               ])->value('id')
             : null;
 
-        return view('services.singleService' , compact('service' , 'hasAccepted', 'acceptedInquiryId'));
+        $reviews = $service->reviews()
+        ->latest()
+        ->paginate(5);
+
+        // dd($service->reviews);
+        return view('services.singleService' , compact('service' , 'hasAccepted', 'acceptedInquiryId', 'reviews'));
     }
 
     /**

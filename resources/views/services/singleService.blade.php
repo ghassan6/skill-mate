@@ -112,6 +112,100 @@
                         </div>
                     </div>
                 </section>
+
+                <!-- Reviews Section -->
+<section class="mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="fw-bold" style="color: #1E60AA;">
+            <i class="fas fa-star text-warning me-2"></i> Reviews
+            <span class="badge bg-primary">{{ $service->reviews->count() }}</span>
+        </h3>
+
+        @if(Auth::check() && $service->canReview(Auth::user()))
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
+                <i class="fas fa-plus me-1"></i> Add Review
+            </button>
+        @endif
+    </div>
+
+    @if($reviews->isEmpty())
+        <div class="card border-0 shadow-sm">
+            <div class="card-body text-center py-5">
+                <i class="fas fa-comment-slash text-muted fa-3x mb-3"></i>
+                <h4 class="text-muted">No reviews yet</h4>
+                <p class="text-muted">Be the first to review this service</p>
+            </div>
+        </div>
+    @else
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-0">
+                @foreach($reviews as $review)
+                    <div class="p-4 border-bottom">
+                        <div class="d-flex justify-content-between mb-2">
+                            <div class="d-flex align-items-center">
+                                <img src="{{ $review->user->image ? asset(str_contains($review->user->image, 'profile') ? 'storage/'.$review->user->image : $review->user->image) : asset('images/main/defaultUser.jpg') }}"
+                                     class="rounded-circle me-3" width="50" height="50" alt="{{ $review->user->name }}">
+                                <div>
+                                    <a class="mb-0 fw-bold d-block text-decoration-none text-black" href="{{route('users.show', $review->user )}}">
+                                        {{ $review->user->username }}</a>
+                                    <small class="text-muted">{{ $review->created_at->diffForHumans() }}</small>
+                                </div>
+                            </div>
+                            <div class="text-warning">
+                                @for($i = 1; $i <= 5; $i++)
+                                    <i class="fas fa-star{{ $i <= $review->rating ? '' : '-empty' }}"></i>
+                                @endfor
+                            </div>
+                        </div>
+                        <p class="mb-0">{{ $review->comment }}</p>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="mt-3">
+            {{ $reviews->links() }}
+        </div>
+    @endif
+</section>
+
+<!-- Review Modal -->
+@if(Auth::check())
+<div class="modal fade" id="reviewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Write a Review</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('reviews.store') }}" method="POST">
+                @csrf
+                <input type="hidden" name="service_id" value="{{ $service->id }}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Rating</label>
+                        <div class="rating-input">
+                            @for($i = 5; $i >= 1; $i--)
+                                <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" {{ $i == 5 ? 'checked' : '' }}>
+                                <label for="star{{ $i }}"><i class="fas fa-star"></i></label>
+                            @endfor
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">Your Review</label>
+                        <textarea class="form-control" id="comment" name="comment" rows="5" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endif
             </div>
 
             <!-- Sidebar Column -->
