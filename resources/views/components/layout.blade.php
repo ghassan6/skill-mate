@@ -73,10 +73,21 @@
                         <div class="position-relative me-3">
                             <a href="{{ route('user.notifications') }}" class="nav-link position-relative">
                                 <i class="fas fa-bell fa-lg"></i>
-                                @if($unreadCount = Auth::user()->unreadNotifications->count())
+                                @if($unreadCount = Auth::user()->unreadNotifications->where('type' , '!=', \App\Notifications\NewInquiryNotification::class)->count())
                                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                         {{ $unreadCount > 9 ? '9+' : $unreadCount }}
                                         <span class="visually-hidden">unread notifications</span>
+                                    </span>
+                                @endif
+                            </a>
+                        </div>
+                        <div class="position-relative me-3">
+                            <a href="{{ route('user.inquiresRequests') }}" class="nav-link position-relative">
+                                <i class="fas fa-helmet-safety fa-lg"></i>
+                                @if($unreadCount = Auth::user()->unreadNotifications->where('type' , \App\Notifications\NewInquiryNotification::class)->count())
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {{ $unreadCount > 9 ? '9+' : $unreadCount }}
+                                        <span class="visually-hidden">unread inquires requests</span>
                                     </span>
                                 @endif
                             </a>

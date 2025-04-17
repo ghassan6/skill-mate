@@ -43,7 +43,7 @@ class InquiryResponseNotification extends Notification
             'inquiry_id'=> $this->inquiry ? $this->inquiry->id : null,
             'service_title'=> $this->inquiry ? $this->inquiry->service->title : 'N/A',
             'response'=> $this->response,
-            'message'=> "Your inquiry has been " . $this->response . ".",
+            'message'=> "Your inquiry has been " . $this->response . "ed",
         ];
     }
 

@@ -55,6 +55,23 @@ class Service extends Model
         return $this->hasMany(Inquiry::class);
     }
 
+    // this for mark the service as completed
+    public function hasAcceptedInquiry($userId)
+    {
+        return $this->inquiries()
+            ->where('user_id', $userId)
+            ->where('status', 'accepted')
+            ->exists();
+    }
+
+    public function getAcceptedInquiryId($userId)
+    {
+        return $this->inquiries()
+            ->where('user_id', $userId)
+            ->where('status', 'accepted')
+            ->value('id');
+    }
+
 
     protected $dates = ['deleted_at'];
 }

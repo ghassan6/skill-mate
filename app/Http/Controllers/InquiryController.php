@@ -8,6 +8,7 @@ use App\Http\Requests\StoreInquiryRequest;
 use App\Http\Requests\UpdateInquiryRequest;
 use App\Notifications\NewInquiryNotification;
 use App\Notifications\InquiryResponseNotification;
+use App\Notifications\ServiceCompletedNotification;
 use Illuminate\Auth\Events\Validated;
 
 class InquiryController extends Controller
@@ -95,5 +96,21 @@ class InquiryController extends Controller
     public function destroy(Inquiry $inquiry)
     {
         //
+    }
+
+    public function markInquiryCompleted(Inquiry $inquiry)
+    {
+        // Optionally, ensure the authenticated user is the seeker or provider
+         if (Auth::id() !== $inquiry->user_id) { abort(403); }
+         
+        $inquiry->status = 'completed';
+        $inquiry->completed_at = now();
+        $inquiry->save();
+
+        // Optionally notify the other party or trigger review prompt:
+        $inquiry->user->notify(new ServiceCompletedNotification($inquiry));
+        $inquiry->service->user->notify(new ServiceCompletedNotification($inquiry));
+
+        return back()->with('success', 'Service marked as completed.');
     }
 }

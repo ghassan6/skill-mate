@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Service;
 use Illuminate\Http\Request;
+use App\Models\Inquiry;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceController extends Controller
 {
@@ -37,8 +39,25 @@ class ServiceController extends Controller
      */
     public function show(Service $service)
     {
+        $userId = Auth::id();
 
-        return view('services.singleService' , compact('service'));
+        //  Check if current user has an accepted inquiry on this service
+        $hasAccepted = Inquiry::where([
+                            ['service_id', $service->id],
+                            ['user_id',    $userId],
+                            ['status',     'accepted'],
+                        ])->exists();
+
+        //   grab that inquiry’s ID only if the provider accepted his inquiry
+        $acceptedInquiryId = $hasAccepted
+            ? Inquiry::where([
+                  ['service_id', $service->id],
+                  ['user_id',    $userId],
+                  ['status',     'accepted'],
+              ])->value('id')
+            : null;
+
+        return view('services.singleService' , compact('service' , 'hasAccepted', 'acceptedInquiryId'));
     }
 
     /**

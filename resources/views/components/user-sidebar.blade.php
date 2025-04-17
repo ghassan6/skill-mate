@@ -16,7 +16,13 @@
             <li>
                 <a href="{{ route('user.notifications') }}" class="{{ request()->routeIs('user.notifications') ? 'active' : '' }}">
                     <i class='bx bx-bell'></i> Notifications
-                    <span class="badge bg-danger ms-auto">{{ auth()->user()->unreadNotifications()->count() > 9 ? '9+' : auth()->user()->unreadNotifications()->count()}}</span>
+                    <span class="badge bg-danger ms-auto">{{ auth()->user()->unreadNotifications()->where('type', '!=', \App\Notifications\NewInquiryNotification::class)->count() > 9 ? '9+' : auth()->user()->unreadNotifications()->where('type', '!=', \App\Notifications\NewInquiryNotification::class)->count()}}</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('user.inquiresRequests') }}" class="{{ request()->routeIs('user.inquiresRequests') ? 'active' : '' }}">
+                    <i class='bx bx-hard-hat'></i> Inquires Requests
+                    <span class="badge bg-danger ms-auto">{{ auth()->user()->unreadNotifications()->where('type', \App\Notifications\NewInquiryNotification::class)->count() > 9 ? '9+' : auth()->user()->unreadNotifications()->where('type', \App\Notifications\NewInquiryNotification::class)->count()}}</span>
                 </a>
             </li>
             <li>

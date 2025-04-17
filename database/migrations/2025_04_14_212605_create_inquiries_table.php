@@ -17,8 +17,9 @@ return new class extends Migration
             $table->foreignIdFor(Service::class)->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('message');
-            $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
+            $table->enum('status', ['pending', 'accepted', 'rejected', 'completed'])->default('pending');
             $table->dateTime('preferred_datetime')->nullable();
+            $table->timestamp('completed_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

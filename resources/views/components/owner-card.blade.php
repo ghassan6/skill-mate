@@ -89,6 +89,25 @@
                                 </div>
                             </div>
                         </div>
+                        @elseif($existingInquiry->status === 'completed')
+                        <div class="alert alert-success border-success border-2  fade show" role="alert">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0 me-3">
+                                    <i class="fas fa-exclamation-circle fa-2x text-success"></i>
+                                </div>
+                                <div>
+                                    <h5 class="alert-heading mb-2">Service completed</h5>
+                                    <p class="mb-3">The service has already been completed</p>
+
+                                    <div class="d-flex gap-2">
+                                        <a class="btn btn-warning btn-lg px-4 py-2 fw-bold contact-btn" href="{{route(Auth::check() ? 'home' : 'login')}}"
+                                        data-authenticated="{{ Auth::check() ? 'true' : 'false' }}">
+                                            <i class="fas fa-paper-plane me-2"></i> Send Another Inquiry
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @endif
                 @else
                     <a class="btn btn-warning btn-lg px-4 py-2 fw-bold contact-btn" href="{{route(Auth::check() ? 'home' : 'login')}}"
@@ -126,8 +145,13 @@
                     <!-- Message Field -->
                     <div class="mb-4">
                         <label for="message" class="form-label fw-bold">Your Message</label>
-                        <textarea class="form-control" id="message" name="message" rows="5"
+                        <textarea class="form-control  @error('message') is-invalid @enderror" id="message" name="message" rows="5"
                                   placeholder="Hi {{ $service->user->first_name }}, I'm interested in your '{{ $service->title }}' service. Please provide more details about..."></textarea>
+                        @error('message')
+                            <div class="invalid-feedback d-block">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
 
                     <!-- Quick Interest Buttons -->

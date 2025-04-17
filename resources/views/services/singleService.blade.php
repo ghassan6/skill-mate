@@ -18,6 +18,16 @@
                 {{ session('success') }}
             </div>
         @endif
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="row">
             <!-- Main Content Column -->
             <div class="col-lg-8">
@@ -108,6 +118,21 @@
             <div class="col-lg-4">
                 <!-- Owner Card -->
                 <x-owner-card :service="$service"></x-owner-card>
+
+                    <!-- Mark as Completed Button (only shows for accepted inquiries) -->
+                @if($hasAccepted)
+                    <div class="card border-0 shadow-sm mt-4">
+                        <div class="card-body text-center">
+                            <form action="{{ route('inquiries.complete', $acceptedInquiryId) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <button type="submit" class="btn btn-success btn-lg w-100 py-3">
+                                    <i class="fas fa-check-circle me-2"></i> Mark as Completed
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                @endif
 
                 <!-- Service Stats Card -->
                 <div class="card border-0 shadow-sm mt-4">

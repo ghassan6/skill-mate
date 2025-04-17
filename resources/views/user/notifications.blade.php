@@ -16,7 +16,6 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="?filter=all">All Notifications</a></li>
                                 <li><a class="dropdown-item" href="?filter=unread">Unread Only</a></li>
-                                <li><a class="dropdown-item" href="?filter=inquiries">Inquiries</a></li>
                                 <li><a class="dropdown-item" href="?filter=responses">Responses</a></li>
                             </ul>
                         </div>
@@ -39,143 +38,107 @@
                                 </div>
                             @else
                                 <div class="list-group list-group-flush">
-                                    @foreach($notifications as $notification)
-                                        <div class="list-group-item border-0 py-3 px-4 {{ $notification->unread() ? 'unread-notification' : '' }}">
-                                            <div class="d-flex align-items-start">
-                                                <!-- Notification Icon - Dynamic based on type -->
-                                                <div class="flex-shrink-0 me-3">
-                                                    @if(isset($notification->data['response']))
-                                                        <!-- Response Notification Icon -->
-                                                        <div class="bg-{{ $notification->data['response'] === 'accept' ? 'success' : 'danger' }} bg-opacity-10 text-{{ $notification->data['response'] === 'accept' ? 'success' : 'danger' }} rounded-circle p-3">
-                                                            <i class="fas fa-{{ $notification->data['response'] === 'accept' ? 'check-circle' : 'times-circle' }} fa-lg"></i>
-                                                        </div>
-                                                    @else
-                                                        <!-- Inquiry Notification Icon -->
-                                                        <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3">
-                                                            <i class="fas fa-envelope fa-lg"></i>
-                                                        </div>
-                                                    @endif
-                                                </div>
+                                    <!-- Inside your notification loop -->
+@foreach($notifications as $notification)
+<div class="list-group-item border-0 py-3 px-4 {{ $notification->unread() ? 'unread-notification' : '' }}">
+    <div class="d-flex align-items-start">
+        <!-- Notification Icon - Dynamic based on type -->
+        <div class="flex-shrink-0 me-3">
+            @if(isset($notification->data['response']))
+                <!-- Response Notification Icon -->
+                <div class="bg-{{ $notification->data['response'] === 'accept' ? 'success' : 'danger' }} bg-opacity-10 text-{{ $notification->data['response'] === 'accept' ? 'success' : 'danger' }} rounded-circle p-3">
+                    <i class="fas fa-{{ $notification->data['response'] === 'accept' ? 'check-circle' : 'times-circle' }} fa-lg"></i>
+                </div>
+            @elseif(isset($notification->data['status']) && $notification->data['status'] === 'completed')
+                <!-- Completion Notification Icon -->
+                <div class="bg-info bg-opacity-10 text-info rounded-circle p-3">
+                    <i class="fas fa-check-double fa-lg"></i>
+                </div>
+            @else
+                <!-- Default Notification Icon -->
+                <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3">
+                    <i class="fas fa-envelope fa-lg"></i>
+                </div>
+            @endif
+        </div>
 
-                                                <!-- Notification Content -->
-                                                <div class="flex-grow-1">
-                                                    <div class="d-flex justify-content-between align-items-center mb-1">
-                                                        <h6 class="fw-bold mb-0">
-                                                            @if(isset($notification->data['response']))
-                                                                <!-- Response Notification Title -->
-                                                                <span class="text-{{ $notification->data['response'] === 'accept' ? 'success' : 'danger' }}">
-                                                                    Inquiry {{ $notification->data['response'] === 'accept' ? 'Accepted' : 'Rejected' }}
-                                                                </span>
-                                                            @else
-                                                                <!-- Inquiry Notification Title -->
-                                                                <a href="{{ $notification->data['inquiry_id'] ? route('inquiries.show', $notification->data['inquiry_id']) : '#' }}"
-                                                                   class="text-decoration-none text-dark">
-                                                                    New Inquiry: {{ $notification->data['service_title'] }}
-                                                                </a>
-                                                            @endif
-                                                        </h6>
-                                                        <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
-                                                    </div>
+        <!-- Notification Content -->
+        <div class="flex-grow-1">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <h6 class="fw-bold mb-0">
+                    @if(isset($notification->data['response']))
+                        <!-- Response Notification Title -->
+                        <span class="text-{{ $notification->data['response'] === 'accept' ? 'success' : 'danger' }}">
+                            Inquiry {{ $notification->data['response'] === 'accept' ? 'Accepted' : 'Rejected' }}
+                        </span>
+                    @elseif(isset($notification->data['status']) && $notification->data['status'] === 'completed')
+                        <!-- Completion Notification Title -->
+                        <span class="text-info">
+                            Service Completed
+                        </span>
+                    @else
+                        <!-- Default Notification Title -->
+                        <span class="text-dark">
+                            New Notification
+                        </span>
+                    @endif
+                </h6>
+                <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
+            </div>
 
-                                                    <!-- Notification Message -->
-                                                    <p class="mb-2">
-                                                        @if(isset($notification->data['response']))
-                                                            <span class="text-{{ $notification->data['response'] === 'accept' ? 'success' : 'danger' }}">
-                                                                <i class="fas fa-{{ $notification->data['response'] === 'accept' ? 'check' : 'times' }} me-1"></i>
-                                                                {{ $notification->data['message'] }}
-                                                            </span>
-                                                        @else
-                                                            {{ $notification->data['message'] }}
-                                                        @endif
-                                                    </p>
+            <!-- Notification Message -->
+            <p class="mb-2">
+                @if(isset($notification->data['response']))
+                    <span class="text-{{ $notification->data['response'] === 'accept' ? 'success' : 'danger' }}">
+                        <i class="fas fa-{{ $notification->data['response'] === 'accept' ? 'check' : 'times' }} me-1"></i>
+                        {{ $notification->data['message'] }} for <span class="fw-bold">{{$notification->data['service_title']}}</span>
+                    </span>
+                @elseif(isset($notification->data['status']) && $notification->data['status'] === 'completed')
+                    <span class="text-info">
+                        <i class="fas fa-check-double me-1"></i>
+                        {{ $notification->data['message'] }}: <span class="fw-bold">{{$notification->data['service_title']}}</span>
+                    </span>
+                @else
+                    {{ $notification->data['message'] ?? 'No message content' }}
+                @endif
+            </p>
 
-                                                    <!-- Preferred Date/Time (for inquiries) -->
-                                                    @if(isset($notification->data['preferred_datetime']) && !isset($notification->data['response']))
-                                                        <div class="d-flex align-items-center mb-2">
-                                                            <i class="fas fa-calendar-alt text-muted me-2"></i>
-                                                            <small class="text-muted">
-                                                                Preferred: {{ \Carbon\Carbon::parse($notification->data['preferred_datetime'])->format('M j, Y g:i A') }}
-                                                            </small>
-                                                        </div>
-                                                    @endif
+            <!-- Action Buttons -->
+            @if($notification->unread())
+                <div class="d-flex gap-2 mt-3">
+                    <form method="POST" action="{{ route('notifications.markAsRead', $notification->id) }}">
+                        @csrf
+                        <button type="submit" class="btn btn-sm btn-outline-secondary">
+                            <i class="fas fa-check-circle me-1"></i> Mark as Read
+                        </button>
+                    </form>
 
-                                                    <!-- Status Badge (for inquiries) -->
-                                                    @if(isset($notification->data['inquiry_id']) && !isset($notification->data['response']))
-                                                        @php
-                                                            $inquiry = App\Models\Inquiry::find($notification->data['inquiry_id']);
-                                                        @endphp
-                                                        @if($inquiry)
-                                                            <span class="badge
-                                                                @if($inquiry->status == 'pending') bg-warning text-dark
-                                                                @elseif($inquiry->status == 'accepted') bg-success
-                                                                @elseif($inquiry->status == 'rejected') bg-danger
-                                                                @else bg-secondary @endif">
-                                                                {{ ucfirst($inquiry->status) }}
-                                                            </span>
-                                                        @endif
-                                                    @endif
+                    <!-- View Service Button for both response and completion notifications -->
+                    @if(isset($notification->data['inquiry_id']))
+                        @php
+                            $inquiry = App\Models\Inquiry::find($notification->data['inquiry_id']);
+                            $service = $inquiry ? $inquiry->service : null;
+                        @endphp
+                        @if($service)
+                            <a href="{{ route('services.show', $service->id) }}"
+                               class="btn btn-sm btn-primary">
+                                <i class="fas fa-eye me-1"></i> View Service
+                            </a>
+                        @endif
+                    @endif
+                </div>
+            @endif
+        </div>
 
-                                                    <!-- Action Buttons -->
-                                                    @if($notification->unread())
-                                                        <div class="d-flex gap-2 mt-3">
-                                                            <form method="POST" action="{{ route('notifications.markAsRead', $notification->id) }}">
-                                                                @csrf
-                                                                <button type="submit" class="btn btn-sm btn-outline-secondary">
-                                                                    <i class="fas fa-check-circle me-1"></i> Mark as Read
-                                                                </button>
-                                                            </form>
-
-                                                            @if(isset($notification->data['inquiry_id']) && !isset($notification->data['response']))
-                                                                @php
-                                                                    $inquiry = App\Models\Inquiry::find($notification->data['inquiry_id']);
-                                                                @endphp
-                                                                @if($inquiry && $inquiry->status == 'pending')
-                                                                    <!-- Accept/Reject Buttons (only for pending inquiries) -->
-                                                                    <form method="POST" action="{{ route('inquiries.update', $inquiry->id) }}">
-                                                                        @csrf
-                                                                        @method('PUT')
-                                                                        <input type="hidden" name="action" value="accept">
-                                                                        <button type="submit" class="btn btn-sm btn-success">
-                                                                            <i class="fas fa-check me-1"></i> Accept
-                                                                        </button>
-                                                                    </form>
-
-                                                                    <form method="POST" action="{{ route('inquiries.update', $inquiry->id) }}">
-                                                                        @csrf
-                                                                        @method('PUT')
-                                                                        <input type="hidden" name="action" value="reject">
-                                                                        <button type="submit" class="btn btn-sm btn-danger">
-                                                                            <i class="fas fa-times me-1"></i> Reject
-                                                                        </button>
-                                                                    </form>
-                                                                @endif
-
-                                                            @endif
-                                                        </div>
-                                                    @endif
-                                                        <!-- Add this new button for response notifications -->
-
-                                                    @if(isset($notification->data['response']))
-                                                    @php
-                                                        $inquiry = App\Models\Inquiry::find($notification->data['inquiry_id']);
-                                                        $service = $inquiry ? $inquiry->service : null;
-                                                    @endphp
-                                                        <a href="{{ route('services.show', $service->id ?? '#') }}"
-                                                        class="btn btn-sm btn-primary mt-3">
-                                                            <i class="fas fa-eye me-1"></i> View Service
-                                                        </a>
-                                                    @endif
-                                                </div>
-
-                                                <!-- Unread Indicator -->
-                                                @if($notification->unread())
-                                                    <div class="flex-shrink-0 ms-3">
-                                                        <span class="badge bg-danger rounded-circle" style="width: 10px; height: 10px;"></span>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    @endforeach
+        <!-- Unread Indicator -->
+        @if($notification->unread())
+            <div class="flex-shrink-0 ms-3">
+                <span class="badge bg-danger rounded-circle" style="width: 10px; height: 10px;"></span>
+            </div>
+        @endif
+    </div>
+</div>
+@endforeach
                                 </div>
                             @endif
                         </div>

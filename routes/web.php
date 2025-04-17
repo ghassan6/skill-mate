@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\NotificationController;
 use App\Models\Category;
 use App\Http\Controllers\SavedServiceController;
 
@@ -53,8 +54,8 @@ Route::middleware('auth')->group(function () {
         ->name('services.save');
 
     // Bulk remove saved services
-    Route::delete('/saved-services/remove', [SavedServiceController::class, 'bulkRemove'])
-        ->name('saved-services.bulk-remove');
+    // Route::delete('/saved-services/remove', [SavedServiceController::class, 'bulkRemove'])
+    //     ->name('saved-services.bulk-remove');
 
     // private profile
     Route::get('/user/edit', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -62,22 +63,19 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // inquires
+    Route::put('/inquiries/{inquiry}/complete', [InquiryController::class, 'markInquiryCompleted'])->name('inquiries.complete');
     Route::Resource('/inquiries', InquiryController::class);
 
     Route::get('/profile', [UserController::class, 'account'])->name('user.profile');
     Route::get('/{user}/services', [UserController::class, 'services'])->name('user.services');
 
     // notification routes
-    Route::get('/notifications', [UserController::class, 'notifications'])->name('user.notifications');
-    Route::post('/notifications/mark-all-read', [UserController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
-    Route::post('/notifications/{notification}/mark-as-read', [UserController::class, 'markAsRead'])->name('notifications.markAsRead');
+    Route::get('/notifications', [NotificationController::class, 'notifications'])->name('user.notifications');
+    Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+    Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+    Route::get('/user/inquires-requests' , [NotificationController::class , 'getInquiriesRequests'])->name('user.inquiresRequests');
 });
 
-
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
 
 
 Route::prefix('user')->middleware('auth')->group(function () {

@@ -24,7 +24,7 @@ class StoreInquiryRequest extends FormRequest
     {
         return [
             'service_id' => ['required'],
-            'message' => 'required|string',
+            'message' => 'required|string|max:255',
             'agree_terms' => 'required|accepted',
         ];
     }
