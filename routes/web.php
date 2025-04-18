@@ -40,7 +40,8 @@ Route::get('/category/{slug}/services', function ($slug) {
     $category = Category::where('slug', $slug)->firstOrFail();
     return view('services.category-services-page', compact('category'));
 })->name('category.services');
-Route::get('/services/{service-name}', [ServiceController::class , 'show'])->name('servicse.show');
+Route::get('/services/{slug}', [ServiceController::class , 'show'])->name('services.show');
+
 Route::Resource('/services', ServiceController::class);
 
 

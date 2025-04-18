@@ -86,5 +86,10 @@ class Service extends Model
 
     }
 
+    public function hasReviewed(User $user) {
+        return $this->reviews()
+        ->where('user_id', $user->id)->exists();
+    }
+
     protected $dates = ['deleted_at'];
 }

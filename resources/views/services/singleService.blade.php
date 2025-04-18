@@ -131,7 +131,7 @@
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
                                 <i class="fas fa-plus me-1"></i> Add Review
                             </button>
-                        @else
+                        @elseif(Auth::check() && !$service->hasReviewed(Auth::user()))
                         <button class="btn btn-primary" disabled>
                                 <i class="fas fa-times me-1"></i> You can add a review once the Service is completed
                         </button>

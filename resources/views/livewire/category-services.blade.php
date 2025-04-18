@@ -167,7 +167,7 @@
 
                                     <div class="card-body">
                                         <h5 class="card-title mb-2">
-                                            <a href="{{ route('services.show', $service->id) }}" class="text-decoration-none text-dark">{{ Str::limit($service->title, 50) }}</a>
+                                            <a href="{{ route('services.show', $service->slug) }}" class="text-decoration-none text-dark">{{ Str::limit($service->title, 50) }}</a>
                                         </h5>
                                         <p class="card-text text-muted small mb-3">{{ Str::limit($service->description, 100) }}</p>
 
@@ -223,7 +223,7 @@
                                                     alt="{{ $service->user->username }}">
                                                 <span class="small">{{ Str::ucfirst(Str::limit($service->user->username, 12)) }}</span>
                                             </a>
-                                            <a href="{{ route('services.show', $service->id) }}" class="btn btn-sm btn-outline-primary py-1 px-3">
+                                            <a href="{{ route('services.show', $service->slug) }}" class="btn btn-sm btn-outline-primary py-1 px-3">
                                                 View <i class="fas fa-chevron-right ms-1"></i>
                                             </a>
                                         </div>
