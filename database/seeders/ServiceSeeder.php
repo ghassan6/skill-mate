@@ -26,11 +26,21 @@ class ServiceSeeder extends Seeder
 
                 $isOffer = $faker->boolean; // generate random boolean
 
+                
                 $title = $isOffer
 
                     ? "Professional $category->name"
                     : "Need Help With $category->name";
 
+
+                $baseSlug = Str::slug($title);
+                $slug = $baseSlug;
+                $counter = 1;
+
+                // Ensure slug is unique
+                while (Service::where('slug', $slug)->exists()) {
+                    $slug = $baseSlug . '-' . $counter++;
+                }
 
                 $description = $isOffer
                     ? "Offering expert-level $category->name with guaranteed satisfaction and affordable rates. $faker->sentence()"
@@ -50,7 +60,7 @@ class ServiceSeeder extends Seeder
                     'city_id' => $faker->numberBetween(1 , City::max('id')),
                     'address' => fake()->address(),
                     'views' => $faker->numberBetween(0 , 100),
-                    'slug'=> Str::slug($title),
+                    'slug'=> $slug,
                 ]);
             }
         }
@@ -68,6 +78,7 @@ class ServiceSeeder extends Seeder
             'city_id' => 1,
             'address' => fake()->address(),
             'views' => 0,
+            'slug' => 'fast-and-affordable-fixes-for-your-house',
         ]);
     }
 }

@@ -29,7 +29,8 @@
                     </h5>
                 </a>
                 <small class="text-muted">
-                    <i class="fas fa-star text-warning"></i> {{$service->user->rating}}
+                    <i class="fas fa-star text-warning"></i> {{ number_format($service->user->averageRating(), 2) }}
+
                 </small>
             </div>
         </div>

@@ -50,7 +50,7 @@ class InquiryController extends Controller
 
 
 
-        return redirect()->back()->with('success' , 'Message has been sent');
+        return redirect()->back()->with('success' , 'Inquiry has been sent to ' . $inquiry->service->user->username);
     }
 
     /**

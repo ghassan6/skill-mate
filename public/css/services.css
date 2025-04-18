@@ -129,3 +129,49 @@ body {
     background-color: #1E60AA;
     border-color: #1E60AA;
 }
+
+
+/* for review  */
+.review-profile a {
+    text-decoration: none;
+    color: #000;
+}
+.review-profile a:hover {
+    transform: scale(1.1);
+    color: rgba(30, 96, 170, 0.8);
+
+}
+.star-rating {
+    display: flex;
+    font-size: 2rem;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.star-rating .star.filled {
+    color: #ffc107;
+}
+
+.review-actions {
+    /* opacity: 0; */
+    transition: opacity 0.2s ease;
+}
+
+.card-body:hover .review-actions {
+    opacity: 1;
+}
+
+.review-actions .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.review-actions .btn:hover {
+    transform: scale(1.1);
+}

@@ -111,5 +111,11 @@ class User extends Authenticatable
         return $this->hasMany(Inquiry::class);
     }
 
+    public function averageRating()
+    {
+        $serviceIds = $this->services()->pluck('id');
+        return Review::whereIn('service_id', $serviceIds)->avg('rating');
+    }
+
 
 }

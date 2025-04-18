@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
         updateCounter();  // Update the counter on slide
     });
 
+
     // add to favorites , save the service
     document.querySelectorAll('.save-service-btn').forEach(button => {
         button.addEventListener('click', async function(e) {
@@ -123,4 +124,106 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         // Optionally add AJAX submission logic here
     });
+
+
+    // for review (reviewing) the service
+
+    let stars = document.querySelectorAll('.star-rating .star');
+    let ratingInput = document.getElementById('ratingInput');
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                let rating = star.getAttribute('data-value');
+                ratingInput.value = rating;
+
+                stars.forEach(s => {
+                    s.classList.toggle('filled', s.getAttribute('data-value') <= rating);
+                });
+            });
+        });
+
+        // review form validation 
+        let form = document.getElementById('reviewForm');
+
+        form.addEventListener('submit', function (e) {
+            if (!validateReview()) {
+                e.preventDefault(); // stops form submission if validation fails
+            }
+        });
+
+        function validateReview(e) {
+            let rating = parseInt(document.getElementById('ratingInput').value);
+            let comment = document.getElementById('comment').value.trim();
+        
+            let ratingError = document.getElementById('ratingError');
+            let commentError = document.getElementById('commentError');
+        
+            // Clear previous errors
+            ratingError.textContent = '';
+            commentError.textContent = '';
+        
+            let isValid = true;
+        
+            if (isNaN(rating) || rating < 1 || rating > 5) {
+                ratingError.textContent = 'Please select a rating between 1 and 5.';
+                isValid = false;
+            }
+        
+            if (comment.length < 5 || comment.length > 200) {
+                commentError.textContent = 'Please write at least 5 characters and no longer than 200 characters ';
+                isValid = false;
+            }
+        
+            return isValid;
+        }
+
+        document.querySelectorAll('.edit-review-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+              // parse the JSON safely at runtime
+              const review = JSON.parse(btn.dataset.review);
+              openReviewModal(review);
+            });
+          });
+
+        function openReviewModal(review = null) {
+            const form         = document.getElementById('reviewForm');
+            const defaultUrl   = form.dataset.defaultAction;   // ← our Blade‑rendered store URL
+            const methodInput  = document.getElementById('methodField');
+            const commentInput = document.getElementById('comment');
+            const ratingInput  = document.getElementById('ratingInput');
+            const reviewInput  = document.getElementById('reviewId');
+          
+            if (review) {
+              // Edit mode
+              form.action       = `/reviews/${review.id}`;  // build update URL directly
+              methodInput.value = 'PUT';
+              commentInput.value = review.comment;
+              ratingInput.value = review.rating;
+              reviewInput.value = review.id;
+            //   highlightStars(review.rating);
+            } else {
+              // Add mode
+              form.action       = defaultUrl;  // restore original store URL
+              methodInput.value = 'POST';
+              commentInput.value = '';
+              ratingInput.value = 0;
+              reviewInput.value = '';
+            //   highlightStars(0);
+            }
+          
+            new bootstrap.Modal(document.getElementById('reviewModal')).show();
+          }
+
+          function highlightStars(rating) {
+            const stars = document.querySelectorAll('#starRating .star');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('text-warning');
+                } else {
+                    star.classList.remove('text-warning');
+                }
+            });
+          }
+          
+          
 });

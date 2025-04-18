@@ -26,7 +26,8 @@
 
                 <div class="profile-stats">
                     <span class="stat-item"><i class='bx bx-calendar'></i> Joined {{date('M Y', strtotime($user->created_at))}}</span>
-                    <span class="stat-item"><i class='bx bx-star'></i> {{$user->rating}} Rating</span>
+                    <span class="stat-item"><i class='bx bx-star'></i> {{ number_format($user->averageRating(), 2) }}
+                    Rating</span>
                 </div>
             </div>
         </div>

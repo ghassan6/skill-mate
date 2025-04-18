@@ -56,10 +56,19 @@ class ServiceController extends Controller
                   ['status',     'accepted'],
               ])->value('id')
             : null;
+        
+        if($service->reviews()->where('user_id', Auth::id())->exists()) {
+            $reviews = $service->reviews()->where('user_id', Auth::id())->get();
+            
+            $reviews = $reviews->merge($service->reviews()->latest()->get());
+        }
 
-        $reviews = $service->reviews()
-        ->latest()
-        ->paginate(5);
+        else {
+            $reviews = $service->reviews()
+            ->latest()
+            ->get();
+        }
+        // no pagination
 
         // dd($service->reviews);
         return view('services.singleService' , compact('service' , 'hasAccepted', 'acceptedInquiryId', 'reviews'));
