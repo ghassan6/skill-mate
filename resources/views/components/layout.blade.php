@@ -8,6 +8,8 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('images/main/wrench-tool.png')}}">
     @livewireStyles
     @livewireScripts
+    <script src="https://js.pusher.com/8.4/pusher.min.js"></script>
+    
     <title>{{ $title}}</title>
 
         <!-- Google Web Fonts -->

@@ -7,13 +7,14 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\MessageController;
 use App\Models\Category;
 use App\Http\Controllers\SavedServiceController;
-
-
+use App\Models\Conversation;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about',[HomeController::class , 'about'])->name('about');
@@ -40,6 +41,7 @@ Route::get('/category/{slug}/services', function ($slug) {
     $category = Category::where('slug', $slug)->firstOrFail();
     return view('services.category-services-page', compact('category'));
 })->name('category.services');
+
 Route::get('/services/{slug}', [ServiceController::class , 'show'])->name('services.show');
 
 Route::Resource('/services', ServiceController::class);
@@ -79,6 +81,16 @@ Route::middleware('auth')->group(function () {
 
     // for reviews
     Route::Resource('/reviews', ReviewController::class);
+
+    // converation routes
+    Route::get('/conversations', [ConversationController::class, 'index'])->name('conversations.index');
+    Route::get('/conversations/{conversation}', [ConversationController::class, 'show'])->name('conversations.show');
+
+    Route::post('/conversations', [ConversationController::class, 'store'])
+    ->name('conversations.store');
+
+    Route::post('/conversations/{conversation}/messages', [MessageController::class, 'store'])
+    ->name('conversations.messages.store');
 });
 
 

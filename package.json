@@ -17,6 +17,8 @@
         "vite": "^6.0.11"
     },
     "dependencies": {
-        "claude-api": "^1.0.4"
+        "claude-api": "^1.0.4",
+        "laravel-echo": "^2.0.2",
+        "pusher-js": "^8.4.0"
     }
 }

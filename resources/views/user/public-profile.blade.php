@@ -217,6 +217,21 @@
                         @endif
                     </div>
                 </div> --}}
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <button class="btn btn-primary w-100 mb-3 rounded-pill py-2 fw-bold" data-bs-toggle="modal" data-bs-target="#contactModal">
+                            <i class="fas fa-paper-plane me-2"></i> Contact {{ $user->username }}
+                        </button>
+                        @if(auth()->id() !== $user->id)
+                            <form action="{{ route('conversations.store') }}" method="POST" class="d-inline w-100">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-secondary w-100 rounded-pill py-2">
+                                   sdfa
+                                </button>
+                            </form>
+                        @endif
+                    </div>
+                </div>
                 @else
                 <div class="card border-0 shadow-sm">
                     <div class="card-body text-center">
@@ -231,21 +246,21 @@
     </div>
 
     <!-- Contact Modal -->
-    {{-- <div class="modal fade" id="contactModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="contactModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow">
                 <div class="modal-header border-0">
                     <h5 class="modal-title fw-bold">Contact {{ $user->username }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('messages.send') }}" method="POST">
+                <form action="{{ route('conversations.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <input type="hidden" name="recipient_id" value="{{ $user->id }}">
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label class="form-label fw-bold">Subject</label>
                             <input type="text" name="subject" class="form-control rounded-pill" required>
-                        </div>
+                        </div> --}}
                         <div class="mb-3">
                             <label class="form-label fw-bold">Message</label>
                             <textarea name="message" rows="5" class="form-control rounded-3" required></textarea>
@@ -258,5 +273,5 @@
                 </form>
             </div>
         </div>
-    </div> --}}
+    </div>
 </x-layout>

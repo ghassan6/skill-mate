@@ -37,7 +37,7 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="{{route('conversations.index')}}" class="{{ request()->routeIs('conversations.index') ? 'active' : '' }}">
                     <i class='bx bx-message-square-dots'></i> Messages
                 </a>
             </li>
