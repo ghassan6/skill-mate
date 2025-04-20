@@ -124,8 +124,8 @@
                     </div>
                 @else
                 <div class="navbar-nav">
-                    <x-nav-link href="/login" class="nav-item nav-link" :active="request()->is('login')">Login</x-nav-link>
-                    <x-nav-link href="/register" class="nav-item nav-link" :active="request()->is('register')">Register</x-nav-link>
+                    <x-nav-link href="{{route('login')}}" class="nav-item nav-link" :active="request()->is('login')">Login</x-nav-link>
+                    <x-nav-link href="{{route('register')}}" class="nav-item nav-link" :active="request()->is('register')">Register</x-nav-link>
                 </div>
             @endif
             </div>
