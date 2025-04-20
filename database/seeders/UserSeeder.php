@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
 
             ],
             [
-                'username' => 'john_doe',
+                'username' => 'john doe',
                 'first_name' => 'John',
                 'last_name' => 'Doe',
                 'email' => 'jon@ex.com',
@@ -50,28 +50,39 @@ class UserSeeder extends Seeder
 
             ],
             [
-                'username' => 'jane_smith',
+                'username' => 'jane smith',
                 'first_name' => 'Jane',
                 'last_name' => 'smith',
                 'email' => 'jane@ex.com',
                 'password' => bcrypt('qwerty'),
                 'role' => 'user',
-                'city_id' => 1,
+                'city_id' => 2,
                 'phone_number' => '0795475521',
 
 
             ],
             [
-                'username' => 'bob_brown',
+                'username' => 'bob brown',
                 'first_name' => 'Bob',
                 'last_name' => 'Brown',
                 'email' => 'bob@ex.com',
                 'password' => bcrypt('qwerty'),
                 'role' => 'user',
-                'city_id' => 1,
+                'city_id' => 2,
                 'phone_number' => '0785459963',
 
-            ]
+            ],
+            [
+                'username' => 'alice green',
+                'first_name' => 'Alice',
+                'last_name' => 'Green',
+                'email' => 'alice@ex.com',
+                'password' => bcrypt('qwerty'),
+                'role' => 'user',
+                'city_id' => 3,
+                'phone_number' => '0785478852',
+            ],
+
 
         ];
 

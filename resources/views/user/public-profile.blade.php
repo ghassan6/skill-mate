@@ -176,11 +176,11 @@
                                 <div>
                                     <small class="text-muted d-block">Rating</small>
                                     <div class="d-flex align-items-center">
-                                        <span class="fw-bold me-2">{{ number_format($user->rating, 1) }}</span>
+                                        <span class="fw-bold me-2">{{ number_format($user->averageRating(), 1) }}</span>
                                         <div class="text-warning small">
                                             <i class="fas fa-star text-warning me-1"></i>
                                         </div>
-                                        <small class="text-muted ms-2">({{ $user->reviews_count }} reviews)</small>
+                                        <small class="text-muted ms-2">({{ $user->totalReviews() }} reviews)</small>
                                     </div>
                                 </div>
                             </li>
@@ -222,14 +222,6 @@
                         <button class="btn btn-primary w-100 mb-3 rounded-pill py-2 fw-bold" data-bs-toggle="modal" data-bs-target="#contactModal">
                             <i class="fas fa-paper-plane me-2"></i> Contact {{ $user->username }}
                         </button>
-                        @if(auth()->id() !== $user->id)
-                            <form action="{{ route('conversations.store') }}" method="POST" class="d-inline w-100">
-                                @csrf
-                                <button type="submit" class="btn btn-outline-secondary w-100 rounded-pill py-2">
-                                   sdfa
-                                </button>
-                            </form>
-                        @endif
                     </div>
                 </div>
                 @else

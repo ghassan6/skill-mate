@@ -14,6 +14,8 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
+            ['name' => 'Baby xsitting', 'slug' => 'baby-sitting', 'image' => 'images/categories/baby-sitting.jpg'],
+            ['name' => 'Nursing', 'slug' => 'nursing', 'image' => 'images/categories/nursing.jpg'],
             ['name' => 'Home Repair', 'slug' => 'home-repair', 'image' => 'images/categories/home-repair.jpg'],
             ['name' => 'Electrical Services', 'slug' => 'electrical-services', 'image' => 'images/categories/electrical-services.jpg'],
             ['name' => 'Car Maintenance', 'slug' => 'car-maintenance', 'image' => 'images/categories/car-maintenance.jpg'],

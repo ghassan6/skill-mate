@@ -25,7 +25,6 @@ class CategoryServices extends Component
     public $search = '';
     public $minPrice = 0;
     public $maxPrice = 500;
-    public $selectedTypes = ['offer', 'request'];
     public $selectedCityId = '';
     public $selectedRating = 0;
     public $sort = 'recommended';
@@ -35,7 +34,6 @@ class CategoryServices extends Component
         'search' => ['except' => ''],
         'minPrice' => ['except' => 0],
         'maxPrice' => ['except' => 500],
-        'selectedTypes' => ['except' => ['offer', 'request']],
         'selectedCityId' => ['except' => ''],
         'selectedRating' => ['except' => 1],
         'sort' => ['except' => 'recommended'],
@@ -52,54 +50,17 @@ class CategoryServices extends Component
         $this->categorySlug = $categorySlug;
     }
 
-    // public function updatedSearch()
-    // {
-    //     $this->resetPage();
-    // }
-
-    // public function updatedMinPrice()
-    // {
-    //     $this->resetPage();
-    // }
-
-    // public function updatedMaxPrice()
-    // {
-    //     $this->resetPage();
-    // }
-
-    // public function updatedSelectedTypes()
-    // {
-    //     $this->resetPage();
-    // }
-
-    // public function updatedSelectedCityId()
-    // {
-    //     $this->resetPage();
-    // }
-
-    // public function updatedSelectedRating()
-    // {
-    //     $this->resetPage();
-    // }
-
-    // public function updatedSort()
-    // {
-    //     $this->resetPage();
-    // }
-
     public function clearFilters()
     {
         $this->reset([
             'search',
             'minPrice',
             'maxPrice',
-            'selectedTypes',
             'selectedCityId',
             'selectedRating',
             'sort'
         ]);
 
-        $this->selectedTypes = ['offer', 'request'];
         $this->selectedRating = 1;
         $this->resetPage();
     }
@@ -116,36 +77,41 @@ class CategoryServices extends Component
             $query->where('title', 'like', '%' . $this->search . '%');
         }
 
-        // Apply type filter (offer/request) using selectedTypes
-        if (!empty($this->selectedTypes)) {
-            $query->whereIn('type', $this->selectedTypes);
-        }
 
         // Apply price filter for minPrice
+        // if (is_numeric($this->minPrice)) {
+        //     $query->where(function ($q) {
+        //         $q->where(function ($q1) {
+        //             $q1->where('type', 'offer')
+        //                ->where('hourly_rate', '>=', $this->minPrice);
+        //         })->orWhere(function ($q2) {
+        //             $q2->where('type', 'request')
+        //                ->where('min_price', '>=', $this->minPrice);
+        //         });
+        //     });
+        // }
+
+        // // Apply price filter for maxPrice
+        // if (is_numeric($this->maxPrice)) {
+        //     $query->where(function ($q) {
+        //         $q->where(function ($q1) {
+        //             $q1->where('type', 'offer')
+        //                ->where('hourly_rate', '<=', $this->maxPrice);
+        //         })->orWhere(function ($q2) {
+        //             $q2->where('type', 'request')
+        //                ->where('max_price', '<=', $this->maxPrice);
+        //         });
+        //     });
+        // }
+
         if (is_numeric($this->minPrice)) {
-            $query->where(function ($q) {
-                $q->where(function ($q1) {
-                    $q1->where('type', 'offer')
-                       ->where('hourly_rate', '>=', $this->minPrice);
-                })->orWhere(function ($q2) {
-                    $q2->where('type', 'request')
-                       ->where('min_price', '>=', $this->minPrice);
-                });
-            });
+            $query->where('hourly_rate', '>=', $this->minPrice);
         }
 
-        // Apply price filter for maxPrice
         if (is_numeric($this->maxPrice)) {
-            $query->where(function ($q) {
-                $q->where(function ($q1) {
-                    $q1->where('type', 'offer')
-                       ->where('hourly_rate', '<=', $this->maxPrice);
-                })->orWhere(function ($q2) {
-                    $q2->where('type', 'request')
-                       ->where('max_price', '<=', $this->maxPrice);
-                });
-            });
+            $query->where('hourly_rate', '<=', $this->maxPrice);
         }
+
 
         // Apply city filter using selectedCityId
         if ($this->selectedCityId) {
@@ -164,19 +130,25 @@ class CategoryServices extends Component
         // Apply sorting
         switch ($this->sort) {
             case 'price_low':
-                $query->orderByRaw("CASE WHEN type = 'offer' THEN hourly_rate ELSE min_price END ASC");
+                // Sort by hourly_rate ascending (nulls last)
+                $query->orderByRaw("CASE WHEN hourly_rate IS NULL THEN 1 ELSE 0 END, hourly_rate ASC");
                 break;
+
             case 'price_high':
-                $query->orderByRaw("CASE WHEN type = 'offer' THEN hourly_rate ELSE max_price END DESC");
+                // Sort by hourly_rate descending (nulls last)
+                $query->orderByRaw("CASE WHEN hourly_rate IS NULL THEN 1 ELSE 0 END, hourly_rate DESC");
                 break;
+
             case 'rating':
                 $query->withCount(['reviews as average_rating' => function($query) {
                     $query->select(DB::raw('coalesce(avg(rating),0)'));
                 }])->orderBy('average_rating', 'desc');
                 break;
+
             case 'newest':
                 $query->orderBy('created_at', 'desc');
                 break;
+
             default: // recommended
                 $query->withCount(['reviews as average_rating' => function($query) {
                     $query->select(DB::raw('coalesce(avg(rating),0)'));
@@ -184,6 +156,7 @@ class CategoryServices extends Component
                    ->orderBy('views', 'desc');
                 break;
         }
+
 
         $services = $query->paginate(12);
         $cities = City::all();

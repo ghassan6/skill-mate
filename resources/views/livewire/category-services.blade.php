@@ -60,23 +60,6 @@
                                 </div>
                             </div>
 
-                            <!-- Service Type Filter -->
-                            <div class="mb-4">
-                                <h6 class="fw-bold mb-3">Service Type</h6>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" wire:model="selectedTypes" value="offer" id="type-offer">
-                                    <label class="form-check-label" for="type-offer">
-                                        Offers (Hourly Rate)
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" wire:model="selectedTypes" value="request" id="type-request">
-                                    <label class="form-check-label" for="type-request">
-                                        Requests (Budget Price)
-                                    </label>
-                                </div>
-                            </div>
-
                             <!-- City Filter -->
                             <div class="mb-4">
                                 <h6 class="fw-bold mb-3">City</h6>
@@ -153,8 +136,8 @@
                                             alt="{{ $service->title }}"
                                             style="height: 180px; object-fit: cover;">
                                         <div class="card-badge position-absolute top-0 end-0 m-2">
-                                            <span class="badge bg-{{ $service->type == 'offer' ? 'warning text-dark' : 'primary' }}">
-                                                {{ $service->type == 'offer' ? 'Hourly Rate' : 'Budget Price' }}
+                                            <span class="badge bg-warning text-dark">
+                                                Hourly Rate
                                             </span>
                                         </div>
                                         <div class="card-views position-absolute bottom-0 start-0 m-2">
@@ -174,11 +157,7 @@
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <div>
                                                 <span class="fw-bold" style="color: #1E60AA;">
-                                                    @if($service->type == 'offer')
                                                         {{ $service->hourly_rate }} JOD/Hour
-                                                    @else
-                                                        {{ $service->min_price }} - {{ $service->max_price }} JOD
-                                                    @endif
                                                 </span>
                                             </div>
 

@@ -61,7 +61,7 @@ class ReviewController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdateReviewRequest $request, Review $review)
-    {   
+    {
         $review->fill($request->validated());
         $review->save();
 
@@ -77,6 +77,6 @@ class ReviewController extends Controller
 
         return redirect()->back()->with('success', 'Review Deleted successfully');
 
-        
+
     }
 }

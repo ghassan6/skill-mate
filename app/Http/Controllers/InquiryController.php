@@ -33,6 +33,14 @@ class InquiryController extends Controller
          // 2. Build an array of “date slots” so we can detect overlaps
          $slots = [];
          foreach ($notifications as $i => $notification) {
+            $inquiryId = $notification->data['inquiry_id'];
+            $inquiry = \App\Models\Inquiry::find($inquiryId);
+
+            // Only include if inquiry is still pending
+            if (!$inquiry || $inquiry->status !== 'pending') {
+                continue;
+            }
+
              $slots[$i] = [
                  'id'      => $notification->data['inquiry_id'],
                  'service' => $notification->data['service_id'],
@@ -176,39 +184,47 @@ class InquiryController extends Controller
 
     public function resolveConflict(Request $request)
     {
-        // Validate the request
         $request->validate([
             'accept_id' => 'required|exists:inquiries,id',
             'message' => 'required|string|max:255',
         ]);
-        // dd($request->all());
+
         $acceptId = $request->input('accept_id');
-        $serviceID = Inquiry::findOrFail($acceptId)->service_id;
-
         $message = $request->input('message');
-        // $serviceID =
-        // $service = Service::findOrFail($serviceID);
 
-        $inquiries = Inquiry::where('service_id', $serviceID)
+        $acceptedInquiry = Inquiry::findOrFail($acceptId);
+        $serviceID = $acceptedInquiry->service_id;
+
+        $acceptedStart = Carbon::parse($acceptedInquiry->preferred_datetime);
+        $acceptedEnd = $acceptedStart->copy()->addHours((int)$acceptedInquiry->estimated_hours);
+
+        $conflictingInquiries = Inquiry::where('service_id', $serviceID)
             ->where('status', 'pending')
-            ->get();
+            ->where('id', '!=', $acceptId)
+            ->get()
+            ->filter(function ($inquiry) use ($acceptedStart, $acceptedEnd) {
+                $start = Carbon::parse($inquiry->preferred_datetime);
+                $end = $start->copy()->addHours((int)$inquiry->estimated_hours);
 
-        foreach ($inquiries as $inquiry) {
-            if ($inquiry->id == $acceptId) {
-                continue;
-            }
+                return $start->lt($acceptedEnd) && $end->gt($acceptedStart);
+            });
+
+        // Reject conflicting ones
+        foreach ($conflictingInquiries as $inquiry) {
             $inquiry->status = 'rejected';
             $inquiry->save();
-            $seeker = $inquiry->user;
-            $seeker->notify(new InquiryResponseNotification($inquiry, 'reject', $message));
+
+            $inquiry->user->notify(new InquiryResponseNotification($inquiry, 'reject', $message));
         }
 
-        $inquiry = Inquiry::findOrFail($acceptId);
-        $inquiry->status = 'accepted';
-        $inquiry->save();
-        $inquiry->user->notify(new InquiryResponseNotification($inquiry, 'accept'));
-        return redirect()->route('inquiries.requests')->with('success', 'Conflict resolved: one accepted, rest rejected.');
+        // Accept the selected one
+        $acceptedInquiry->status = 'accepted';
+        $acceptedInquiry->save();
+        $acceptedInquiry->user->notify(new InquiryResponseNotification($acceptedInquiry, 'accept'));
+
+        return redirect()->route('inquiries.requests')->with('success', 'Conflict resolved: one accepted, conflicting ones rejected.');
     }
+
 
 
 }

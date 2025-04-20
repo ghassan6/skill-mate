@@ -26,11 +26,11 @@ class User extends Authenticatable
         'password',
         'image',
         'role',
-        'rating',
         'city_id',
         'phone_number',
         'bio',
         'listing_limit',
+        'is_blocked',
     ];
 
     /**
@@ -115,6 +115,11 @@ class User extends Authenticatable
     {
         $serviceIds = $this->services()->pluck('id');
         return Review::whereIn('service_id', $serviceIds)->avg('rating');
+    }
+
+    public function totalReviews() {
+        $serviceIds = $this->services()->pluck('id');
+        return Review::whereIn('service_id', $serviceIds)->count();
     }
 
     // for message (messageing system)

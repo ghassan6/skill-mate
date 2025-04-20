@@ -23,11 +23,11 @@ return new class extends Migration
             $table->string('password');
             $table->string('image')->default('images/main/defaultUser.jpg');
             $table->enum('role', ['user', 'admin'])->default('user');
-            $table->decimal('rating', 2 , 1)->default(0);
-            $table->foreignId('city_id')->nullable()->constrained()->onDelete('set null')->default(null);
+            $table->foreignId('city_id')->nullable()->constrained()->nullOnDelete()->default(null);
             $table->string('phone_number', 15)->nullable();
             $table->text('bio')->nullable();
             $table->integer('listing_limit')->default(5);
+            $table->boolean('is_blocked')->default(false);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

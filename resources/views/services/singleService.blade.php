@@ -72,18 +72,10 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <h4 class="mb-1 fw-bold" style="color: #1E60AA;">
-                                    @if($service->type == 'offer')
                                         {{ $service->hourly_rate }} JOD <small class="text-muted fw-normal">/ hour</small>
-                                    @else
-                                        {{ $service->min_price }} - {{ $service->max_price }} JOD
-                                    @endif
                                 </h4>
                                 <p class="mb-0 text-muted">
-                                    @if($service->type == 'offer')
                                         Hourly Rate
-                                    @else
-                                        Service Budget
-                                    @endif
                                 </p>
                             </div>
                             <div class="d-flex gap-2">
@@ -93,7 +85,7 @@
                                     @php
                                         $isSaved = Auth::check() && auth()->user()->isServiceSaved($service->id);
                                     @endphp
-                                            
+
                                     <button type="submit"
                                         class="btn btn-lg px-3 py-2 save-service-btn"
                                         data-saved="{{ $isSaved ? '1' : '0' }}"
@@ -135,7 +127,7 @@
                         <button class="btn btn-primary" disabled>
                                 <i class="fas fa-times me-1"></i> You can add a review once the Service is completed
                         </button>
-                            
+
                         @endif
                     </div>
 
@@ -175,18 +167,18 @@
                                                 @if($review->user_id === Auth::id())
                                                     <div class="review-actions d-flex gap-2 mt-2">
                                                         <!-- Edit Button -->
-                                                        <button data-review='@json($review)' 
-                                                                type="button" 
+                                                        <button data-review='@json($review)'
+                                                                type="button"
                                                                 class="edit-review-btn btn btn-sm btn-outline-primary"
                                                                 title="Edit review">
                                                             <i class="fas fa-edit"></i>
                                                         </button>
-                                                        
+
                                                         <!-- Delete Button -->
                                                         <form action="{{route('reviews.destroy', $review)}}" method="POST" class="d-inline">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" 
+                                                            <button type="submit"
                                                                     class="btn btn-sm btn-outline-danger"
                                                                     title="Delete review"
                                                                     onclick="return confirm('Are you sure you want to delete this review?')">
@@ -207,7 +199,7 @@
                         {{-- <div class="mt-3">
                             {{ $reviews->links() }}
                         </div> --}}
-                        
+
                     @endif
                 </section>
 

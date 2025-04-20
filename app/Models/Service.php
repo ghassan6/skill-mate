@@ -13,15 +13,14 @@ class Service extends Model
         'category_id',
         'title',
         'description',
-        'type',
-        'status',
-        'min_price',
-        'max_price',
         'hourly_rate',
         'city_id',
         'address',
         'views',
         'slug',
+        'status',
+        'is_featured',
+        'featured_until',
     ];
 
     public function user() {

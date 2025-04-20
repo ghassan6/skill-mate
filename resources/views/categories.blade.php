@@ -11,10 +11,10 @@
 
     </section>
 
-    <section class="container mt-4">
+    {{-- <section class="container mt-4">
         <h3 class="text-center">Services By Category</h3>
         @foreach ($allCategories->take(4) as $category )
             <x-category-section :category="$category"></x-category-section>
-        @endforeach
+        @endforeach --}}
     </section>
 </x-layout>

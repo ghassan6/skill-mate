@@ -18,62 +18,37 @@ class ServiceSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $categories = Category::all();
+        $categories = [
+            'baby-sitting', 'nursing', 'Home Repair', 'Electrical Services', 'Car Maintenance',
+            'Mobile and Tablet Repair Services', 'Computer and Laptop Repair Services', 'Moving Services',
+            'Medical Services', 'Legal Services', 'Events Services', 'Towing Services',
+            'Home Cleaning Services', 'Gardening Services', 'Water Tanks Services',
+            'Pest Control Services', 'Photography Services', 'Beauty Services',
+            'Fitness Services', 'Education Services', 'Transport Services',
+            'Travel Services', 'other',
+        ];
 
-        foreach(range(1 , 2) as $round) {
+        foreach (range(1, 200) as $i) {
+            $categoryIndex = array_rand($categories);
+            $categoryName = $categories[$categoryIndex];
 
-            foreach($categories as $category) {
-
-                $isOffer = $faker->boolean; // generate random boolean
-
-                
-                $title = $isOffer
-
-                    ? "Professional $category->name"
-                    : "Need Help With $category->name";
-
-
-                $baseSlug = Str::slug($title);
-                $slug = $baseSlug;
-                $counter = 1;
-
-                // Ensure slug is unique
-                while (Service::where('slug', $slug)->exists()) {
-                    $slug = $baseSlug . '-' . $counter++;
-                }
-
-                $description = $isOffer
-                    ? "Offering expert-level $category->name with guaranteed satisfaction and affordable rates. $faker->sentence()"
-                    : "Looking for someone experienced in $category->name to assist with my current needs. $faker->sentence()";
-
-
-                Service::create([
-                    'user_id' => $faker->numberBetween(2 , 5),
-                    'category_id' => $category->id,
-                    'title' => $title,
-                    'description' => $description,
-                    'type' => $isOffer ? 'offer' : 'request',
-                    'status' => rand(0 , 1) ? 'pending' : 'completed',
-                    'min_price' => $isOffer ? null : $faker->numberBetween(5, 15),
-                    'max_price' => $isOffer ? null : $faker->numberBetween(20 , 35),
-                    'hourly_rate' => $isOffer ? $faker->numberBetween(10 , 20) : null,
-                    'city_id' => $faker->numberBetween(1 , City::max('id')),
-                    'address' => fake()->address(),
-                    'views' => $faker->numberBetween(0 , 100),
-                    'slug'=> $slug,
-                ]);
-            }
+            Service::create([
+                'user_id' => rand(2, 6),
+                'category_id' => $categoryIndex + 1, // assuming categories are seeded in same order
+                'title' => $title = $categoryName . ' Service by ' . $faker->firstName,
+                'description' => 'This ' . strtolower($categoryName) . ' service offers professional solutions. ' . $faker->paragraph,
+                'hourly_rate' => $faker->randomFloat(2, 20, 150),
+                'city_id' => rand(1, 14),
+                'slug' => Str::slug($title) . '-' . uniqid(),
+                'created_at' => $faker->dateTimeBetween('-1 year', 'now'),
+                'updated_at' => now(),
+            ]);
         }
-
         Service::create([
             'user_id' => 3,
-            'category_id' => 1,
+            'category_id' => 3,
             'title' => ' Fast & Affordable Fixes for your House',
             'description' => 'Need quick and professional help around the house? Our expert home repair technicians are here to tackle everything from leaky faucets and electrical issues to drywall repair and general maintenance. Serving your local area with same-day or next-day availability, we offer fair pricing, quality workmanship, and peace of mind. No job is too small – we fix it all!',
-            'type' => 'offer',
-            'status' => null,
-            'min_price' => null,
-            'max_price' => null,
             'hourly_rate' => 20,
             'city_id' => 1,
             'address' => fake()->address(),
@@ -82,3 +57,4 @@ class ServiceSeeder extends Seeder
         ]);
     }
 }
+
