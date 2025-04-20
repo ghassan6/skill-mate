@@ -1,76 +1,102 @@
 <x-layout>
-<!-- import a css file -->
-<link href="{{ asset('css/forms.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/forms.css') }}" rel="stylesheet" type="text/css">
     <x-slot:title>Login</x-slot>
 
+    <!-- Floating Alert for Errors -->
     @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
+        <div class="alert-floating">
+            <div class="alert alert-danger shadow-lg fade-in">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    {{ session('error') }}
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
         </div>
     @endif
 
-    <div class="container mt-2">
-        <div class="row justify-content-center">
-            <!-- Left Side: Image Section -->
-            <div class="col-md-6 d-none d-md-block">
-                <div class="image-section" style="background-image: url('{{ asset('images/main/cleaning.jpg') }}');">
+    <div class="login-container">
+        <!-- Animated Background Side -->
+        <div class="login-hero">
+            <div class="hero-image" style="background-image: url('{{ asset('images/main/cleaning.jpg') }}');"></div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h2 class="hero-title">Welcome Back!</h2>
+                <p class="hero-text">Connect with skilled professionals or find the services you need</p>
+                <div class="hero-features">
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt feature-icon"></i>
+                        <span>Secure & Private</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-bolt feature-icon"></i>
+                        <span>Instant Access</span>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Right Side: Login Form -->
-            <div class="col-md-4 d-flex align-items-center ms-5">
-                <div class="card w-100 shadow-lg">
-                    <div class="card-header text-center bg-primary text-white">
-                        <h4>Login</h4>
+        <!-- Login Form Side -->
+        <div class="login-form-container">
+            <div class="form-card slide-up">
+                <div class="form-header">
+                    <div class="logo-container">
+                        <i class="fas fa-hands-helping logo-icon"></i>
                     </div>
-                    <div class="card-body">
-                        <form action="{{ route('login') }}" method="POST" id="login-form">
-                            @csrf
-
-                            <!-- Email or Username -->
-                            <div class="mb-3">
-                                <x-input-label for="email" >Email <span class="red-asterisk">*</span> </x-input-label>
-                                <x-text-input type="email" name="email" id="email" value="{{ old('email')}}" placeholder="e.g. email@example.com" required/>
-                                <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                            </div>
-
-                            <!-- Password -->
-                            <div class="mb-3">
-                                <x-input-label for="password" >Password <span class="red-asterisk">*</span></x-input-label>
-                                <x-text-input type="password" name="password" id="password" required/>
-                                <x-input-error :messages="$errors->get('password')" class="mt-2" />
-                            </div>
-
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="remember" id="remember">
-                                        <label class="form-check-label" for="remember">
-                                            Remember Me
-                                        </label>
-                                    </div>
-                                    <a href="{{ route('password.request') }}" class="text-primary">Forgot Your Password?</a>
-                                </div>
-                            </div>
-
-                            <div class="text-muted mt-3 mb-3">
-                                Fields with <span class="red-asterisk">*</span> are Required
-                            </div>
-
-                            <!-- Submit Button -->
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary" id="login-btn" disabled>Login</button>
-                            </div>
-
-                            <div class="text-center mt-3">
-                                Don't have an account? <a href="{{ route('register') }}" class="text-primary">Register here</a>
-                            </div>
-                        </form>
-                    </div>
+                    <h3 class="form-title">Sign In</h3>
+                    <p class="form-subtitle">Access your account to continue</p>
                 </div>
+
+                <form action="{{ route('login') }}" method="POST" id="login-form" class="form-body">
+                    @csrf
+
+                    <!-- Email Field -->
+                    <div class="form-group floating-label">
+                        <x-text-input type="email" name="email" id="email" value="{{ old('email')}}" required/>
+                        <x-input-label for="email">Email Address</x-input-label>
+                        <i class="fas fa-envelope input-icon"></i>
+                        <x-input-error :messages="$errors->get('email')" class="error-message" />
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="form-group floating-label">
+                        <x-text-input type="password" name="password" id="password" required/>
+                        <x-input-label for="password">Password</x-input-label>
+                        <i class="fas fa-lock input-icon"></i>
+                        <x-input-error :messages="$errors->get('password')" class="error-message" />
+                        <button type="button" class="password-toggle" aria-label="Show password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+
+                    <!-- Remember & Forgot -->
+                    <div class="form-options">
+                        <div class="form-check remember-me">
+                            <input class="form-check-input" type="checkbox" name="remember" id="remember">
+                            <label class="form-check-label" for="remember">
+                                Remember Me
+                            </label>
+                        </div>
+                        <a href="{{ route('password.request') }}" class="forgot-password">
+                            Forgot Password?
+                        </a>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-login" id="login-btn" disabled>
+                        <span class="btn-text">Login</span>
+                        <i class="fas fa-arrow-right btn-icon"></i>
+                    </button>
+
+                    <!-- Registration Link -->
+                    <div class="register-link">
+                        Don't have an account? <a href="{{ route('register') }}" class="register-text">Sign up</a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
-    <script src="{{asset('js/login.js')}}"></script>
+    <script src="{{asset('js/login.js')}}" defer></script>
+
 </x-layout>
