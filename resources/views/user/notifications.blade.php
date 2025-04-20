@@ -71,6 +71,7 @@
                         <span class="text-{{ $notification->data['response'] === 'accept' ? 'success' : 'danger' }}">
                             Inquiry {{ $notification->data['response'] === 'accept' ? 'Accepted' : 'Rejected' }}
                         </span>
+
                     @elseif(isset($notification->data['status']) && $notification->data['status'] === 'completed')
                         <!-- Completion Notification Title -->
                         <span class="text-info">
@@ -92,6 +93,9 @@
                     <span class="text-{{ $notification->data['response'] === 'accept' ? 'success' : 'danger' }}">
                         <i class="fas fa-{{ $notification->data['response'] === 'accept' ? 'check' : 'times' }} me-1"></i>
                         {{ $notification->data['message'] }} for <span class="fw-bold">{{$notification->data['service_title']}}</span>
+                        @if(isset($notification->data['custom_message']) && Str::length($notification->data['custom_message']) > 0)
+                        <p class="text-muted"> {{ $notification->data['custom_message'] }}</p>
+                    @endif
                     </span>
                 @elseif(isset($notification->data['status']) && $notification->data['status'] === 'completed')
                     <span class="text-info">
@@ -120,7 +124,7 @@
                             $service = $inquiry ? $inquiry->service : null;
                         @endphp
                         @if($service)
-                            <a href="{{ route('services.show', $service->id) }}"
+                            <a href="{{ route('notifications.viewService', $notification->id) }}"
                                class="btn btn-sm btn-primary">
                                 <i class="fas fa-eye me-1"></i> View Service
                             </a>

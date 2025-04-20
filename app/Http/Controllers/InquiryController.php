@@ -6,16 +6,63 @@ use App\Models\Inquiry;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreInquiryRequest;
 use App\Http\Requests\UpdateInquiryRequest;
+use App\Models\Service;
 use App\Notifications\NewInquiryNotification;
 use App\Notifications\InquiryResponseNotification;
 use App\Notifications\ServiceCompletedNotification;
 use Illuminate\Auth\Events\Validated;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\In;
 
 class InquiryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+     public function requests()
+     {
+         $user = Auth::user();
+
+         // 1. Pull only the “new inquiry” notifications
+         $notifications = $user->notifications()
+             ->where('type', NewInquiryNotification::class)
+             ->paginate(10);
+
+         // 2. Build an array of “date slots” so we can detect overlaps
+         $slots = [];
+         foreach ($notifications as $i => $notification) {
+             $slots[$i] = [
+                 'id'      => $notification->data['inquiry_id'],
+                 'service' => $notification->data['service_id'],
+                 'start'   => Carbon::parse($notification->data['preferred_datetime']),
+                 'end'     => Carbon::parse($notification->data['preferred_datetime'])
+                                      ->addHours((int)$notification->data['estimated_hours']),
+             ];
+         }
+
+         // 3. Build a map inquiry_id => bool hasConflict
+         $conflictFlags = [];
+         foreach ($slots as $i => $slotA) {
+             $hasConflict = false;
+
+             foreach ($slots as $j => $slotB) {
+                 if ($i === $j) continue;
+                 if ($slotA['id'] !== $slotB['id']  // different inquiries
+                    && $slotA['service'] === $slotB['service'] // same service
+                  && $slotA['start']->lt($slotB['end'])
+                  && $slotA['end']->gt($slotB['start'])) {
+                     $hasConflict = true;
+                     break;
+                 }
+             }
+
+             $conflictFlags[$slotA['id']] = $hasConflict;
+         }
+         return view('user.inquiries-requests', compact('notifications','conflictFlags'));
+     }
+
     public function index()
     {
         //
@@ -41,6 +88,7 @@ class InquiryController extends Controller
             'service_id' => $request->service_id,
             'message' => $request->message,
             'preferred_datetime' => $request->preferred_datetime,
+            'estimated_hours' => $request->estimated_hours,
             'status' => 'pending'
         ]);
 
@@ -58,7 +106,7 @@ class InquiryController extends Controller
      */
     public function show(Inquiry $inquiry)
     {
-        //
+
     }
 
     /**
@@ -74,13 +122,24 @@ class InquiryController extends Controller
      */
     public function update(UpdateInquiryRequest $request, Inquiry $inquiry)
     {
-        $action = $request->input('action');
 
-        if ($action === 'accept') {
-            $inquiry->status = 'accepted';
-            } elseif ($action === 'reject') {
-                $inquiry->status = 'rejected';
-            }
+        $action = $request->input('action'); // 'accept' or 'reject'
+
+        if (! in_array($action, ['accept','reject'])) {
+            abort(422);
+        }
+
+        $inquiry->status = $action === 'accept' ? 'accepted' : 'rejected';
+
+        $notification = Auth::user()->notifications()
+        ->where('data->inquiry_id', $inquiry->id)
+        ->where('type', NewInquiryNotification::class)
+        ->first();
+
+        // Mark the notification as read
+        if ($notification) {
+            $notification->markAsRead();
+        }
 
         // dd($inquiry->user_id);
         $seeker = $inquiry->user;
@@ -102,7 +161,7 @@ class InquiryController extends Controller
     {
         // Optionally, ensure the authenticated user is the seeker or provider
          if (Auth::id() !== $inquiry->user_id) { abort(403); }
-         
+
         $inquiry->status = 'completed';
         $inquiry->completed_at = now();
         $inquiry->save();
@@ -113,4 +172,43 @@ class InquiryController extends Controller
 
         return back()->with('success', 'Service marked as completed.');
     }
+
+
+    public function resolveConflict(Request $request)
+    {
+        // Validate the request
+        $request->validate([
+            'accept_id' => 'required|exists:inquiries,id',
+            'message' => 'required|string|max:255',
+        ]);
+        // dd($request->all());
+        $acceptId = $request->input('accept_id');
+        $serviceID = Inquiry::findOrFail($acceptId)->service_id;
+
+        $message = $request->input('message');
+        // $serviceID =
+        // $service = Service::findOrFail($serviceID);
+
+        $inquiries = Inquiry::where('service_id', $serviceID)
+            ->where('status', 'pending')
+            ->get();
+
+        foreach ($inquiries as $inquiry) {
+            if ($inquiry->id == $acceptId) {
+                continue;
+            }
+            $inquiry->status = 'rejected';
+            $inquiry->save();
+            $seeker = $inquiry->user;
+            $seeker->notify(new InquiryResponseNotification($inquiry, 'reject', $message));
+        }
+
+        $inquiry = Inquiry::findOrFail($acceptId);
+        $inquiry->status = 'accepted';
+        $inquiry->save();
+        $inquiry->user->notify(new InquiryResponseNotification($inquiry, 'accept'));
+        return redirect()->route('inquiries.requests')->with('success', 'Conflict resolved: one accepted, rest rejected.');
+    }
+
+
 }

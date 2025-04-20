@@ -55,8 +55,10 @@ class NewInquiryNotification extends Notification
         return [
             'inquiry_id' => $this->inquiry->id,
             'service_title' => $this->inquiry->service->title,
+            'service_id' => $this->inquiry->service->id,
             'message' => $this->inquiry->message,
             'preferred_datetime' => $this->inquiry->preferred_datetime,
+            'estimated_hours' => $this->inquiry->estimated_hours,
         ];
     }
 }

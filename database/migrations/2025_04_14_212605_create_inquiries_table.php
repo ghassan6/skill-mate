@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('message');
             $table->enum('status', ['pending', 'accepted', 'rejected', 'completed'])->default('pending');
             $table->dateTime('preferred_datetime')->nullable();
+            $table->integer('estimated_hours')->nullable();
             $table->timestamp('completed_at')->nullable();
             $table->softDeletes();
             $table->timestamps();

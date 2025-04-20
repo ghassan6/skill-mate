@@ -20,7 +20,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('user.inquiresRequests') }}" class="{{ request()->routeIs('user.inquiresRequests') ? 'active' : '' }}">
+                <a href="{{ route('inquiries.requests') }}" class="{{ request()->routeIs('inquiries.requests') ? 'active' : '' }}">
                     <i class='bx bx-hard-hat'></i> Inquires Requests
                     <span class="badge bg-danger ms-auto">{{ auth()->user()->unreadNotifications()->where('type', \App\Notifications\NewInquiryNotification::class)->count() > 9 ? '9+' : auth()->user()->unreadNotifications()->where('type', \App\Notifications\NewInquiryNotification::class)->count()}}</span>
                 </a>

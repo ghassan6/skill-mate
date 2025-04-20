@@ -9,7 +9,9 @@
     @livewireStyles
     @livewireScripts
     <script src="https://js.pusher.com/8.4/pusher.min.js"></script>
-    
+    <script src="https://js.pusher.com/8.3.0/pusher.min.js"></script>
+
+
     <title>{{ $title}}</title>
 
         <!-- Google Web Fonts -->
@@ -84,7 +86,7 @@
                             </a>
                         </div>
                         <div class="position-relative me-3">
-                            <a href="{{ route('user.inquiresRequests') }}" class="nav-link position-relative">
+                            <a href="{{ route('inquiries.requests') }}" class="nav-link position-relative">
                                 <i class="fas fa-helmet-safety fa-lg"></i>
                                 @if($unreadCount = Auth::user()->unreadNotifications->where('type' , \App\Notifications\NewInquiryNotification::class)->count())
                                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">

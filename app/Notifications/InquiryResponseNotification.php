@@ -14,11 +14,13 @@ class InquiryResponseNotification extends Notification
 
     public $inquiry;
     public $response; // 'accepted' or 'rejected'
+    public $custom_message;
 
-    public function __construct(Inquiry $inquiry, $response)
+    public function __construct(Inquiry $inquiry, $response, $custom_message = null)
     {
         $this->inquiry = $inquiry;
         $this->response = $response;
+        $this->custom_message = $custom_message;
     }
 
     public function via($notifiable)
@@ -42,7 +44,9 @@ class InquiryResponseNotification extends Notification
         return [
             'inquiry_id'=> $this->inquiry ? $this->inquiry->id : null,
             'service_title'=> $this->inquiry ? $this->inquiry->service->title : 'N/A',
+            'service_id'=> $this->inquiry ? $this->inquiry->service->id : null,
             'response'=> $this->response,
+            'custom_message'=> $this->custom_message,
             'message'=> "Your inquiry has been " . $this->response . "ed",
         ];
     }

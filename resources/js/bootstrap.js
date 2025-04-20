@@ -3,21 +3,29 @@ window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 import './bootstrap';
+import './bootstrap';
+
+// If your bootstrap.js doesn't import Echo, add this:
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 
 window.Pusher = Pusher;
-
 window.Echo = new Echo({
-    broadcaster: 'pusher',
+    broadcaster: 'pusher', // or 'reverb' if using that
     key: import.meta.env.VITE_PUSHER_APP_KEY,
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-    wsHost: window.location.hostname,
-    wsPort: 6001,
-    forceTLS: false,
-    disableStats: true,
-    enabledTransports: ['ws', 'wss']
+    forceTLS: true
 });
 
-Pusher.logToConsole = true;
+console.log('Echo initialized in app.js');
 
+// Echo.connector.pusher.connection.bind('state_change', function(states) {
+//     console.log('Pusher state changed:', states.current);
+// });
+/**
+ * Echo exposes an expressive API for subscribing to channels and listening
+ * for events that are broadcast by Laravel. Echo and event broadcasting
+ * allow your team to quickly build robust real-time web applications.
+ */
+
+import './echo';

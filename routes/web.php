@@ -67,17 +67,24 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // inquires
+    Route::put('/inquiries/resolve', [InquiryController::class, 'resolveConflict'])->name('inquiries.resolve');
+
+    Route::get('/inquiries/requests', [InquiryController::class, 'requests'])
+    ->name('inquiries.requests');
+
     Route::put('/inquiries/{inquiry}/complete', [InquiryController::class, 'markInquiryCompleted'])->name('inquiries.complete');
     Route::Resource('/inquiries', InquiryController::class);
+
 
     Route::get('/profile', [UserController::class, 'account'])->name('user.profile');
     Route::get('/{user}/services', [UserController::class, 'services'])->name('user.services');
 
     // notification routes
+    Route::get('/notifications/{notification}/view-service', [NotificationController::class, 'viewService'])->name('notifications.viewService');
     Route::get('/notifications', [NotificationController::class, 'notifications'])->name('user.notifications');
     Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
     Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
-    Route::get('/user/inquires-requests' , [NotificationController::class , 'getInquiriesRequests'])->name('user.inquiresRequests');
+    // Route::get('/user/inquires-requests' , [NotificationController::class , 'getInquiriesRequests'])->name('user.inquiresRequests');
 
     // for reviews
     Route::Resource('/reviews', ReviewController::class);
