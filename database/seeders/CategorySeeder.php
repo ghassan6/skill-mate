@@ -14,11 +14,11 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            ['name' => 'Baby xsitting', 'slug' => 'baby-sitting', 'image' => 'images/categories/baby-sitting.jpg'],
+            ['name' => 'Baby sitting', 'slug' => 'baby-sitting', 'image' => 'images/categories/baby-sitting.jpg'],
             ['name' => 'Nursing', 'slug' => 'nursing', 'image' => 'images/categories/nursing.jpg'],
-            ['name' => 'Home Repair', 'slug' => 'home-repair', 'image' => 'images/categories/home-repair.jpg'],
-            ['name' => 'Electrical Services', 'slug' => 'electrical-services', 'image' => 'images/categories/electrical-services.jpg'],
-            ['name' => 'Car Maintenance', 'slug' => 'car-maintenance', 'image' => 'images/categories/car-maintenance.jpg'],
+            ['name' => 'Home Repair', 'slug' => 'home-repair', 'image' => 'images/categories/home-repair.jpg' , 'created_at' => now()->year -1 ],
+            ['name' => 'Electrical Services', 'slug' => 'electrical-services', 'image' => 'images/categories/electrical-services.jpg', 'created_at' => now()->year -1],
+            ['name' => 'Car Maintenance', 'slug' => 'car-maintenance', 'image' => 'images/categories/car-maintenance.jpg', 'created_at' => now()->year -1],
             ['name' => 'Mobile and Tablet Repair Services', 'slug' => 'mobile-and-tablet-repair-services', 'image' => 'images/categories/mobile-and-tablet-repair-services.jpg'],
             ['name' => 'Computer and Laptop Repair Services', 'slug' => 'computer-and-laptop-repair-services', 'image' => 'images/categories/computer-and-laptop-repair-services.jpg'],
             ['name' => 'Moving Services', 'slug' => 'moving-services', 'image' => 'images/categories/moving-services.jpg'],

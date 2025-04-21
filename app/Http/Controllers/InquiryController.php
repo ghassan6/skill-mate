@@ -34,7 +34,7 @@ class InquiryController extends Controller
          $slots = [];
          foreach ($notifications as $i => $notification) {
             $inquiryId = $notification->data['inquiry_id'];
-            $inquiry = \App\Models\Inquiry::find($inquiryId);
+            $inquiry = Inquiry::find($inquiryId);
 
             // Only include if inquiry is still pending
             if (!$inquiry || $inquiry->status !== 'pending') {
@@ -167,14 +167,14 @@ class InquiryController extends Controller
 
     public function markInquiryCompleted(Inquiry $inquiry)
     {
-        // Optionally, ensure the authenticated user is the seeker or provider
+        // Optionally, ensure the authenticated user is the seeker
          if (Auth::id() !== $inquiry->user_id) { abort(403); }
 
         $inquiry->status = 'completed';
         $inquiry->completed_at = now();
         $inquiry->save();
 
-        // Optionally notify the other party or trigger review prompt:
+       
         $inquiry->user->notify(new ServiceCompletedNotification($inquiry));
         $inquiry->service->user->notify(new ServiceCompletedNotification($inquiry));
 

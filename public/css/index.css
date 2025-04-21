@@ -8,6 +8,14 @@
     --secondary: #FF4917;
     --light: #EDF1FC;
     --dark: #17224D;
+    --gray: #adb5bd;
+    --white: #ffffff;
+    --primary-light: rgba(67, 97, 238, 0.1);
+    --primary-dark: #3a56d4;
+    --success: #4cc9f0;
+    --danger: #ef233c;
+    --warning: #f8961e;
+    --info: #4895ef;
 }
 
 .fw-medium {

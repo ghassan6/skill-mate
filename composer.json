@@ -7,6 +7,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "enyo/dropzone": "^5.9",
         "laravel/framework": "^11.31",
         "laravel/reverb": "^1.5",
         "laravel/tinker": "^2.9",

@@ -47,8 +47,8 @@
                 </a>
             </li>
             <li>
-                <a href="#">
-                    <i class='bx bx-cog'></i> Settings
+                <a href="{{route('services.create')}}" class="{{request()->routeIs('services.create') ? 'active' : ''}}">
+                    <i class='bx bx-cog'></i> Add New Service
                 </a>
             </li>
         </ul>

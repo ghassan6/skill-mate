@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
+use Laravel\Reverb\Protocols\Pusher\Server;
 
 class Service extends Model
 {
@@ -75,8 +77,6 @@ class Service extends Model
     // for review related
     public function canReview(User $user)
     {
-        // dd($user->id);
-        // dd($this->reviews);
         return !$this->reviews()
         ->where('user_id', $user->id)->exists()
         && $this->inquiries()->where('user_id', $user->id)
@@ -88,6 +88,22 @@ class Service extends Model
     public function hasReviewed(User $user) {
         return $this->reviews()
         ->where('user_id', $user->id)->exists();
+    }
+
+    public function createSlug($title) {
+
+        $count = 1;
+        $slug = Str::slug($title);
+        if(!Service::where('slug', Str::slug($title))->exists()) {
+            return $slug ;
+        }
+
+        while (Service::where('slug', $slug)->exists()) {
+            $slug = Str::slug($title) . '-' . $count;
+            $count++;
+        }
+
+        return $slug;
     }
 
     protected $dates = ['deleted_at'];

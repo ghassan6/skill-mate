@@ -28,16 +28,16 @@ class ServiceSeeder extends Seeder
             'Travel Services', 'other',
         ];
 
-        foreach (range(1, 200) as $i) {
+        foreach (range(1, 20) as $i) {
             $categoryIndex = array_rand($categories);
             $categoryName = $categories[$categoryIndex];
 
             Service::create([
                 'user_id' => rand(2, 6),
-                'category_id' => $categoryIndex + 1, // assuming categories are seeded in same order
+                'category_id' => $categoryIndex + 1,
                 'title' => $title = $categoryName . ' Service by ' . $faker->firstName,
                 'description' => 'This ' . strtolower($categoryName) . ' service offers professional solutions. ' . $faker->paragraph,
-                'hourly_rate' => $faker->randomFloat(2, 20, 150),
+                'hourly_rate' => $faker->randomNumber(10, 25),
                 'city_id' => rand(1, 14),
                 'slug' => Str::slug($title) . '-' . uniqid(),
                 'created_at' => $faker->dateTimeBetween('-1 year', 'now'),

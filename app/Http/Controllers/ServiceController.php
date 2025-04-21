@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreServiceRequest;
 use App\Models\Category;
+use App\Models\City;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Models\Inquiry;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use App\Models\ServiceImage;
 
 class ServiceController extends Controller
 {
@@ -23,15 +27,61 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        //
+        if(!Auth::check()) return redirect()->route('login');
+        $categories = Category::all();
+        $cities = City::all();
+        return view('user.services.user-service-create' , compact('categories', 'cities'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreServiceRequest $request)
     {
-        //
+        if(!Auth::check()) return redirect()->route('login');
+
+        $service = new Service;
+
+        $service->title = $request->title;
+        $service->category_id = $request->category_id;
+        $service->description = $request->description;
+        $service->hourly_rate = $request->hourly_rate;
+        $service->city_id = $request->city_id;
+        $service->address = $request->address;
+        $service->user_id = Auth::user()->id;
+        $service->slug = $service->createSlug($request->title);
+        $service->save();
+
+          foreach ($request->uploaded_images as $filePath) {
+            // if you returned DB IDs instead, you could just do a relation attach
+            ServiceImage::create([
+                'image' => $filePath,
+                'service_id' => $service->id
+            ]);
+        }
+
+
+        return redirect()->route('user.profile')->with('success', 'Service published!');
+    }
+
+    public function upload(Request $request)
+    {
+        if(!Auth::check()) return redirect()->route('login');
+
+        // validate one image
+        $request->validate([
+            'image' => 'required|image|mimes:jpg,png,bmp|max:5120',
+        ]);
+
+        // store under storage/app/public/temp-service-images
+        $path = $request->file('image')->store('service-images', 'public');
+
+
+        // return JSON with whatever you need
+        return response()->json([
+            'success'   => true,
+            'file_path' => Storage::url($path),
+        ]);
     }
 
     /**
@@ -42,7 +92,7 @@ class ServiceController extends Controller
         $service = Service::where('slug', $slug)->firstOrFail();
 
         $userId = Auth::id();
-        
+
         //  Check if current user has an accepted inquiry on this service
         $hasAccepted = Inquiry::where([
                             ['service_id', $service->id],
@@ -58,10 +108,10 @@ class ServiceController extends Controller
                   ['status',     'accepted'],
               ])->value('id')
             : null;
-        
+
         if($service->reviews()->where('user_id', Auth::id())->exists()) {
             $reviews = $service->reviews()->where('user_id', Auth::id())->get();
-            
+
             $reviews = $reviews->merge($service->reviews()->latest()->get());
         }
 

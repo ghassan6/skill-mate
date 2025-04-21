@@ -42,9 +42,9 @@ Route::get('/category/{slug}/services', function ($slug) {
     return view('services.category-services-page', compact('category'));
 })->name('category.services');
 
-Route::get('/services/{slug}', [ServiceController::class , 'show'])->name('services.show');
-
 Route::Resource('/services', ServiceController::class);
+Route::post('/services/upload', [ServiceController::class, 'upload'])->name('services.upload');
+Route::get('/services/{slug}', [ServiceController::class , 'show'])->name('services.show');
 
 
 
@@ -65,6 +65,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [UserController::class, 'account'])->name('user.profile');
+
 
     // inquires
     Route::put('/inquiries/resolve', [InquiryController::class, 'resolveConflict'])->name('inquiries.resolve');
@@ -76,7 +78,6 @@ Route::middleware('auth')->group(function () {
     Route::Resource('/inquiries', InquiryController::class);
 
 
-    Route::get('/profile', [UserController::class, 'account'])->name('user.profile');
     Route::get('/{user}/services', [UserController::class, 'services'])->name('user.services');
 
     // notification routes

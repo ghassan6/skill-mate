@@ -146,7 +146,11 @@
                                                       id="bio"
                                                       name="bio"
                                                       placeholder="About me"
+                                                      maxlength="500"
                                                       style="height: 120px">{{ old('bio', $user->bio) }}</textarea>
+                                                      <div class="bio-counter text-muted">
+                                                        <span id="bio-char-count">{{ strlen(old('bio', $user->bio)) }}</span>/500
+                                                    </div>
                                             <label for="bio">About Me</label>
                                             @error('bio')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -226,18 +230,14 @@
 
     <script>
         // Preview profile picture before upload
-        document.getElementById('profile-picture').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    document.querySelector('.rounded-circle').src = event.target.result;
-                };
-                reader.readAsDataURL(file);
-                // Auto-submit the form if you want immediate upload
-                // document.getElementById('update-form').submit();
+        const bioTextarea = document.getElementById('bio');
+            const charCount = document.getElementById('bio-char-count');
+
+            if (bioTextarea && charCount) {
+                bioTextarea.addEventListener('input', function() {
+                    charCount.textContent = this.value.length;
+                });
             }
-        });
     </script>
     </x-user-sidebar>
 </x-layout>
