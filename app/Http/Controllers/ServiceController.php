@@ -11,6 +11,7 @@ use App\Models\Inquiry;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\ServiceImage;
+use App\Models\User;
 
 class ServiceController extends Controller
 {
@@ -60,8 +61,13 @@ class ServiceController extends Controller
             ]);
         }
 
+        // update the listing limit after adding a new service
+        $user = Auth::user();
+        $user->listing_limit = $user->listing_limit - 1;
+        $user->save();
 
-        return redirect()->route('user.profile')->with('success', 'Service published!');
+
+        return redirect()->route('user.profile')->with('status', 'Service published!');
     }
 
     public function upload(Request $request)
@@ -149,4 +155,13 @@ class ServiceController extends Controller
     {
         //
     }
+
+    public function activate() {
+
+    }
+    public function promote() {
+
+    }
+
+
 }

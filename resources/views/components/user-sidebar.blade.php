@@ -48,20 +48,11 @@
             </li>
             <li>
                 <a href="{{route('services.create')}}" class="{{request()->routeIs('services.create') ? 'active' : ''}}">
-                    <i class='bx bx-cog'></i> Add New Service
+                    <i class='bx bx-plus'></i> Add New Service
                 </a>
             </li>
         </ul>
 
-        <!-- Favorites Quick View -->
-        <div class="sidebar-footer p-3">
-            <h6 class="sidebar-title">Quick Links</h6>
-            <ul class="quick-links">
-                <li><a href="#"><i class='bx bx-bookmark'></i> Saved Items</a></li>
-                <li><a href="#"><i class='bx bx-history'></i> Recent Views</a></li>
-                <li><a href="#"><i class='bx bx-star'></i> Top Rated</a></li>
-            </ul>
-        </div>
     </div>
 
     <div class="content">

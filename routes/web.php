@@ -24,8 +24,7 @@ Route::Resource('/contact', ContactController::class);
 Route::Resource('/categories', CategoryController::class);
 
 // public user profile route
-Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
-Route::get('/users/{user}/services', [UserController::class, 'services'])->name('users.services');
+Route::get('/users/{user}/profile', [UserController::class, 'show'])->name('users.show');
 Route::get('/users/{user}/reviews', [UserController::class, 'reviews'])->name('users.reviews');
 
 // Legal routes
@@ -57,15 +56,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/services/{service}/save', [SavedServiceController::class, 'toggleSaved'])
         ->name('services.save');
 
-    // Bulk remove saved services
-    // Route::delete('/saved-services/remove', [SavedServiceController::class, 'bulkRemove'])
-    //     ->name('saved-services.bulk-remove');
 
     // private profile
     Route::get('/user/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/profile', [UserController::class, 'account'])->name('user.profile');
+    Route::get('/{user}/services', [UserController::class, 'services'])->name('user.services');
+
 
 
     // inquires
@@ -78,7 +76,6 @@ Route::middleware('auth')->group(function () {
     Route::Resource('/inquiries', InquiryController::class);
 
 
-    Route::get('/{user}/services', [UserController::class, 'services'])->name('user.services');
 
     // notification routes
     Route::get('/notifications/{notification}/view-service', [NotificationController::class, 'viewService'])->name('notifications.viewService');
@@ -99,6 +96,11 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/conversations/{conversation}/messages', [MessageController::class, 'store'])
     ->name('conversations.messages.store');
+
+    // services actions
+    Route::post('/{service}/activate', [ServiceController::class, 'activate'])->name('services.toggle-status');
+    Route::post('/{service}/promote', [ServiceController::class, 'promote'])->name('services.promote');
+
 });
 
 

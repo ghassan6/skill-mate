@@ -164,19 +164,6 @@
 
                                     </div>
 
-                                    <!-- Is Featured -->
-                                    <div class="mb-4">
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input"
-                                                   type="checkbox"
-                                                   id="is_featured"
-                                                   name="is_featured"
-                                                   value='1'
-                                            <label class="form-check-label fw-bold" for="is_featured">Feature this service</label>
-                                        </div>
-                                        <small class="text-muted">Featured services appear at the top of search results</small>
-                                    </div>
-
                                     <div class="d-flex justify-content-between mt-5">
                                         <button type="button" class="btn btn-outline-secondary btn-lg prev-step">Previous</button>
                                         <button type="button" class="btn btn-primary btn-lg next-step">Next: Location</button>
@@ -289,7 +276,6 @@
                                             <div class="review-content">
                                                 <p><strong>City:</strong> <span id="review-city"></span></p>
                                                 <p><strong>Address:</strong> <span id="review-address"></span></p>
-                                                {{-- <p><strong>Service Radius:</strong> <span id="review-radius"></span> miles</p> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -301,7 +287,7 @@
                                                name="terms"
                                                required>
                                         <label class="form-check-label" for="terms">
-                                            I agree to the <a href="#" class="text-primary">Terms of Service</a> and <a href="#" class="text-primary">Privacy Policy</a>
+                                            I agree to the <a href="{{route('terms')}}" class="text-primary" target="_blank">Terms of Service</a>
                                         </label>
                                         @error('terms')
                                             <div class="invalid-feedback">{{ $message }}</div>

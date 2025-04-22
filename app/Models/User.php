@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -128,5 +129,11 @@ class User extends Authenticatable
         return Conversation::where('user_one_id', $this->id)
             ->orWhere('user_two_id', $this->id);
     }
-
+    public function completedServices()
+    {
+        return $this->services()
+            ->whereHas('inquiries', function ($query) {
+                $query->where('status', 'completed');
+            });
+    }
 }

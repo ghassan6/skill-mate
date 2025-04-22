@@ -64,11 +64,8 @@
                                 <div class="col-md-4 text-md-end">
                                     <div class="d-flex flex-column">
                                         <h5 class="mb-2" style="color: #1E60AA;">
-                                            @if($service->type == 'offer')
                                                 {{ $service->hourly_rate }} JOD <small class="text-muted">/ hour</small>
-                                            @else
-                                                {{ $service->min_price }} - {{ $service->max_price }} JOD
-                                            @endif
+
                                         </h5>
 
                                         <div class="d-flex justify-content-end gap-2 mt-2">
@@ -78,7 +75,7 @@
                                                     <i class="fas fa-heart"></i> Remove
                                                 </button>
                                             </form>
-                                            <a href="{{ route('services.show', $service->id) }}" class="btn btn-sm btn-primary">
+                                            <a href="{{ route('services.show', $service->slug) }}" class="btn btn-sm btn-primary">
                                                 <i class="fas fa-eye me-1"></i> View
                                             </a>
                                         </div>

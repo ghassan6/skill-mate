@@ -18,7 +18,8 @@ class UserController extends Controller
 
 
     public function services() {
-         return view('user.services');
+        $services = Auth::user()->services()->paginate(10);
+         return view('user.services' , compact('services'));
     }
 
     // for public routes
