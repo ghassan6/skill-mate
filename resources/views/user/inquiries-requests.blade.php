@@ -325,7 +325,7 @@
                                                           placeholder=" "
                                                           style="height: 100px"></textarea>
                                                 <label for="conflictMessage">
-                                                    <i class="fas fa-pen-fancy me-2"></i>Add a personal note (optional)
+                                                    <i class="fas fa-pen-fancy me-2 fs-3"></i>Add a personal note to Declined users (optional)
                                                 </label>
                                             </div>
                                         </div>

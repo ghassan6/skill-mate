@@ -174,7 +174,7 @@ class InquiryController extends Controller
         $inquiry->completed_at = now();
         $inquiry->save();
 
-       
+
         $inquiry->user->notify(new ServiceCompletedNotification($inquiry));
         $inquiry->service->user->notify(new ServiceCompletedNotification($inquiry));
 
@@ -186,7 +186,9 @@ class InquiryController extends Controller
     {
         $request->validate([
             'accept_id' => 'required|exists:inquiries,id',
-            'message' => 'required|string|max:255',
+            'message' => 'nullable|string|max:255',
+        ], [
+            'accept_id.required' => 'Please Select one Inquiry to proceed'
         ]);
 
         $acceptId = $request->input('accept_id');

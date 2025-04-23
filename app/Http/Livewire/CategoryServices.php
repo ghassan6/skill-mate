@@ -158,7 +158,12 @@ class CategoryServices extends Component
         }
 
 
-        $services = $query->paginate(12);
+        $services = $query
+        ->with('images')
+        ->where('status', 'active')
+        ->orderByDesc('is_featured')
+        ->orderBy('featured_until')
+        ->paginate(12);
         $cities = City::all();
 
         return view('livewire.category-services', compact('services', 'cities', 'category'));

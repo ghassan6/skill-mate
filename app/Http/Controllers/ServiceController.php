@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreServiceRequest;
+use App\Http\Requests\UpdateServiceRequest;
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Models\Inquiry;
+use App\Models\Payment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\ServiceImage;
 use App\Models\User;
+use Carbon\Carbon;
 
 class ServiceController extends Controller
 {
@@ -76,11 +79,10 @@ class ServiceController extends Controller
 
         // validate one image
         $request->validate([
-            'image' => 'required|image|mimes:jpg,png,bmp|max:5120',
+            'image' => 'required|image|mimes:jpg,png,bmp,gif|max:5120',
         ]);
 
-        // store under storage/app/public/temp-service-images
-        $path = $request->file('image')->store('service-images', 'public');
+        $path = $request->file('image')->store('images/service-images', 'public');
 
 
         // return JSON with whatever you need
@@ -137,15 +139,36 @@ class ServiceController extends Controller
      */
     public function edit(Service $service)
     {
-        //
+        if($service->user_id != Auth::id()) return abort(403);
+        $categories = Category::all();
+        $cities = City::all();
+        return view('user.services.user-edit-service', compact('service', 'categories', 'cities'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Service $service)
+    public function update(UpdateServiceRequest $request, Service $service)
     {
-        //
+
+        $service->fill($request->validated());
+        $service->save();
+
+        if($request->has('images')) {
+            foreach($request->file('images') as $image) {
+                $path = $image->store('images/service-images', 'public');
+
+                ServiceImage::create([
+                    'service_id'=> $service->id,
+                    'image' => $path,
+                ]);
+
+            }
+
+        }
+
+        return redirect()->route('user.services', Auth::user())->with('success', 'Service has been updated successfully');
+
     }
 
     /**
@@ -153,13 +176,51 @@ class ServiceController extends Controller
      */
     public function destroy(Service $service)
     {
-        //
+       if($service->user_id != Auth::id()) abort(403);
+
+       $service->delete();
+
+       return response()->noContent();
     }
 
-    public function activate() {
+    public function activate(Service $service) {
 
+
+        $service->status == 'inactive' ? $service->update(['status'=> 'active']) : $service->update(['status'=> 'inactive']);;
+
+        return response()->noContent();
     }
-    public function promote() {
+
+    public function showPaymentPage(Request $request, Service $service) {
+        $days = $request->input('days');
+        $amount = $request->input('amount');
+
+        return view('services.payment',compact('service', 'days', 'amount'));
+    }
+
+    public function promote(Request $request, Service $service)
+    {
+
+        // dd($service->status);
+        if ($service->status == 'inactive') {
+            $service->update(['status' => 'active']);
+        }
+
+        $payment = Payment::create([
+            'sender_id' => Auth::id(),
+            'service_id' => $request->service_id,
+            'amount' => $request->amount
+        ]);
+        $service->update([
+            'is_featured' => 1,
+            'featured_until' => Carbon::now()->addDays(intval($request->days))
+        ]);
+
+        $service = Service::find($request->service_id);
+
+        return redirect()
+            ->route('user.services', Auth::user())
+            ->with('status', $service->title . ' Has been promoted');
 
     }
 

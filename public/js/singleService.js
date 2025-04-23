@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
-        // review form validation 
+        // review form validation
         let form = document.getElementById('reviewForm');
 
         form.addEventListener('submit', function (e) {
@@ -154,26 +154,26 @@ document.addEventListener('DOMContentLoaded', function () {
         function validateReview(e) {
             let rating = parseInt(document.getElementById('ratingInput').value);
             let comment = document.getElementById('comment').value.trim();
-        
+
             let ratingError = document.getElementById('ratingError');
             let commentError = document.getElementById('commentError');
-        
+
             // Clear previous errors
             ratingError.textContent = '';
             commentError.textContent = '';
-        
+
             let isValid = true;
-        
+
             if (isNaN(rating) || rating < 1 || rating > 5) {
                 ratingError.textContent = 'Please select a rating between 1 and 5.';
                 isValid = false;
             }
-        
+
             if (comment.length < 5 || comment.length > 200) {
                 commentError.textContent = 'Please write at least 5 characters and no longer than 200 characters ';
                 isValid = false;
             }
-        
+
             return isValid;
         }
 
@@ -192,10 +192,10 @@ document.addEventListener('DOMContentLoaded', function () {
             const commentInput = document.getElementById('comment');
             const ratingInput  = document.getElementById('ratingInput');
             const reviewInput  = document.getElementById('reviewId');
-          
+
             if (review) {
               // Edit mode
-              form.action       = `/reviews/${review.id}`;  // build update URL directly
+              form.action = `/reviews/${review.id}`;
               methodInput.value = 'PUT';
               commentInput.value = review.comment;
               ratingInput.value = review.rating;
@@ -203,27 +203,19 @@ document.addEventListener('DOMContentLoaded', function () {
             //   highlightStars(review.rating);
             } else {
               // Add mode
-              form.action       = defaultUrl;  // restore original store URL
+              form.action = defaultUrl;
               methodInput.value = 'POST';
               commentInput.value = '';
               ratingInput.value = 0;
               reviewInput.value = '';
             //   highlightStars(0);
             }
-          
+
             new bootstrap.Modal(document.getElementById('reviewModal')).show();
           }
 
-          function highlightStars(rating) {
-            const stars = document.querySelectorAll('#starRating .star');
-            stars.forEach((star, index) => {
-                if (index < rating) {
-                    star.classList.add('text-warning');
-                } else {
-                    star.classList.remove('text-warning');
-                }
-            });
-          }
-          
-          
 });
+
+
+
+

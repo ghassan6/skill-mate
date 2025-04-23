@@ -14,6 +14,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\MessageController;
 use App\Models\Category;
 use App\Http\Controllers\SavedServiceController;
+use App\Http\Controllers\ServiceImageController;
 use App\Models\Conversation;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -98,8 +99,11 @@ Route::middleware('auth')->group(function () {
     ->name('conversations.messages.store');
 
     // services actions
-    Route::post('/{service}/activate', [ServiceController::class, 'activate'])->name('services.toggle-status');
+    Route::put('/{service}/activate', [ServiceController::class, 'activate'])->name('services.toggle-status');
+    Route::get('services/{service}/promote/payment', [ServiceController::class, 'showPaymentPage'])->name('services.promote.payment');
     Route::post('/{service}/promote', [ServiceController::class, 'promote'])->name('services.promote');
+    Route::delete('/service-images/{serviceImage}', [ServiceImageController::class, 'destroy'])->name('service-image.delete');
+
 
 });
 

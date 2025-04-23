@@ -131,15 +131,15 @@
                             <div class="col-md-6 col-lg-4 mb-4">
                                 <div class="card service-card h-100 border-0 shadow-sm">
                                     <div class="position-relative">
-                                        <img src="{{ $service->images->first() ? asset($service->images->first()->image) : asset('images/services/service-default.png') }}"
+                                        <img src="{{ Str::contains($service->images->first(), 'service-imagesx') ? asset('storage/' . $service->images->first()->image) : asset('images/services/service-default.png') }}"
                                             class="card-img-top"
                                             alt="{{ $service->title }}"
                                             style="height: 180px; object-fit: cover;">
-                                        <div class="card-badge position-absolute top-0 end-0 m-2">
-                                            <span class="badge bg-warning text-dark">
-                                                Hourly Rate
-                                            </span>
-                                        </div>
+                                            @if($service->is_featured)
+                                            <div class="position-absolute end-0 top-0 bg-warning text-dark px-3 py-1 small fw-bold" style="z-index: 999">
+                                                <i class="fas fa-crown me-1" ></i> Featured
+                                            </div>
+                                            @endif
                                         <div class="card-views position-absolute bottom-0 start-0 m-2">
                                             <span class="badge bg-dark bg-opacity-75 text-white">
                                                 <i class="fas fa-eye me-1"></i> {{ $service->views }}

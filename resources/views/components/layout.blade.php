@@ -65,6 +65,8 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    {{-- Sweet alert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 <div class="container-fluid nav-bar bg-light">
@@ -130,6 +132,9 @@
                             </x-nav-link>
                             <x-nav-link href="{{ route('saved-services.index') }}" class="dropdown-item mb-2 fs-5">
                                 <i class="fas fa-heart me-2"></i> Favorites
+                            </x-nav-link>
+                            <x-nav-link href="{{ route('user.services' , Auth::user()) }}" class="dropdown-item mb-2 fs-5">
+                                <i class="fas fa-wrench me-2"></i> My Services
                             </x-nav-link>
                             <form action="{{ route('logout') }}" method="POST" class="dropdown-item">
                                 @csrf

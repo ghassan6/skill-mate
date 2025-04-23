@@ -32,6 +32,16 @@
             <!-- Main Content Column -->
             <div class="col-lg-8">
                 <!-- Service Title -->
+                @if($service->user_id == Auth::id() && $service->status == 'inactive')
+                <div class="alert alert-warning border-warning bg-warning bg-opacity-10 mb-4 d-flex align-items-center">
+                    <i class="fas fa-exclamation-triangle me-3 fs-4 text-warning"></i>
+                    <div>
+                        <h5 class="alert-heading mb-1">Important Notice</h5>
+                        <p class="mb-0">This serivice is currently <span class="fw-bold fs-5">Inactive</span> and is Not accessable By others</p>
+                    </div>
+                </div>
+
+                @endif
                 <h1 class="fw-bold mb-3">{{ $service->title }}</h1>
 
                 <!-- Location Badge -->
@@ -47,7 +57,7 @@
                     <div class="carousel-inner">
                         @foreach ($service->images as $image)
                             <div class="carousel-item @if($loop->first) active @endif">
-                                <img src="{{ asset($image->image) }}" class="d-block w-100" style="height: 500px; object-fit: cover;" alt="{{ $service->title }}">
+                                <img src="{{ asset(Str::contains($image->image, 'service-images') ? 'storage/' . $image->image : $image->image) }}" class="d-block w-100" style="height: 500px; object-fit: cover;" alt="{{ $service->title }}">
                             </div>
                         @endforeach
                     </div>
@@ -80,22 +90,24 @@
                             </div>
                             <div class="d-flex gap-2">
                                 <!-- Add to Favorites Button -->
-                                <form action="{{ route('services.save', $service->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @php
-                                        $isSaved = Auth::check() && auth()->user()->isServiceSaved($service->id);
-                                    @endphp
+                                @if($service->user_id != Auth::id())
+                                    <form action="{{ route('services.save', $service->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @php
+                                            $isSaved = Auth::check() && auth()->user()->isServiceSaved($service->id);
+                                        @endphp
 
-                                    <button type="submit"
-                                        class="btn btn-lg px-3 py-2 save-service-btn"
-                                        data-saved="{{ $isSaved ? '1' : '0' }}"
-                                        title="{{ $isSaved ? 'Remove from saved services' : 'Save this service' }}"
-                                        >
+                                        <button type="submit"
+                                            class="btn btn-lg px-3 py-2 save-service-btn"
+                                            data-saved="{{ $isSaved ? '1' : '0' }}"
+                                            title="{{ $isSaved ? 'Remove from saved services' : 'Save this service' }}"
+                                            >
 
-                                        <i class="{{ $isSaved ? 'fas' : 'far' }} fa-heart"></i>
-                                    </button>
+                                            <i class="{{ $isSaved ? 'fas' : 'far' }} fa-heart"></i>
+                                        </button>
 
-                                </form>
+                                    </form>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -118,16 +130,17 @@
                             <i class="fas fa-star text-warning me-2"></i> Reviews
                             <span class="badge bg-primary">{{ $service->reviews->count() }}</span>
                         </h3>
-
-                        @if(Auth::check() && $service->canReview(Auth::user()))
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
-                                <i class="fas fa-plus me-1"></i> Add Review
+                        @if($service->user_id != Auth::id())
+                            @if(Auth::check() && $service->canReview(Auth::user()))
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
+                                    <i class="fas fa-plus me-1"></i> Add Review
+                                </button>
+                            @elseif(Auth::check() && !$service->hasReviewed(Auth::user()) )
+                            <button class="btn btn-primary" disabled>
+                                    <i class="fas fa-times me-1"></i> You can add a review once the Service is completed
                             </button>
-                        @elseif(Auth::check() && !$service->hasReviewed(Auth::user()))
-                        <button class="btn btn-primary" disabled>
-                                <i class="fas fa-times me-1"></i> You can add a review once the Service is completed
-                        </button>
 
+                            @endif
                         @endif
                     </div>
 
@@ -154,7 +167,7 @@
                                                     <a class="mb-0 fw-bold d-block" href="{{route('users.show', $review->user )}}">
                                                         {{ $review->user->username }}</a>
                                                     <small class="text-muted">{{ $review->created_at->diffForHumans() }}</small>
-                                                    <small>{{$review->updated_at != null ? ' Edited' : ''}}</small>
+                                                    <small>{{$review->updated_at != $review->created_at ? ' Edited' : ''}}</small>
                                                 </div>
                                             </div>
                                             <div class="text-warning d-flex flex-column">
@@ -250,22 +263,9 @@
             <!-- Sidebar Column -->
             <div class="col-lg-4">
                 <!-- Owner Card -->
-                <x-owner-card :service="$service"></x-owner-card>
+                <x-owner-card :service="$service" :hasAccepted="$hasAccepted" :acceptedInquiryId="$acceptedInquiryId"></x-owner-card>
 
-                <!-- Mark as Completed Button (only shows for accepted inquiries) -->
-                @if($hasAccepted)
-                    <div class="card border-0 shadow-sm mt-4">
-                        <div class="card-body text-center">
-                            <form action="{{ route('inquiries.complete', $acceptedInquiryId) }}" method="POST">
-                                @csrf
-                                @method('PUT')
-                                <button type="submit" class="btn btn-success btn-lg w-100 py-3">
-                                    <i class="fas fa-check-circle me-2"></i> Mark as Completed
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                @endif
+
 
                 <!-- Service Stats Card -->
                 <div class="card border-0 shadow-sm mt-4">

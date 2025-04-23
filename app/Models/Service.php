@@ -107,4 +107,13 @@ class Service extends Model
     }
 
     protected $dates = ['deleted_at'];
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    protected $casts = [
+        'featured_until' => 'datetime',
+    ];
 }

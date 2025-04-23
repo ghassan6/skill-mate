@@ -25,19 +25,19 @@ class ServiceImageSeeder extends Seeder
 
         ServiceImage::insert([
             [
-            'service_id' => 43,
+            'service_id' => 1,
             'image' => 'images/services/serviceCard.jpg',
             ],
             [
-            'service_id' => 43,
+            'service_id' => 1,
             'image' => 'images/services/service2.jpg',
             ],
             [
-            'service_id' => 43,
+            'service_id' => 1,
             'image' => 'images/services/service2w.jpg',
             ],
             [
-            'service_id' => 43,
+            'service_id' => 1,
             'image' => 'images/services/service1.jpg',
             ],
         ]);

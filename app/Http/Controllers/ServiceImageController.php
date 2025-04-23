@@ -60,6 +60,7 @@ class ServiceImageController extends Controller
      */
     public function destroy(ServiceImage $serviceImage)
     {
-        //
+        $serviceImage->delete();
+        return response()->noContent();
     }
 }

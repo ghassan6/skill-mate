@@ -28,7 +28,7 @@ class ServiceSeeder extends Seeder
             'Travel Services', 'other',
         ];
 
-        foreach (range(1, 20) as $i) {
+        foreach (range(1, 50) as $i) {
             $categoryIndex = array_rand($categories);
             $categoryName = $categories[$categoryIndex];
 
@@ -37,7 +37,7 @@ class ServiceSeeder extends Seeder
                 'category_id' => $categoryIndex + 1,
                 'title' => $title = $categoryName . ' Service by ' . $faker->firstName,
                 'description' => 'This ' . strtolower($categoryName) . ' service offers professional solutions. ' . $faker->paragraph,
-                'hourly_rate' => $faker->randomNumber(10, 25),
+                'hourly_rate' => rand(10, 25),
                 'city_id' => rand(1, 14),
                 'slug' => Str::slug($title) . '-' . uniqid(),
                 'created_at' => $faker->dateTimeBetween('-1 year', 'now'),
