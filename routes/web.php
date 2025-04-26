@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\UserController as AdminUserController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
@@ -15,9 +17,11 @@ use App\Http\Controllers\MessageController;
 use App\Models\Category;
 use App\Http\Controllers\SavedServiceController;
 use App\Http\Controllers\ServiceImageController;
-use App\Models\Conversation;
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])
+->middleware('banned')
+->name('home');
+
 Route::get('/about',[HomeController::class , 'about'])->name('about');
 
 Route::Resource('/contact', ContactController::class);
@@ -26,7 +30,6 @@ Route::Resource('/categories', CategoryController::class);
 
 // public user profile route
 Route::get('/users/{user}/profile', [UserController::class, 'show'])->name('users.show');
-Route::get('/users/{user}/reviews', [UserController::class, 'reviews'])->name('users.reviews');
 
 // Legal routes
 
@@ -43,12 +46,11 @@ Route::get('/category/{slug}/services', function ($slug) {
 })->name('category.services');
 
 Route::Resource('/services', ServiceController::class);
-Route::post('/services/upload', [ServiceController::class, 'upload'])->name('services.upload');
 Route::get('/services/{slug}', [ServiceController::class , 'show'])->name('services.show');
 
 
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'user' , 'banned'])->group(function () {
     // Display saved services
     Route::get('/user/saved-services', [SavedServiceController::class, 'index'])
         ->name('saved-services.index');
@@ -103,14 +105,34 @@ Route::middleware('auth')->group(function () {
     Route::get('services/{service}/promote/payment', [ServiceController::class, 'showPaymentPage'])->name('services.promote.payment');
     Route::post('/{service}/promote', [ServiceController::class, 'promote'])->name('services.promote');
     Route::delete('/service-images/{serviceImage}', [ServiceImageController::class, 'destroy'])->name('service-image.delete');
+    Route::post('/services/upload', [ServiceController::class, 'upload'])->name('services.upload');
+
 
 
 });
 
 
 
-Route::prefix('user')->middleware('auth')->group(function () {
 
+
+Route::middleware(['auth', 'admin'])
+->prefix('admin')
+->name('admin.')
+->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+    // user routes
+    Route::get('/users/index' , [AdminUserController::class, 'index'])->name('users.index');
+    Route::delete('users/{user}', [AdminUserController::class , 'destroy'])->name('users.destroy');
+    Route::put('/users/{user}/ban', [AdminUserController::class, 'toggleBanUser'])->name('users.toggle-ban');
+    Route::get('/user/create', [AdminUserController::class, 'create'])->name('users.create');
+    Route::post('/users', [AdminUserController::class, 'store'])->name('users.store');
+    // Route::get('/users/services' , [AdminController::class, 'services'])->name('services.index');
+    // Route::get('/users/categories' , [AdminController::class, 'categories'])->name('categories.index');
+    // Route::get('/users/reviews' , [AdminController::class, 'reviews'])->name('reviews.index');
+    // Route::get('/users/reported-reviews' , [AdminController::class, 'reported-reviews'])->name('reported-reviews.index');
+    // Route::get('/users/settings' , [AdminController::class, 'settings'])->name('settings');
+    // Route::get('/users/logs' , [AdminController::class, 'logs'])->name('logs');
 });
 
 require __DIR__.'/auth.php';

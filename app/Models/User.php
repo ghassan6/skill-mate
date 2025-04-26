@@ -31,7 +31,7 @@ class User extends Authenticatable
         'phone_number',
         'bio',
         'listing_limit',
-        'is_blocked',
+        'banned_at',
     ];
 
     /**
@@ -135,5 +135,23 @@ class User extends Authenticatable
             ->whereHas('inquiries', function ($query) {
                 $query->where('status', 'completed');
             });
+    }
+
+    public function isBanned()
+    {
+        return !is_null($this->banned_at);
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class, 'reported_user_id');
+    }
+
+    protected static function booted()
+    {
+        static::deleting(function ($user) {
+            // Delete all related services when a user is soft deleted
+            $user->services()->delete();
+        });
     }
 }

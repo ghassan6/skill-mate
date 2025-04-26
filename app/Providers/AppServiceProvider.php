@@ -22,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Livewire::component('categories-list', \App\Http\Livewire\CategoriesList::class);
         Livewire::component('category-services' , \App\Http\Livewire\CategoryServices::class);
+        Livewire::component('admin.users-index', \App\Livewire\Admin\UsersIndex::class);
 
     }
 }

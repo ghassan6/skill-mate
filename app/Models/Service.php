@@ -106,6 +106,10 @@ class Service extends Model
         return $slug;
     }
 
+    public function reports() {
+        return $this->hasMany(Report::class);
+    }
+
     protected $dates = ['deleted_at'];
 
     public function getRouteKeyName()

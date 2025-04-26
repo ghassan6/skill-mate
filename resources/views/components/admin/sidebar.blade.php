@@ -1,0 +1,105 @@
+<div class="admin-container">
+    <!-- Sidebar -->
+    <div class="admin-sidebar">
+        <!-- Logo/Branding -->
+        <div class="sidebar-brand">
+            <i class="fas fa-shield-alt admin-icon"></i>
+            <span class="brand-text">AdminPro</span>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-title">Dashboard</div>
+                <a href="{{route('admin.dashboard')}}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                    <i class="fas fa-home nav-icon"></i>
+                    <span>Overview</span>
+                </a>
+            </div>
+
+            <!-- Users Section -->
+            <div class="nav-section">
+                <div class="nav-title">User Management</div>
+                <a href="{{route('admin.users.index')}}" class="nav-link {{ request()->routeIs('admin.users.index') ? 'active' : '' }}">
+                    <i class="fas fa-users nav-icon"></i>
+                    <span>All Users</span>
+                    <span class="badge">{{\App\Models\User::count() > 99 ?  '99+' : \App\Models\User::count()}}</span>
+                </a>
+                <a href="{{route('admin.users.create')}}" class="nav-link {{ request()->routeIs('admin.users.create') ? 'active' : ''}}">
+                    <i class="fas fa-user-plus nav-icon"></i>
+                    <span>Create User</span>
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fas fa-user-slash nav-icon"></i>
+                    <span>Banned Users</span>
+                    <span class="badge warning">42</span>
+                </a>
+            </div>
+
+            <!-- Categories Section -->
+            <div class="nav-section">
+                <div class="nav-title">Categories</div>
+                <a href="#" class="nav-link">
+                    <i class="fas fa-tags nav-icon"></i>
+                    <span>All Categories</span>
+                    <span class="badge">28</span>
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fas fa-plus-circle nav-icon"></i>
+                    <span>Create Category</span>
+                </a>
+            </div>
+
+            <!-- Services Section -->
+            <div class="nav-section">
+                <div class="nav-title">Services</div>
+                <a href="#" class="nav-link">
+                    <i class="fas fa-cogs nav-icon"></i>
+                    <span>Manage Services</span>
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fas fa-plus nav-icon"></i>
+                    <span>Add Service</span>
+                </a>
+            </div>
+
+            <!-- Reports Section -->
+            <div class="nav-section">
+                <div class="nav-title">Reports</div>
+                <a href="#" class="nav-link">
+                    <i class="fas fa-flag nav-icon"></i>
+                    <span>User Reports</span>
+                    <span class="badge danger">15</span>
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fas fa-chart-bar nav-icon"></i>
+                    <span>Analytics</span>
+                </a>
+            </div>
+
+            <!-- System Section -->
+            <div class="nav-section">
+                <div class="nav-title">System</div>
+                <a href="#" class="nav-link">
+                    <i class="fas fa-cog nav-icon"></i>
+                    <span>Settings</span>
+                </a>
+                <form action="{{route('logout')}}" class="nav-link" method="POST">
+                    @csrf
+                    <i class="fas fa-sign-out-alt nav-icon"></i>
+                    <button type="submit" class="btn btn-link p-0 ms-n3 text-decoration-none text-black fs-5">Logout</button>
+                </form>
+            </div>
+        </nav>
+
+        <!-- Collapse Button -->
+        <div class="sidebar-collapse">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="admin-content">
+        {{ $slot }}
+    </div>
+</div>

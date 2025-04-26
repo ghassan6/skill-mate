@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('phone_number', 15)->nullable();
             $table->text('bio')->nullable();
             $table->integer('listing_limit')->default(5);
-            $table->boolean('is_blocked')->default(false);
+            $table->timestamp('banned_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

@@ -91,7 +91,7 @@
 
                             <!-- Service Image -->
                             <div class="service-image-container">
-                                <img src="{{ asset($service->images->first()->image) }}"
+                                <img src="{{ asset(Str::contains($service->images->first()->image, 'service-images') ? 'storage/' . $service->images->first()->image : $service->images->first()->image) }}"
                                      class="card-img-top"
                                      alt="{{ $service->title }}"
                                      style="height: 180px; object-fit: cover;">

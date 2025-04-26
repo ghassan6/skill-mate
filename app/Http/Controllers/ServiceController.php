@@ -31,7 +31,10 @@ class ServiceController extends Controller
      */
     public function create()
     {
+
         if(!Auth::check()) return redirect()->route('login');
+        if( Auth::user()->role != 'user') return abort(403);
+
         $categories = Category::all();
         $cities = City::all();
         return view('user.services.user-service-create' , compact('categories', 'cities'));
@@ -88,7 +91,7 @@ class ServiceController extends Controller
         // return JSON with whatever you need
         return response()->json([
             'success'   => true,
-            'file_path' => Storage::url($path),
+            'file_path' => $path,
         ]);
     }
 
@@ -139,6 +142,7 @@ class ServiceController extends Controller
      */
     public function edit(Service $service)
     {
+
         if($service->user_id != Auth::id()) return abort(403);
         $categories = Category::all();
         $cities = City::all();
