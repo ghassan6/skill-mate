@@ -2,7 +2,7 @@
     <x-slot:title>Create user</x-slot:title>
     <script src="{{asset('js/admin/user-managment.js')}}" defer></script>
 
-    <link rel="stylesheet" href="{{asset('css/admin/users.css')}}">
+    <link rel="stylesheet" href="{{asset('css/admin/main.css')}}">
 
     <x-admin.sidebar>
         <div class="admin-container">
@@ -27,7 +27,6 @@
                         </div>
                     @endif
 
-                    {{-- for images errors --}}
                     @if($errors->any())
                         <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
                             <ul class="mb-0">

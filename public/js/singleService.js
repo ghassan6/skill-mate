@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // for contact modal
 
     // Contact Button Logic (for triggering the modal)
-    const contactBtn = document.querySelector('.contact-btn');
+    let contactBtn = document.querySelector('.contact-btn');
     if (contactBtn) {
         contactBtn.addEventListener('click', function(e) {
             const isAuthenticated = this.dataset.authenticated === 'true';
@@ -108,12 +108,6 @@ document.addEventListener('DOMContentLoaded', function () {
         dateFormat: "Y-m-d H:i",
         minuteIncrement: 30,
         minDate: "today",
-        disable: [
-            function(date) {
-                // Disable weekends (Saturday=6, Sunday=0)
-                return (date.getDay() === 0 || date.getDay() === 6);
-            }
-        ]
     });
 
     // Form submission handling
@@ -187,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         function openReviewModal(review = null) {
             const form         = document.getElementById('reviewForm');
-            const defaultUrl   = form.dataset.defaultAction;   // ← our Blade‑rendered store URL
+            const defaultUrl   = form.dataset.defaultAction;
             const methodInput  = document.getElementById('methodField');
             const commentInput = document.getElementById('comment');
             const ratingInput  = document.getElementById('ratingInput');

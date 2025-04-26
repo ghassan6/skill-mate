@@ -166,9 +166,10 @@
     object-fit: cover;
 }
 
-.user-details {
+.rating-details {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 12px;
 }
 
 .username {
@@ -365,3 +366,137 @@
         padding: 15px;
     }
 }
+
+/* services  */
+.admin-services-container {
+    padding: 20px;
+    background-color: #f8fafc;
+}
+
+.service-info {
+    max-width: 250px;
+}
+
+.service-title {
+    font-weight: 500;
+    color: #2d3748;
+    margin-bottom: 4px;
+}
+
+.service-owner {
+    font-size: 0.8125rem;
+    line-height: 1.4;
+}
+
+.owner-link {
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+.owner-link:hover {
+    text-decoration: none;
+    transform: scale(1.1)
+}
+
+/* Status badges */
+.badge {
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+.badge.bg-success {
+    background-color: #38a169;
+}
+
+.badge.bg-warning {
+    background-color: #dd6b20;
+    color: white;
+}
+
+.badge.bg-secondary {
+    background-color: #a0aec0;
+}
+
+.badge.bg-primary {
+    background-color: #4299e1;
+}
+
+.badge.bg-featured {
+    background-color: #fdf648;
+    color: #000;
+}
+
+/* Table actions */
+
+.table-responsive {
+    min-height: 15vh;
+}
+.table-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.table-actions .btn {
+    padding: 5px 8px;
+    border-radius: 6px;
+    font-size: 0.8125rem;
+}
+
+/* Featured status */
+.featured-badge {
+    position: relative;
+}
+
+.featured-expiry {
+    font-size: 0.7rem;
+    color: #718096;
+    display: block;
+    margin-top: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .table-actions {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .service-info {
+        max-width: 200px;
+    }
+}
+
+/* for the feature modal */
+
+#featureServiceModal .modal-content {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+#featureServiceModal .modal-header {
+    border-bottom: 1px solid #eee;
+    padding: 1.2rem;
+}
+
+#featureServiceModal .modal-title {
+    font-weight: 600;
+    color: #2d3748;
+}
+
+#featureServiceModal .modal-body {
+    padding: 1.5rem;
+}
+
+#featureServiceModal .modal-footer {
+    border-top: 1px solid #eee;
+    padding: 1rem 1.5rem;
+}
+
+#featureUntil {
+    padding: 10px 12px;
+    border-radius: 6px;
+}
+

@@ -29,11 +29,6 @@
                     <i class="fas fa-user-plus nav-icon"></i>
                     <span>Create User</span>
                 </a>
-                <a href="#" class="nav-link">
-                    <i class="fas fa-user-slash nav-icon"></i>
-                    <span>Banned Users</span>
-                    <span class="badge warning">42</span>
-                </a>
             </div>
 
             <!-- Categories Section -->
@@ -53,13 +48,9 @@
             <!-- Services Section -->
             <div class="nav-section">
                 <div class="nav-title">Services</div>
-                <a href="#" class="nav-link">
+                <a href="{{route('admin.services.index')}}" class="nav-link {{request()->routeIs('admin.services.index') ? 'active' : ''}}">
                     <i class="fas fa-cogs nav-icon"></i>
                     <span>Manage Services</span>
-                </a>
-                <a href="#" class="nav-link">
-                    <i class="fas fa-plus nav-icon"></i>
-                    <span>Add Service</span>
                 </a>
             </div>
 

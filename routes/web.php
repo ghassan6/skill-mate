@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\admin\UserController as AdminUserController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
@@ -127,6 +128,12 @@ Route::middleware(['auth', 'admin'])
     Route::put('/users/{user}/ban', [AdminUserController::class, 'toggleBanUser'])->name('users.toggle-ban');
     Route::get('/user/create', [AdminUserController::class, 'create'])->name('users.create');
     Route::post('/users', [AdminUserController::class, 'store'])->name('users.store');
+
+    // services routes
+    Route::get('/services/index', [AdminServiceController::class, 'index'])->name('services.index');
+    Route::delete('/services/{service}' , [AdminServiceController::class, 'destroy'])->name('services.destroy');
+    Route::put('/services/{service}/activate' , [AdminServiceController::class, 'toggleStatus'])->name('service.toggle-status');
+    Route::post('/service/promote', [AdminServiceController::class, 'promote'])->name('services.promote');
     // Route::get('/users/services' , [AdminController::class, 'services'])->name('services.index');
     // Route::get('/users/categories' , [AdminController::class, 'categories'])->name('categories.index');
     // Route::get('/users/reviews' , [AdminController::class, 'reviews'])->name('reviews.index');

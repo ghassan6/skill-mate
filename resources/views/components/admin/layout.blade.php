@@ -19,6 +19,9 @@
     {{-- custom css --}}
     <link rel="stylesheet" href="{{asset('css/admin/dashboard.css')}}">
 
+    {{-- custom js --}}
+    <script src="{{asset('js/admin/index.js')}}" defer></script>
+
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,17 +42,17 @@
 
     {{-- Sweet alert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{asset('js/admin/index.js')}}" defer></script>
 
     {{-- chart JS --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    {{-- flatpicker --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 </head>
 <body>
     {{ $slot}}
-    <script>
-        console.log('Livewire scripts loaded');
-    </script>
 </body>
 </html>
 

@@ -37,11 +37,6 @@
                             @endif
 
                             <span class="badge bg-light text-dark rounded-pill px-3 py-2">
-                                <i class="fas fa-star text-warning me-1"></i>
-                                {{ number_format($user->rating, 1) }}
-                            </span>
-
-                            <span class="badge bg-light text-dark rounded-pill px-3 py-2">
                                 <i class="fas fa-calendar-alt text-primary me-1"></i>
                                 Joined {{ $user->created_at->format('M Y') }}
                             </span>
@@ -50,16 +45,16 @@
 
                     <!-- Stats -->
                     <div class="col-md-3">
-                        <div class="d-flex justify-content-between bg-light rounded-3 p-3">
+                        <div class="d-flex justify-content-center bg-light rounded-3 p-3">
                             <div class="text-center px-2">
                                 <div class="h4 fw-bold mb-1 text-primary">{{ $user->services->count() }}</div>
                                 <small class="text-muted">Services</small>
                             </div>
 
-                            <div class="text-center px-2">
+                            {{-- <div class="text-center px-2">
                                 <div class="h4 fw-bold mb-1 text-primary">{{ $user->followers_count }}</div>
                                 <small class="text-muted">Followers</small>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -112,9 +107,11 @@
                                             <img src="{{ $service->images->first() ? asset($service->images->first()->image) : asset('images/services/service-default.png') }}"
                                                  class="card-img-top"
                                                  alt="{{ $service->title }}">
-                                            <span class="position-absolute top-0 end-0 m-2 badge bg-{{ $service->type == 'offer' ? 'warning text-dark' : 'primary' }}">
-                                                {{ $service->type == 'offer' ? 'Service Offer' : 'Service Request' }}
-                                            </span>
+                                                 @if($service->is_featured)
+                                                 <div class="position-absolute end-0 top-0 bg-warning text-dark px-3 py-1 small fw-bold" style="z-index: 999">
+                                                     <i class="fas fa-crown me-1" ></i> Featured
+                                                 </div>
+                                                 @endif
                                         </div>
                                         <div class="card-body">
                                             <h5 class="card-title mb-2">
@@ -124,11 +121,7 @@
                                             </h5>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <span class="text-primary fw-bold">
-                                                    @if($service->type == 'offer')
                                                         {{ $service->hourly_rate }} <small class="text-muted">JOD/Hour</small>
-                                                    @else
-                                                        {{ $service->min_price }} - {{ $service->max_price }} <small class="text-muted">JOD</small>
-                                                    @endif
                                                 </span>
                                                 @if($service->type == 'offer')
                                                 <span class="text-warning small">

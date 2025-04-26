@@ -1,7 +1,7 @@
 <x-admin.layout>
     <x-slot name="title">All Users</x-slot>
     <script src="{{asset('js/admin/user-managment.js')}}" defer></script>
-    <link rel="stylesheet" href="{{asset('css/admin/users.css')}}">
+    <link rel="stylesheet" href="{{asset('css/admin/main.css')}}">
     <x-admin.sidebar>
 
 
@@ -14,8 +14,4 @@
         <livewire:admin.users-index />
 
     </x-admin.sidebar>
-    <script>
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-    </script>
 </x-admin.layout>
