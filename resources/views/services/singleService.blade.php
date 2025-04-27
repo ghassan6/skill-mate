@@ -90,7 +90,7 @@
                             </div>
                             <div class="d-flex gap-2">
                                 <!-- Add to Favorites Button -->
-                                @if($service->user_id != Auth::id())
+                                @if($service->user_id != Auth::id() && Auth::user()->role != 'admin')
                                     <form action="{{ route('services.save', $service->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @php
@@ -130,7 +130,7 @@
                             <i class="fas fa-star text-warning me-2"></i> Reviews
                             <span class="badge bg-primary">{{ $service->reviews->count() }}</span>
                         </h3>
-                        @if($service->user_id != Auth::id())
+                        @if($service->user_id != Auth::id() && Auth::user()->role != 'admin')
                             @if(Auth::check() && $service->canReview(Auth::user()))
                                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
                                     <i class="fas fa-plus me-1"></i> Add Review

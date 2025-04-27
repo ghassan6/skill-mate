@@ -38,7 +38,7 @@
 
         <!-- contact Buttons -->
         <div class="d-grid gap-2 mt-3">
-            @if(Auth::check() && $service->user->id != Auth::id())
+            @if(Auth::check() && $service->user->id != Auth::id() && Auth::user()->role != 'admin')
                 @php
                     $existingInquiry = $service->inquiries()
                         ->where('user_id', Auth::id())
@@ -123,7 +123,7 @@
                     <i class="fas fa-sign-in-alt me-2"></i> Login to Contact
                 </a>
                 {{-- for the owner (manage, managing , edit, propmote) --}}
-            @else
+            @elseif($service->user_id == Auth::id())
                 <a href="{{ route('services.edit', $service) }}" class="btn btn-primary btn-lg px-4 py-2 fw-bold">
                     <i class="fas fa-gear me-2"></i> Manage
                 </a>

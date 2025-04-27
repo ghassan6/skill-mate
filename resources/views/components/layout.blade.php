@@ -79,47 +79,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <x-application-logo></x-application-logo>
-                <div class="navbar-nav me-auto">
-                    <x-nav-link href="{{route('home')}}" :active="request()->is('/')">Home</x-nav-link>
-                    <x-nav-link href="{{route('about')}}" :active="request()->is('about')" >About</x-nav-link>
-                    <x-nav-link href="{{route('categories.index')}}" :active="request()->is('categories')" >Categories</x-nav-link>
-                    <x-nav-link href="{{route('contact.index')}}" :active="request()->is('contact')">Contact</x-nav-link>
-                </div>
-                @if(Auth::check())
-                <div class="d-flex align-items-center">
-                    <!-- Add New Service Button -->
-                    <div class="me-4">
-                        <a href="{{ route('services.create') }}" class="btn btn-primary btn-sm rounded-pill px-3 py-2">
-                            <i class="fas fa-plus me-2"></i> Add New Service
-                        </a>
-                    </div>
 
-                    <!-- Notification Bell Icon with Badge -->
-                    <div class="position-relative me-4">
-                        <a href="{{ route('user.notifications') }}" class="nav-link position-relative">
-                            <i class="fas fa-bell fa-lg"></i>
-                            @if($unreadCount = Auth::user()->unreadNotifications->where('type' , '!=', \App\Notifications\NewInquiryNotification::class)->count())
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    {{ $unreadCount > 9 ? '9+' : $unreadCount }}
-                                    <span class="visually-hidden">unread notifications</span>
-                                </span>
-                            @endif
-                        </a>
+                {{-- if the user in admin --}}
+                @if(Auth::check() && Auth::user()->role == 'admin')
+                    <div class="navbar-nav me-auto">
+                        <x-nav-link href="{{route('admin.dashboard')}}" :active="request()->is('admin')">Dashboard</x-nav-link>
                     </div>
-                    <div class="position-relative me-3">
-                        <a href="{{ route('inquiries.requests') }}" class="nav-link position-relative">
-                            <i class="fas fa-helmet-safety fa-lg"></i>
-                            @if($unreadCount = Auth::user()->unreadNotifications->where('type' , \App\Notifications\NewInquiryNotification::class)->count())
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    {{ $unreadCount > 9 ? '9+' : $unreadCount }}
-                                    <span class="visually-hidden">unread inquires requests</span>
-                                </span>
-                            @endif
-                        </a>
-                    </div>
-
-                    <!-- User Dropdown -->
-                    <div class="nav-item dropdown">
+                    <div class="nav-item dropdown ms-auto">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img src="{{ asset(str_contains(Auth::user()->image, 'profile') ? 'storage/' . Auth::user()->image : Auth::user()->image) }}"
                                 alt="{{ Auth::user()->username }}'s image"
@@ -127,14 +93,8 @@
                                 {{ Auth::user()->username }}
                         </a>
                         <div class="dropdown-menu fade-up m-0 box-shadow px-2 mt-2">
-                            <x-nav-link href="{{ route('user.profile') }}" class="dropdown-item mb-2 fs-5">
+                            <x-nav-link href="" class="dropdown-item mb-2 fs-5">
                                 <i class="fas fa-user me-2"></i> Account
-                            </x-nav-link>
-                            <x-nav-link href="{{ route('saved-services.index') }}" class="dropdown-item mb-2 fs-5">
-                                <i class="fas fa-heart me-2"></i> Favorites
-                            </x-nav-link>
-                            <x-nav-link href="{{ route('user.services' , Auth::user()) }}" class="dropdown-item mb-2 fs-5">
-                                <i class="fas fa-wrench me-2"></i> My Services
                             </x-nav-link>
                             <form action="{{ route('logout') }}" method="POST" class="dropdown-item">
                                 @csrf
@@ -145,15 +105,83 @@
                             </form>
                         </div>
                     </div>
+                @else
+                    <div class="navbar-nav me-auto">
+                        <x-nav-link href="{{route('home')}}" :active="request()->is('/')">Home</x-nav-link>
+                        <x-nav-link href="{{route('about')}}" :active="request()->is('about')" >About</x-nav-link>
+                        <x-nav-link href="{{route('categories.index')}}" :active="request()->is('categories')" >Categories</x-nav-link>
+                        <x-nav-link href="{{route('contact.index')}}" :active="request()->is('contact')">Contact</x-nav-link>
+                    </div>
+                    @if(Auth::check())
+                    <div class="d-flex align-items-center">
+                        <!-- Add New Service Button -->
+                        <div class="me-4">
+                            <a href="{{ route('services.create') }}" class="btn btn-primary btn-sm rounded-pill px-3 py-2">
+                                <i class="fas fa-plus me-2"></i> Add New Service
+                            </a>
+                        </div>
+
+                        <!-- Notification Bell Icon with Badge -->
+                        <div class="position-relative me-4">
+                            <a href="{{ route('user.notifications') }}" class="nav-link position-relative">
+                                <i class="fas fa-bell fa-lg"></i>
+                                @if($unreadCount = Auth::user()->unreadNotifications->where('type' , '!=', \App\Notifications\NewInquiryNotification::class)->count())
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {{ $unreadCount > 9 ? '9+' : $unreadCount }}
+                                        <span class="visually-hidden">unread notifications</span>
+                                    </span>
+                                @endif
+                            </a>
+                        </div>
+                        <div class="position-relative me-3">
+                            <a href="{{ route('inquiries.requests') }}" class="nav-link position-relative">
+                                <i class="fas fa-helmet-safety fa-lg"></i>
+                                @if($unreadCount = Auth::user()->unreadNotifications->where('type' , \App\Notifications\NewInquiryNotification::class)->count())
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {{ $unreadCount > 9 ? '9+' : $unreadCount }}
+                                        <span class="visually-hidden">unread inquires requests</span>
+                                    </span>
+                                @endif
+                            </a>
+                        </div>
+
+                        <!-- User Dropdown -->
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                <img src="{{ asset(str_contains(Auth::user()->image, 'profile') ? 'storage/' . Auth::user()->image : Auth::user()->image) }}"
+                                    alt="{{ Auth::user()->username }}'s image"
+                                    class="profile-image-dropdown rounded-circle me-2">
+                                    {{ Auth::user()->username }}
+                            </a>
+                            <div class="dropdown-menu fade-up m-0 box-shadow px-2 mt-2">
+                                <x-nav-link href="{{ route('user.profile') }}" class="dropdown-item mb-2 fs-5">
+                                    <i class="fas fa-user me-2"></i> Account
+                                </x-nav-link>
+                                <x-nav-link href="{{ route('saved-services.index') }}" class="dropdown-item mb-2 fs-5">
+                                    <i class="fas fa-heart me-2"></i> Favorites
+                                </x-nav-link>
+                                <x-nav-link href="{{ route('user.services' , Auth::user()) }}" class="dropdown-item mb-2 fs-5">
+                                    <i class="fas fa-wrench me-2"></i> My Services
+                                </x-nav-link>
+                                <form action="{{ route('logout') }}" method="POST" class="dropdown-item">
+                                    @csrf
+                                    @method('POST')
+                                    <button type="submit" class="btn btn-link p-0 ms-n3 text-decoration-none text-black fs-5">
+                                        <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    @else
+                        <div class="navbar-nav">
+                            <x-nav-link href="{{route('login')}}" class="nav-item nav-link" :active="request()->is('login')">Login</x-nav-link>
+                            <x-nav-link href="{{route('register')}}" class="nav-item nav-link" :active="request()->is('register')">Register</x-nav-link>
+                        </div>
+                    @endif
                 </div>
-            @else
-                <div class="navbar-nav">
-                    <x-nav-link href="{{route('login')}}" class="nav-item nav-link" :active="request()->is('login')">Login</x-nav-link>
-                    <x-nav-link href="{{route('register')}}" class="nav-item nav-link" :active="request()->is('register')">Register</x-nav-link>
-                </div>
-            @endif
-            </div>
-        </nav>
+                @endif
+            </nav>
     </div>
     {{ $slot }}
 
