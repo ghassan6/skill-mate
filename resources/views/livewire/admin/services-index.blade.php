@@ -141,6 +141,8 @@
                     @endforeach
                 </tbody>
             </table>
+        @else
+        <p class="text-muted fs-4 ms-4">No Services Found</p>
         @endif
         </div>
 

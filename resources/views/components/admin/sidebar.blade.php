@@ -34,12 +34,12 @@
             <!-- Categories Section -->
             <div class="nav-section">
                 <div class="nav-title">Categories</div>
-                <a href="#" class="nav-link">
+                <a href="{{route('admin.categories.index')}}" class="nav-link {{request()->routeIs('admin.categories.index') ? 'active' : ''}}">
                     <i class="fas fa-tags nav-icon"></i>
                     <span>All Categories</span>
-                    <span class="badge">28</span>
+                    <span class="badge">{{\App\Models\Category::count() > 99 ?  '99+' : \App\Models\Category::count()}}</span>
                 </a>
-                <a href="#" class="nav-link">
+                <a href="{{route('admin.categories.create')}}" class="nav-link {{request()->routeIs('admin.categories.create') ? 'active' : ''}}">
                     <i class="fas fa-plus-circle nav-icon"></i>
                     <span>Create Category</span>
                 </a>
@@ -51,6 +51,7 @@
                 <a href="{{route('admin.services.index')}}" class="nav-link {{request()->routeIs('admin.services.index') ? 'active' : ''}}">
                     <i class="fas fa-cogs nav-icon"></i>
                     <span>Manage Services</span>
+                    <span class="badge">{{\App\Models\Service::count() > 99 ?  '99+' : \App\Models\Service::count()}}</span>
                 </a>
             </div>
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\admin\UserController as AdminUserController;
@@ -134,12 +135,9 @@ Route::middleware(['auth', 'admin'])
     Route::delete('/services/{service}' , [AdminServiceController::class, 'destroy'])->name('services.destroy');
     Route::put('/services/{service}/activate' , [AdminServiceController::class, 'toggleStatus'])->name('service.toggle-status');
     Route::post('/service/promote', [AdminServiceController::class, 'promote'])->name('services.promote');
-    // Route::get('/users/services' , [AdminController::class, 'services'])->name('services.index');
-    // Route::get('/users/categories' , [AdminController::class, 'categories'])->name('categories.index');
-    // Route::get('/users/reviews' , [AdminController::class, 'reviews'])->name('reviews.index');
-    // Route::get('/users/reported-reviews' , [AdminController::class, 'reported-reviews'])->name('reported-reviews.index');
-    // Route::get('/users/settings' , [AdminController::class, 'settings'])->name('settings');
-    // Route::get('/users/logs' , [AdminController::class, 'logs'])->name('logs');
+
+    // categories routes
+    Route::resource('/categories', AdminCategoryController::class);
 });
 
 require __DIR__.'/auth.php';

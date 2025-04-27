@@ -119,7 +119,7 @@
                                             <label for="image" class="form-label">Profile Image</label>
                                             <div class="image-upload-container">
                                                 <div class="image-preview" id="imagePreview">
-                                                    <img src="" alt="Image Preview" class="image-preview__image">
+                                                    <img src="" alt="Image Preview" class="image-preview__image" style="display: none">
                                                     <span class="image-preview__default-text">No image selected</span>
                                                 </div>
                                                 <input type="file" class="form-control" id="image" name="image" accept="image/*">
