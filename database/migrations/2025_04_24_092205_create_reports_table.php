@@ -16,8 +16,9 @@ return new class extends Migration
             $table->foreignId('reporter_id')->constrained('users');
             $table->foreignId('reported_user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('service_id')->nullable()->constrained();
-            $table->foreignId('review_id')->nullable()->constrained();
+            // $table->foreignId('review_id')->nullable()->constrained(); 
             $table->string('reason');
+            $table->string('details')->nullable();
             $table->timestamps();
         });
     }

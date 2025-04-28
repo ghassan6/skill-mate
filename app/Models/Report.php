@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Report extends Model
 {
-    protected $fillable = ['reporter_id', 'reported_id', 'service_id', 'review_id', 'reason'];
+    protected $fillable = ['reporter_id', 'reported_user_id', 'service_id',  'reason', 'details']; /* 'review_id' to be added */
 
     public function reporter()
     {

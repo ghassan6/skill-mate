@@ -183,6 +183,36 @@
     text-transform: capitalize;
 }
 
+.user-profile-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    height: 100%;
+}
+
+.user-avatar-lg img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+}
+
+.section-title {
+    font-size: 1rem;
+    color: #6c757d;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+.user-bio {
+    min-height: 80px;
+}
+
+.user-meta p {
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
 .badge {
     font-size: 0.75rem;
     font-weight: 500;

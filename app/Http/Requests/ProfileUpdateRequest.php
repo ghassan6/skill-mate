@@ -26,7 +26,13 @@ class ProfileUpdateRequest extends FormRequest
                 Rule::unique(User::class)->ignore($this->user()->id),
                     ],
 
-                'password' => ['nullable', 'confirmed', 'min:8', 'string'],
+                    'password' => [
+                        'nullable',
+                        'confirmed',
+                        'min:8',
+                        'string',
+                        'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).+$/',
+                    ],
 
                 'phone' => ['nullable',
                     Rule::unique(User::class, 'phone_number')->ignore($this->user()->id),

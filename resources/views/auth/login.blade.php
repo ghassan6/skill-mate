@@ -71,12 +71,12 @@
 
                     <!-- Remember & Forgot -->
                     <div class="form-options">
-                        <div class="form-check remember-me">
+                        {{-- <div class="form-check remember-me">
                             <input class="form-check-input" type="checkbox" name="remember" id="remember">
                             <label class="form-check-label" for="remember">
                                 Remember Me
                             </label>
-                        </div>
+                        </div> --}}
                         <a href="{{ route('password.request') }}" class="forgot-password">
                             Forgot Password?
                         </a>

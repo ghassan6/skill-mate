@@ -104,7 +104,7 @@
                                 <div class="col-md-6">
                                     <div class="card h-100 border-0 shadow-sm-hover transition-all">
                                         <div class="position-relative">
-                                            <img src="{{ $service->images->first() ? asset($service->images->first()->image) : asset('images/services/service-default.png') }}"
+                                            <img src="{{ Str::contains($service->images->first(), 'service-images') ? asset('storage/' . $service->images->first()->image) : asset('images/services/service-default.png') }}"
                                                  class="card-img-top"
                                                  alt="{{ $service->title }}">
                                                  @if($service->is_featured)
@@ -115,7 +115,7 @@
                                         </div>
                                         <div class="card-body">
                                             <h5 class="card-title mb-2">
-                                                <a href="{{ route('services.show', $service->id) }}" class="text-decoration-none text-dark hover-primary">
+                                                <a href="{{ route('services.show', $service->slug) }}" class="text-decoration-none text-dark hover-primary">
                                                     {{ Str::limit($service->title, 40) }}
                                                 </a>
                                             </h5>

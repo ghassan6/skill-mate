@@ -89,14 +89,6 @@
                                                 </div>
                                                 <input type="file" class="form-control" id="image" name="image" accept="image/*">
                                             </div>
-                                            @if($category->image)
-                                                <div class="form-check mt-2">
-                                                    <input class="form-check-input" type="checkbox" id="removeImage" name="remove_image">
-                                                    <label class="form-check-label" for="removeImage">
-                                                        Remove current image
-                                                    </label>
-                                                </div>
-                                            @endif
                                         </div>
                                     </div>
 

@@ -19,7 +19,7 @@ class RegisteredUserController extends Controller
      * Display the registration view.
      */
     public function create(): View
-    {   
+    {
         $cities = City::all();
         return view('auth.register', compact('cities'));
     }
@@ -30,14 +30,15 @@ class RegisteredUserController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): RedirectResponse
-    {   
+    {
+
 
         $request->validate([
             'username' => ['required', 'string', 'max:255', 'min:5','unique:'.User::class],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string','email', 'max:255', 'unique:'.User::class. ',email'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed', 'min:8' ,'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).+$/'],
             'phone' => ['required', 'string', 'max:20' , 'unique:'.User::class. ',phone_number'],
             'city_id' => ['nullable', 'integer', 'exists:'.City::class.',id'],
             'terms' => ['required', 'accepted'],

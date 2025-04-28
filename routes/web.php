@@ -16,6 +16,7 @@ use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\ReportController;
 use App\Models\Category;
 use App\Http\Controllers\SavedServiceController;
 use App\Http\Controllers\ServiceImageController;
@@ -57,10 +58,12 @@ Route::middleware(['auth', 'user' , 'banned'])->group(function () {
     Route::get('/user/saved-services', [SavedServiceController::class, 'index'])
         ->name('saved-services.index');
 
+    // single service
     // Toggle save status (using POST for security)
     Route::post('/services/{service}/save', [SavedServiceController::class, 'toggleSaved'])
         ->name('services.save');
 
+    Route::post('/service/{service}/report', [ReportController::class, 'store'])->name('services.report');
 
     // private profile
     Route::get('/user/edit', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -102,7 +105,7 @@ Route::middleware(['auth', 'user' , 'banned'])->group(function () {
     Route::post('/conversations/{conversation}/messages', [MessageController::class, 'store'])
     ->name('conversations.messages.store');
 
-    // services actions
+    // own services actions
     Route::put('/{service}/activate', [ServiceController::class, 'activate'])->name('services.toggle-status');
     Route::get('services/{service}/promote/payment', [ServiceController::class, 'showPaymentPage'])->name('services.promote.payment');
     Route::post('/{service}/promote', [ServiceController::class, 'promote'])->name('services.promote');
@@ -124,11 +127,9 @@ Route::middleware(['auth', 'admin'])
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     // user routes
-    Route::get('/users/index' , [AdminUserController::class, 'index'])->name('users.index');
-    Route::delete('users/{user}', [AdminUserController::class , 'destroy'])->name('users.destroy');
+    Route::Resource('/users', AdminUserController::class);
     Route::put('/users/{user}/ban', [AdminUserController::class, 'toggleBanUser'])->name('users.toggle-ban');
-    Route::get('/user/create', [AdminUserController::class, 'create'])->name('users.create');
-    Route::post('/users', [AdminUserController::class, 'store'])->name('users.store');
+
 
     // services routes
     Route::get('/services/index', [AdminServiceController::class, 'index'])->name('services.index');

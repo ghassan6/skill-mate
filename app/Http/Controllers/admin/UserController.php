@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\City;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -74,6 +75,35 @@ class UserController extends Controller
         }
 
         return redirect()->back()->with('status' , 'User created successfully');
+    }
+
+    public function show(User $user) {
+
+    }
+
+    public function edit(User $user) {
+        $cities = City::all();
+        return view('admin.users.edit-user', compact('user', 'cities'));
+    }
+
+    public function update(UpdateUserRequest $request, User $user)
+    {
+        $data = $request->validated();
+        if (isset($data['password'])) {
+            $data['password'] = bcrypt($data['password']);
+        } else {
+            unset($data['password']); // Remove password from the update array
+        }
+
+        if($request->has('email_verified')) {
+            $user->email_verified_at = now();
+            $user->save();
+        }
+
+        $user->fill($data);
+        $user->save();
+
+        return redirect()->back()->with('status', 'User Updates successfully!');
     }
 
 }

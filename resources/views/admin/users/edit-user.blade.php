@@ -1,5 +1,5 @@
 <x-admin.layout>
-    <x-slot:title>Create user</x-slot:title>
+    <x-slot:title>Edit user</x-slot:title>
     <script src="{{asset('js/admin/user-managment.js')}}" defer></script>
 
     <link rel="stylesheet" href="{{asset('css/admin/main.css')}}">
@@ -16,7 +16,7 @@
                         <span class="divider">/</span>
                         <a href="{{ route('admin.users.index') }}">Users</a>
                         <span class="divider">/</span>
-                        <span class="active">Create</span>
+                        <span class="active">Edit</span>
                     </div>
                 </div>
 
@@ -27,7 +27,7 @@
                         </div>
                     @endif
 
-                    @if($errors->any())
+                    {{-- @if($errors->any())
                         <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
                             <ul class="mb-0">
                                 @foreach ($errors->all() as $error)
@@ -36,11 +36,12 @@
                             </ul>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
-                    @endif
+                    @endif --}}
                 <!-- User Creation Card -->
                 <div class="admin-card">
-                    <form action="{{ route('admin.users.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
                         @csrf
+                        @method('PUT')
 
                         <div class="card-body">
                             <div class="row">
@@ -52,29 +53,44 @@
 
                                         <div class="mb-3">
                                             <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="username" name="username" required value="{{old('username')}}">
+                                            <input type="text" class="form-control  @error('username') is-invalid @enderror" id="username" name="username" required value="{{$user->username ?? old('username')}}">
+                                            @error('username')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
-                                                <label for="first_name" class="form-label">First Name <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="first_name" name="first_name" value="{{old('first_name')}}">
+                                                <label for="first_name" class="form-label">First Name</label>
+                                                <input type="text" class="form-control @error('first_name') is-invalid @enderror" id="first_name" name="first_name" value="{{$user->first_name ?? old('first_name')}}">
+                                                @error('first_name')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                             <div class="col-md-6 mb-3">
-                                                <label for="last_name" class="form-label">Last Name <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="last_name" name="last_name" value="{{old('last_name')}}">
+                                                <label for="last_name" class="form-label">Last Name</label>
+                                                <input type="text" class="form-control @error('last_name') is-invalid @enderror" id="last_name" name="last_name" value="{{$user->last_name ?? old('last_name')}}">
+                                                @error('last_name')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                                            <input type="email" class="form-control" id="email" name="email" required value="{{old('email')}}">
+                                            <label for="email" class="form-label @error('email') is-invalid @enderror">Email <span class="text-danger">*</span></label>
+                                            <input type="email" class="form-control" id="email" name="email" required value="{{$user->email ?? old('email')}}">
+                                            @error('email')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+                                            <label for="password" class="form-label @error('password') is-invalid @enderror">Password <span class="text-danger">*</span></label>
+                                            @error('password')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                             <div class="input-group">
-                                                <input type="text" class="form-control" id="password" name="password" required>
+                                                <input type="text" class="form-control" id="password" name="password" >
                                                 <button class="btn btn-outline-secondary" type="button" id="generatePassword">
                                                     <i class="fas fa-random"></i> Generate
                                                 </button>
@@ -83,8 +99,11 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="password_confirmation" class="form-label">Confirm Password <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="password_confirmation" name="password_confirmation" required>
+                                            <label for="password_confirmation" class="form-label @error('password_confirmation') is-invalid @enderror">Confirm Password <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="password_confirmation" name="password_confirmation" >
+                                            @error('password_confirmation')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
 
@@ -94,17 +113,25 @@
 
                                         <div class="mb-3">
                                             <label for="phone" class="form-label">Phone Number</label>
-                                            <input type="tel" class="form-control" id="phone" name="phone" value="{{old('phone')}}">
+                                            <input type="tel" class="form-control  @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ $user->phone_number ?? old('phone')}}">
+                                            @error('phone')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="city_id" class="form-label">City</label>
-                                            <select class="form-select" id="city_id" name="city_id">
+                                            <select class="form-select @error('city') is-invalid @enderror" id="city_id" name="city_id">
                                                 <option value="">Select City</option>
                                                 @foreach($cities as $city)
-                                                    <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                                    <option value="{{ $city->id }}" {{ $user->city_id == $city->id ? 'selected' : '' }}>
+                                                        {{ $city->name }}
+                                                    </option>
                                                 @endforeach
                                             </select>
+                                            @error('city')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -119,34 +146,30 @@
                                             <label for="image" class="form-label">Profile Image</label>
                                             <div class="image-upload-container">
                                                 <div class="image-preview" id="imagePreview">
-                                                    <img src="" alt="Image Preview" class="image-preview__image" style="display: none">
-                                                    <span class="image-preview__default-text">No image selected</span>
+                                                    <img src="{{ asset(str_contains($user->image, 'profile') ? 'storage/' . $user->image : $user->image) }}" alt="Image Preview" class="image-preview__image">
                                                 </div>
-                                                <input type="file" class="form-control" id="image" name="image" accept="image/*">
                                             </div>
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="bio" class="form-label">Bio</label>
-                                            <textarea class="form-control" id="bio" name="bio" rows="3" >{{old('bio')}}</textarea>
+                                            <textarea class="form-control @error('bio') is-invalid @enderror" id="bio" name="bio" rows="3" >{{$user->bio ?? old('bio')}}</textarea>
+                                            @error('image')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="role" class="form-label">Role <span class="text-danger">*</span></label>
-                                            <select class="form-select" id="role" name="role" required>
-                                                <option value="user">User</option>
-                                                <option value="admin">Admin</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="listing_limit" class="form-label">Listing Limit</label>
-                                            <input type="number" class="form-control" id="listing_limit" name="listing_limit" min="0" value="{{old('listing_limit') ?? 5}}">
+                                            <label for="listing_limit" class="form-label @error('listing_limit') is-invalid @enderror">Listing Limit</label>
+                                            <input type="number" class="form-control" id="listing_limit" name="listing_limit" min="0" value="{{$user->listing_limit ?? old('listing_limit') }}">
+                                            @error('listing_limit')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="mb-3 form-check">
-                                            <input type="checkbox" class="form-check-input" id="email_verified" name="email_verified">
-                                            <label class="form-check-label" for="email_verified">Mark email as verified</label>
+                                            <input type="checkbox" class="form-check-input" id="email_verified" name="email_verified" {{is_null($user->email_verified_at) ? '' : 'checked disabled'}}>
+                                            <label class="form-check-label" for="email_verified">{{is_null($user->email_verified_at) ? " Mark email as verified" : 'Email is verified'}}</label>
                                         </div>
 
                                     </div>
@@ -157,7 +180,7 @@
                         <!-- Card Footer -->
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save me-2"></i> Create User
+                                <i class="fas fa-save me-2"></i> Update User
                             </button>
                             <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary">
                                 <i class="fas fa-times me-2"></i> Cancel

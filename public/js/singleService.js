@@ -46,23 +46,31 @@ document.addEventListener('DOMContentLoaded', function () {
                 const data = await response.json();
 
                 if (data.is_saved) {
-                    icon.classList.remove('fa-heart-o');
-                    icon.classList.add('fa-heart');
-                    this.style.color = '#dc3545';
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                    this.style.color = '#dc3545'; // red
                     this.title = 'Remove from saved services';
                     this.setAttribute('data-saved', '1');
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "The service has been saved",
+                        showConfirmButton: false,
+                        timer: 1500
+                      });
                 } else {
-                    icon.classList.remove('fa-heart');
-                    icon.classList.add('fa-heart');
-                    this.style.color = '#6c757d';
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                    this.style.color = '#6c757d'; // gray
                     this.title = 'Save this service';
                     this.setAttribute('data-saved', '0');
-                }
-
-                if (typeof showToast === 'function') {
-                    showToast(data.message);
-                } else {
-                    console.log(data.message);
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: "The service has been Unsaved",
+                        showConfirmButton: false,
+                        timer: 1500
+                      });
                 }
 
             } catch (error) {
@@ -116,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
             e.preventDefault();
             alert('Please agree to the terms before submitting');
         }
-        // Optionally add AJAX submission logic here
+
     });
 
 

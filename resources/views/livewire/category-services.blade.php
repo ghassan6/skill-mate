@@ -131,7 +131,7 @@
                             <div class="col-md-6 col-lg-4 mb-4">
                                 <div class="card service-card h-100 border-0 shadow-sm">
                                     <div class="position-relative">
-                                        <img src="{{ Str::contains($service->images->first(), 'service-imagesx') ? asset('storage/' . $service->images->first()->image) : asset('images/services/service-default.png') }}"
+                                        <img src="{{ Str::contains($service->images->first(), 'service-images') ? asset('storage/' . $service->images->first()->image) : asset('images/services/service-default.png') }}"
                                             class="card-img-top"
                                             alt="{{ $service->title }}"
                                             style="height: 180px; object-fit: cover;">

@@ -88,27 +88,41 @@
                                         Hourly Rate
                                 </p>
                             </div>
-                            <div class="d-flex gap-2">
+                            @auth
+                            <div class="d-flex gap-2 align-items-center">
                                 <!-- Add to Favorites Button -->
-                                @if($service->user_id != Auth::id() && Auth::user()->role != 'admin')
-                                    <form action="{{ route('services.save', $service->id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @php
-                                            $isSaved = Auth::check() && auth()->user()->isServiceSaved($service->id);
-                                        @endphp
+                                    @if(Auth::user()->role != 'admin')
+                                        @if($service->user_id != Auth::id())
+                                            <form action="{{ route('services.save', $service->slug) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @php
+                                                    $isSaved = Auth::check() && auth()->user()->isServiceSaved($service->id);
+                                                @endphp
 
-                                        <button type="submit"
-                                            class="btn btn-lg px-3 py-2 save-service-btn"
-                                            data-saved="{{ $isSaved ? '1' : '0' }}"
-                                            title="{{ $isSaved ? 'Remove from saved services' : 'Save this service' }}"
-                                            >
+                                                <button type="submit"
+                                                    class="btn btn-lg px-3 py-2 save-service-btn"
+                                                    data-saved="{{ $isSaved ? '1' : '0' }}"
+                                                    title="{{ $isSaved ? 'Remove from saved services' : 'Save this service' }}"
+                                                    >
 
-                                            <i class="{{ $isSaved ? 'fas' : 'far' }} fa-heart"></i>
-                                        </button>
+                                                    <i class="{{ $isSaved ? 'fas' : 'far' }} fa-heart"></i>
+                                                </button>
 
-                                    </form>
-                                @endif
-                            </div>
+                                            </form>
+
+                                            <!-- Report Button -->
+                                                <button class="btn btn-lg px-3 py-2 text-danger"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#reportServiceModal"
+                                                    title="Report this service"
+                                                    {{$service->canReport(Auth::user()) ? '' : 'disabled'}}>
+                                                <i class="fas fa-flag"></i>
+                                                <small>{{$service->canReport(Auth::user()) ? '' : 'You already reported this service'}}</small>
+                                                </button>
+                                        @endif
+                                    @endif
+                                </div>
+                            @endauth
                         </div>
                     </div>
                 </div>
@@ -130,18 +144,21 @@
                             <i class="fas fa-star text-warning me-2"></i> Reviews
                             <span class="badge bg-primary">{{ $service->reviews->count() }}</span>
                         </h3>
-                        @if($service->user_id != Auth::id() && Auth::user()->role != 'admin')
-                            @if(Auth::check() && $service->canReview(Auth::user()))
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
-                                    <i class="fas fa-plus me-1"></i> Add Review
-                                </button>
-                            @elseif(Auth::check() && !$service->hasReviewed(Auth::user()) )
-                            <button class="btn btn-primary" disabled>
-                                    <i class="fas fa-times me-1"></i> You can add a review once the Service is completed
-                            </button>
-
+                        @auth
+                            @if(Auth::user()->role != 'admin')
+                                @if($service->user_id !== Auth::id())
+                                    @if($service->canReview(Auth::user()))
+                                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
+                                            <i class="fas fa-plus me-1"></i> Add Review
+                                        </button>
+                                    @elseif(!$service->hasReviewed(Auth::user()))
+                                        <button class="btn btn-primary" disabled>
+                                            <i class="fas fa-times me-1"></i> You can add a review once the Service is completed
+                                        </button>
+                                    @endif
+                                @endif
                             @endif
-                        @endif
+                        @endauth
                     </div>
 
                     @if($reviews->isEmpty())
@@ -258,6 +275,50 @@
                         </div>
                     </div>
                 @endif
+
+
+                <!-- Report Service Modal -->
+                @if(Auth::check())
+                    <div class="modal fade" id="reportServiceModal" tabindex="-1" aria-labelledby="reportServiceModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="reportServiceModalLabel">Report Service</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form action="{{ route('services.report', $service->slug) }}" method="POST">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <p>You are reporting: <strong>{{ $service->title }}</strong></p>
+
+                                        <div class="mb-3">
+                                            <label for="reportReason" class="form-label">Reason for reporting</label>
+                                            <select class="form-select" id="reportReason" name="reason" required>
+                                                <option value="" selected disabled>Select a reason</option>
+                                                <option value="spam">Spam or misleading</option>
+                                                <option value="inappropriate">Inappropriate content</option>
+                                                <option value="fraud">Fraud or scam</option>
+                                                <option value="duplicate">Duplicate service</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="reportDetails" class="form-label">Additional details (optional)</label>
+                                            <textarea class="form-control" id="reportDetails" name="details" rows="3" placeholder="Please provide more details about your report..."></textarea>
+                                            <div class="form-text text-muted">Max 200 characters</div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-danger">Submit Report</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
             </div>
 
             <!-- Sidebar Column -->

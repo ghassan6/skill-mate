@@ -18,7 +18,6 @@ class SavedServiceController extends Controller
     public function toggleSaved(Service $service)
     {
         $user = Auth::user();
-
         // Get the record including soft-deleted ones
         $saved = SavedService::withTrashed()
                     ->where('user_id', $user->id)

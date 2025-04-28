@@ -101,6 +101,11 @@ class ServiceController extends Controller
     public function show($slug)
     {
         $service = Service::where('slug', $slug)->firstOrFail();
+        // dd($service->views);
+
+        if(Auth::check() && Auth::user()->role != 'admin') {
+            $service->update(['views' => $service->views + 1]);
+        }
 
         $userId = Auth::id();
 

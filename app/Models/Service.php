@@ -120,4 +120,10 @@ class Service extends Model
     protected $casts = [
         'featured_until' => 'datetime',
     ];
+
+    public function canReport(User $user) {
+        return !$this->reports()
+        ->where('reporter_id' , $user->id)
+        ->exists();
+    }
 }

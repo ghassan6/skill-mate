@@ -120,13 +120,9 @@
                                     </button>
                                 @endif
 
-                                {{-- <form action="{{ route('admin.services.destroy', $service->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE') --}}
                                     <button type="submit" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" data-bs-title="Delete" onclick="confirmDelete(`{{$service->slug}}`)">
                                         <i class="fas fa-trash"></i>
                                     </button>
-                                {{-- </form> --}}
 
                                 <button class="btn btn-sm btn-outline-info"
                                     data-bs-toggle="modal"
