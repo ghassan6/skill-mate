@@ -612,3 +612,273 @@
         height: 150px;
     }
 }
+
+
+/* for the reports */
+
+.admin-reports-container {
+    padding: 20px;
+    background-color: #f8fafc;
+}
+
+/* Filter Styles */
+.report-filters {
+    display: flex;
+    gap: 15px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    flex: 1;
+    min-width: 180px;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.875rem;
+    color: #4a5568;
+    font-weight: 500;
+}
+
+/* Report Details Styles */
+.report-details {
+    max-width: 250px;
+}
+
+.report-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.report-description {
+    font-size: 0.875rem;
+    color: #4a5568;
+    line-height: 1.4;
+}
+
+/* Service Info Styles */
+.service-info {
+    max-width: 200px;
+}
+
+.service-name {
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.service-owner {
+    font-size: 0.8125rem;
+}
+
+/* User Info Styles */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar-sm {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.username {
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.user-email {
+    font-size: 0.75rem;
+}
+
+/* Status Badges */
+.status-badge {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+.bg-warning {
+    background-color: #ed8936 !important;
+}
+
+.bg-success {
+    background-color: #38a169 !important;
+}
+
+.bg-secondary {
+    background-color: #a0aec0 !important;
+}
+
+.bg-info {
+    background-color: #4299e1 !important;
+}
+
+/* Table Actions */
+.table-actions {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.table-actions .btn {
+    padding: 5px 8px;
+    font-size: 0.8125rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .report-filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-group {
+        min-width: 100%;
+    }
+}
+
+
+/* report modal  */
+/* Modal Header */
+.modal-header.bg-light {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.report-icon {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(220, 53, 69, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Report Cards */
+.report-card {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.report-card .card-header {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.report-card .card-header h6 {
+    font-weight: 600;
+    color: #495057;
+}
+
+.report-card .card-body {
+    padding: 15px;
+}
+
+/* Detail Items */
+.detail-item {
+    display: flex;
+    margin-bottom: 12px;
+    align-items: center;
+}
+
+.detail-label {
+    font-weight: 500;
+    color: #495057;
+    width: 120px;
+    flex-shrink: 0;
+}
+
+.detail-value {
+    color: #212529;
+}
+
+/* Report Description */
+.report-description {
+    line-height: 1.6;
+    background-color: #f8f9fa;
+    border-left: 3px solid #dc3545;
+}
+
+/* Service Info */
+.service-image img {
+    object-fit: cover;
+    height: 60px;
+}
+
+.no-image {
+    border: 1px dashed #dee2e6;
+    border-radius: 4px;
+}
+
+.service-meta {
+    margin-top: 10px;
+}
+
+/* Reporter Info */
+.reporter-avatar img {
+    object-fit: cover;
+}
+
+.meta-item {
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.meta-label {
+    font-weight: 500;
+    color: #6c757d;
+    width: 140px;
+    flex-shrink: 0;
+}
+
+.meta-value {
+    color: #495057;
+}
+
+/* Modal Footer */
+.modal-footer.bg-light {
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+}
+
+/* Badges */
+.badge {
+    padding: 5px 10px;
+    font-weight: 500;
+    border-radius: 4px;
+}
+
+.badge.bg-light {
+    border: 1px solid #dee2e6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .modal-body .row > div {
+        width: 100%;
+    }
+
+    .detail-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .detail-label {
+        margin-bottom: 4px;
+        width: auto;
+    }
+}

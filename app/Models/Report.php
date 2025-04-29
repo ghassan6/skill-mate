@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Report extends Model
 {
-    protected $fillable = ['reporter_id', 'reported_user_id', 'service_id',  'reason', 'details']; /* 'review_id' to be added */
+    protected $fillable = ['reporter_id', 'reported_user_id', 'service_id',  'reason', 'details', 'status']; /* 'review_id' to be added */
 
     public function reporter()
     {
@@ -23,9 +23,10 @@ class Report extends Model
         return $this->belongsTo(Service::class);
     }
 
-    public function review()
-    {
-        return $this->belongsTo(Review::class);
-    }
+    // TODO
+    // public function review()
+    // {
+    //     return $this->belongsTo(Review::class);
+    // }
 
 }

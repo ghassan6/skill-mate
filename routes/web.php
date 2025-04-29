@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\ReportController as AdminReportController;
 use App\Http\Controllers\admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\admin\UserController as AdminUserController;
 use App\Http\Controllers\ContactController;
@@ -139,6 +140,10 @@ Route::middleware(['auth', 'admin'])
 
     // categories routes
     Route::resource('/categories', AdminCategoryController::class);
+
+    // reports routes
+    Route::get('/services/reports', [AdminReportController::class , 'index'])->name('service.reports');
+    Route::put('/reports/{report}/resolve', [AdminReportController::class, 'markAsResolved'])->name('reports.resolve');
 });
 
 require __DIR__.'/auth.php';

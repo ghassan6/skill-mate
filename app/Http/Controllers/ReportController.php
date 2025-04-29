@@ -40,7 +40,7 @@ class ReportController extends Controller
             'details' => $request->details
         ]);
 
-        return redirect()->back()->with('status', 'The service ' . $service->title . " Has been reported, And will be reviewed by the Admin");
+        return redirect()->back()->with('success', 'The service ' . $service->title . " Has been reported, And will be reviewed by the Admin");
     }
 
     /**

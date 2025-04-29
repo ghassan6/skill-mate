@@ -58,14 +58,10 @@
             <!-- Reports Section -->
             <div class="nav-section">
                 <div class="nav-title">Reports</div>
-                <a href="#" class="nav-link">
+                <a href="{{route('admin.service.reports')}}" class="nav-link {{request()->routeIs('admin.service.reports') ? 'active' : ''}}">
                     <i class="fas fa-flag nav-icon"></i>
-                    <span>User Reports</span>
-                    <span class="badge danger">15</span>
-                </a>
-                <a href="#" class="nav-link">
-                    <i class="fas fa-chart-bar nav-icon"></i>
-                    <span>Analytics</span>
+                    <span>Services Reports</span>
+                    <span class="badge danger">{{\App\Models\Report::where('status' ,'pending')->count() > 99 ?  '99+' : \App\Models\Report::where('status' , 'pending')->count()}}</span>
                 </a>
             </div>
 
