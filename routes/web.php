@@ -21,6 +21,9 @@ use App\Http\Controllers\ReportController;
 use App\Models\Category;
 use App\Http\Controllers\SavedServiceController;
 use App\Http\Controllers\ServiceImageController;
+use App\Mail\userBanned;
+use Illuminate\Support\Facades\Mail;
+
 
 Route::get('/', [HomeController::class, 'index'])
 ->middleware('banned')
@@ -128,6 +131,7 @@ Route::middleware(['auth', 'admin'])
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     // user routes
+    Route::get('/users/ban-appeal' , [AdminUserController::class, 'banAppeal'])->name('users.ban-appeal');
     Route::Resource('/users', AdminUserController::class);
     Route::put('/users/{user}/ban', [AdminUserController::class, 'toggleBanUser'])->name('users.toggle-ban');
 
@@ -144,6 +148,8 @@ Route::middleware(['auth', 'admin'])
     // reports routes
     Route::get('/services/reports', [AdminReportController::class , 'index'])->name('service.reports');
     Route::put('/reports/{report}/resolve', [AdminReportController::class, 'markAsResolved'])->name('reports.resolve');
+
+
 });
 
 require __DIR__.'/auth.php';

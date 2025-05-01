@@ -20,7 +20,7 @@
     <div class="container-xxl py-5">
         <div class="container">
             <div class="row g-4">
-          
+
                 <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="bg-light p-5 h-100 d-flex align-items-center">
                         <form action="{{route('contact.store')}}" method="POST">
@@ -45,7 +45,7 @@
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                           
+
                                         <label for="name">Your Name</label>
                                         <input type="text" class="form-control" id="name" name="name" value="{{Auth::check() ? Auth::user()->username : ''}}"    placeholder="{{Auth::check() ? '' : 'e.g. Jon Doe'}}" >
                                     </div>
@@ -63,6 +63,7 @@
                                             <option value="none" selected disabled>What is your inquery about?</option>
                                             <option value="feedback">Feedback about our website</option>
                                             <option value="problem">Report a problem</option>
+                                            <option value="banned">My account is banned</option>
                                             <option value="other">Other</option>
                                         </select>
                                     </div>

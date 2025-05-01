@@ -5,10 +5,13 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Mail\unbanned;
+use App\Mail\userBanned;
 use App\Models\City;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\Console\Input\Input;
 
 class UserController extends Controller
@@ -37,6 +40,18 @@ class UserController extends Controller
 
     public function toggleBanUser(User $user) {
         is_null($user->banned_at) ? $user->update(['banned_at' => now()]) : $user->update(['banned_at' => null]);
+
+        if(!is_null($user->banned_at)) {
+            Mail::to($user)->send(
+                new userBanned($user)
+            );
+        }
+        else {
+            Mail::to($user)->send(
+                new unbanned($user)
+            );
+        }
+        
         return Response()->noContent();
 
     }
@@ -106,4 +121,9 @@ class UserController extends Controller
         return redirect()->back()->with('status', 'User Updates successfully!');
     }
 
+    public function banAppeal() {
+
+
+        return view('admin.users.ban-appeal');
+    }
 }

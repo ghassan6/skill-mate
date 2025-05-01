@@ -25,6 +25,11 @@
                     <span>All Users</span>
                     <span class="badge">{{\App\Models\User::count() > 99 ?  '99+' : \App\Models\User::count()}}</span>
                 </a>
+                <a href="{{route('admin.users.ban-appeal')}}" class="nav-link {{ request()->routeIs('admin.users.ban-appeal') ? 'active' : '' }}">
+                    <i class="fas fa-users nav-icon"></i>
+                    <span>Ban Appeal Requests</span>
+                    <span class="badge danger">{{\App\Models\Contact::where('subject' , 'banned')->count() > 99 ?  '99+' : \App\Models\Contact::where('subject' , 'banned')->count()}}</span>
+                </a>
                 <a href="{{route('admin.users.create')}}" class="nav-link {{ request()->routeIs('admin.users.create') ? 'active' : ''}}">
                     <i class="fas fa-user-plus nav-icon"></i>
                     <span>Create User</span>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreContactRequest;
 use App\Http\Requests\UpdateContactRequest;
 use App\Models\Contact;
+use Illuminate\Support\Facades\Auth;
 
 class ContactController extends Controller
 {
@@ -21,7 +22,7 @@ class ContactController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -30,12 +31,13 @@ class ContactController extends Controller
     public function store(StoreContactRequest $request)
     {
 
-        
+
         $validatedData = $request->validated();
         Contact::create($validatedData);
         // Send email to admin
 
-        return redirect()->route('contact.index')->with('success', 'Your message has been sent!');
+
+        return redirect()->route('contact.index')->with('success', 'Your message has been sent!, We will get back to shortly!');
 
     }
 
@@ -68,6 +70,10 @@ class ContactController extends Controller
      */
     public function destroy(Contact $contact)
     {
-        //
+        if(!Auth::check() && Auth::user()->role != 'admin') {abort(403);}
+
+        $contact->delete();
+
+        return response()->noContent();
     }
 }

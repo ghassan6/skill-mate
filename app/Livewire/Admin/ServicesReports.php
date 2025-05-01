@@ -42,6 +42,7 @@ class ServicesReports extends Component
             $query->where('created_at' , '>' , Carbon::now()->subDays((int) $this->date) );
         })
         ->orderByRaw("FIELD(status, 'pending', 'resolved', 'dismissed')")
+        ->orderByDesc('created_at')
         ->paginate(10);
 
         return view('livewire.admin.services-reports', compact('reports'));

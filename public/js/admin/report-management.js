@@ -112,7 +112,6 @@ function deactivateService(slug) {
 }
 
 function banUser(user) {
-    console.log(user)
     swal.fire({
         title: `Are you sure you want to ban This user?`,
         text: 'The user will not be able to use the webiste',
