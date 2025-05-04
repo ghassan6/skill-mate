@@ -15,10 +15,15 @@ class HomeController extends Controller
         if(Auth::check() && Auth::user()->role == 'admin') return redirect()->route('admin.dashboard');
 
         $categories = Category::orderBy('created_at' , 'asc')
-        ->take(3)->get();
+        ->take(4)->get();
 
         $services = Service::all();
-        return view('index' , compact('categories', 'services'));
+        $featuredServices = Service::with('images')
+        ->where('is_featured' , 1)
+        ->orderByDesc('created_at')
+        ->get();
+
+        return view('index' , compact('categories', 'services', 'featuredServices'));
     }
 
     public function about()
