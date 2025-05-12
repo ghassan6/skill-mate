@@ -23,7 +23,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
-
+        return view('services.services-list');
     }
 
     /**
@@ -60,7 +60,7 @@ class ServiceController extends Controller
         $service->save();
 
           foreach ($request->uploaded_images as $filePath) {
-            // if you returned DB IDs instead, you could just do a relation attach
+            
             ServiceImage::create([
                 'image' => $filePath,
                 'service_id' => $service->id

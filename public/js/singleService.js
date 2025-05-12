@@ -75,9 +75,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             } catch (error) {
                 console.error('Error:', error);
-                if (typeof showToast === 'function') {
-                    showToast('An error occurred', 'error');
-                }
             }
         });
     });

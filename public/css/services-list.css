@@ -1,0 +1,115 @@
+:root {
+    --primary: #1E60AA;
+    --primary-light: rgba(30, 96, 170, 0.1);
+    --soft-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    --soft-shadow-hover: 0 12px 28px rgba(0, 0, 0, 0.1);
+}
+
+/* Hero Header */
+.hero-header {
+    background: linear-gradient(135deg, var(--primary) 0%, #0d6efd 100%);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Soft Shadow Utilities */
+.shadow-soft {
+    box-shadow: var(--soft-shadow);
+}
+
+.shadow-soft-hover {
+    box-shadow: var(--soft-shadow);
+    transition: all 0.3s ease;
+}
+
+.shadow-soft-hover:hover {
+    box-shadow: var(--soft-shadow-hover);
+    transform: translateY(-5px);
+}
+
+/* Service Card */
+.service-card {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.service-card .card-body {
+    padding: 1.5rem;
+}
+
+/* Image Container */
+.object-cover {
+    object-fit: cover;
+}
+
+/* Favorite Button */
+.btn-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Pagination Styles */
+.pagination .page-item .page-link {
+    border-radius: 8px !important;
+    margin: 0 4px;
+    border: none;
+    color: var(--primary);
+    padding: 8px 16px;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--primary);
+    color: white;
+}
+
+.pagination .page-item:not(.active) .page-link:hover {
+    background-color: var(--primary-light);
+}
+
+/* filter */
+
+.form-select.py-3,
+.input-group .form-control {
+    height: 52px;
+}
+
+/* Input Focus States */
+.form-control:focus,
+.form-select:focus {
+    border-color: #1E60AA;
+    box-shadow: 0 0 0 0.25rem rgba(30, 96, 170, 0.25);
+}
+
+/* Label Styling */
+.form-label {
+    letter-spacing: 0.5px;
+}
+
+/* Search Input Group */
+.input-group-text {
+    transition: all 0.3s ease;
+}
+.input-group:focus-within .input-group-text {
+    color: #1E60AA;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .row.g-3 > [class^="col-"] {
+        margin-bottom: 1rem;
+    }
+    .row.g-3 > [class^="col-"]:last-child {
+        margin-bottom: 0;
+    }
+}
+
+
+/* Empty State */
+.empty-state-img {
+    max-height: 200px;
+    opacity: 0.7;
+}

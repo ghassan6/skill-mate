@@ -26,6 +26,7 @@ class BanAppeal extends Component
     {
         $contacts = Contact::where('subject' , 'banned')
         ->when(!empty($this->search), fn($q) => $q->where('name', "like", "%" . $this->search . "%"))
+        ->orderByDesc('created_at')
         ->paginate(10);
         return view('livewire.admin.ban-appeal' , compact('contacts'));
     }

@@ -23,7 +23,7 @@
                 <a href="{{route('admin.users.index')}}" class="nav-link {{ request()->routeIs('admin.users.index') ? 'active' : '' }}">
                     <i class="fas fa-users nav-icon"></i>
                     <span>All Users</span>
-                    <span class="badge">{{\App\Models\User::count() > 99 ?  '99+' : \App\Models\User::count()}}</span>
+                    <span class="badge">{{\App\Models\User::where('role', 'user')->count() > 99 ?  '99+' : \App\Models\User::where('role', 'user')->count()}}</span>
                 </a>
                 <a href="{{route('admin.users.ban-appeal')}}" class="nav-link {{ request()->routeIs('admin.users.ban-appeal') ? 'active' : '' }}">
                     <i class="fas fa-users nav-icon"></i>

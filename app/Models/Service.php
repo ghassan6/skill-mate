@@ -126,4 +126,12 @@ class Service extends Model
         ->where('reporter_id' , $user->id)
         ->exists();
     }
+
+    public function reviewsCount() {
+        return $this->reviews()->count();
+    }
+
+    public function averageRating() {
+        return $this->reviews()->avg('rating');
+    }
 }

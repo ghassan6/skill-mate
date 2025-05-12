@@ -1,14 +1,14 @@
 <x-layout>
     <x-slot:title>Terms and condition</x-slot>
 
- 
+
 
 <div class="container py-5">
     <div class="card shadow-lg border-0">
         <div class="card-body p-5">
             <h2 class="text-center mb-4 text-primary">Terms and Conditions</h2>
             <p class="text-muted text-center">Effective Date: <strong>April 1st 2025</strong></p>
-            
+
             <hr>
 
             <section class="mb-4">
@@ -76,7 +76,7 @@
 
             <section class="text-center">
                 <h4 class="text-dark">Contact Us</h4>
-                <p>If you have any questions, contact us at <a href="mailto:[Your Email]" class="text-primary">skilmate@example.com</a>.</p>
+                <p>If you have any questions, contact us at <a href="mailto:[Your Email]" class="text-primary">skillmate.services@gmail.com</a>.</p>
             </section>
 
         </div>
