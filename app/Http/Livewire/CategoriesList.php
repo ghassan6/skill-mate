@@ -8,13 +8,21 @@ use App\Models\Category;
 
 class CategoriesList extends Component
 {
+    public $search = '';
+
+    public function clearSearch()
+    {
+        $this->search = '';
+    }
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
 
     public function render()
     {
-        $categories = Category::paginate(12);
+        $categories = Category::where('name', 'like', '%' . $this->search . '%')
+            ->orWhere('description', 'like', '%' . $this->search . '%')
+            ->paginate(12);
         return view('livewire.categories-list', compact('categories'));
     }
 }
