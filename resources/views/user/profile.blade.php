@@ -1,5 +1,6 @@
 <x-layout>
     <x-slot:title>{{ Str::ucfirst($user->username)}}'s Profile</x-slot:title>
+    <script src="{{asset('js/profile.js')}}" defer></script>
 
     <x-user-sidebar>
   <!-- Profile Header Section -->
@@ -57,7 +58,7 @@
                             <x-summary-box table='services'></x-summary-box>
                         </div>
                         <div class="col-md-4">
-                            <x-summary-box table='remaining lsiting'></x-summary-box>
+                            <x-summary-box table='remaining listing'></x-summary-box>
                         </div>
                     </div>
                 </div>

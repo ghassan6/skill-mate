@@ -116,6 +116,10 @@ Route::middleware(['auth', 'user' , 'banned'])->group(function () {
     Route::delete('/service-images/{serviceImage}', [ServiceImageController::class, 'destroy'])->name('service-image.delete');
     Route::post('/services/upload', [ServiceController::class, 'upload'])->name('services.upload');
 
+    // increase listing limit
+    Route::get('/increase-listing-limit/{user}', [UserController::class, 'increaseListingLimit'])->name('listing-limit.increase');
+    Route::post('{user}/increase-listing-limit', [UserController::class, 'increaseLimit'])->name('limit-increase');
+
 
 
 });

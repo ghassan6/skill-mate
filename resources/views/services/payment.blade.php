@@ -9,6 +9,7 @@
                 <h2 class="fw-bold mb-3">
                     <i class="fas fa-credit-card text-primary me-2"></i> Payment Details
                 </h2>
+                @if(isset($days))
                 <p class="text-muted">Complete your service promotion payment</p>
 
                 <!-- Promotion Summary -->
@@ -27,15 +28,23 @@
                         </div>
                     </div>
                 </div>
+                @endif
             </div>
 
             <!-- Payment Form -->
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
-                    <form id="paymentForm" method="POST" action="{{ route('services.promote', $service->slug) }}">
+                    <form id="paymentForm" method="POST" action="{{ isset($days) ?  route('services.promote', $service->slug) : route('limit-increase', Auth::user()) }}">
                         @csrf
+                        @if(isset($service))
                         <input type="hidden" name="service_id" value="{{ $service->id }}">
+                        @endif
+                        @if(isset($days))
                         <input type="hidden" name="days" value="{{ $days }}">
+                        @endif
+                        @if(isset($additional_slots))
+                        <input type="hidden" name="additional_slots" value="{{ $additional_slots }}">
+                        @endif
                         <input type="hidden" name="amount" value="{{ $amount }}">
 
                         <!-- Card Details -->

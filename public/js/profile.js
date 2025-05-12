@@ -26,3 +26,27 @@ document.addEventListener('DOMContentLoaded', function() {
         bioTextarea.dispatchEvent(new Event('input'));
     }
 });
+
+function selectLimitPackage(slots, amount) {
+    document.getElementById('additionalSlots').value = slots;
+    document.getElementById('limitIncreaseAmount').value = amount;
+    document.getElementById('proceedToLimitPayment').disabled = false;
+
+    // Highlight selected card
+    document.querySelectorAll('#increaseLimitModal .pricing-card').forEach(card => {
+        card.classList.remove('bg-primary', 'bg-opacity-10');
+        card.classList.add('border-primary');
+    });
+    event.target.closest('.pricing-card').classList.add('bg-primary', 'bg-opacity-10');
+    event.target.closest('.pricing-card').classList.remove('border-primary');
+}
+
+// Reset form when modal is closed
+document.getElementById('increaseLimitModal').addEventListener('hidden.bs.modal', function () {
+    document.getElementById('limitIncreaseForm').reset();
+    document.getElementById('proceedToLimitPayment').disabled = true;
+    document.querySelectorAll('#increaseLimitModal .pricing-card').forEach(card => {
+        card.classList.remove('bg-primary', 'bg-opacity-10');
+        card.classList.add('border-primary');
+    });
+});
