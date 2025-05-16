@@ -6,18 +6,18 @@ import './bootstrap';
 import './bootstrap';
 
 // If your bootstrap.js doesn't import Echo, add this:
-import Echo from 'laravel-echo';
-import Pusher from 'pusher-js';
+// import Echo from 'laravel-echo';
+// import Pusher from 'pusher-js';
 
-window.Pusher = Pusher;
-window.Echo = new Echo({
-    broadcaster: 'pusher', // or 'reverb' if using that
-    key: import.meta.env.VITE_PUSHER_APP_KEY,
-    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-    forceTLS: true
-});
+// window.Pusher = Pusher;
+// window.Echo = new Echo({
+//     broadcaster: 'pusher', // or 'reverb' if using that
+//     key: import.meta.env.VITE_PUSHER_APP_KEY,
+//     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+//     forceTLS: true
+// });
 
-console.log('Echo initialized in app.js');
+// console.log('Echo initialized in app.js');
 
 // Echo.connector.pusher.connection.bind('state_change', function(states) {
 //     console.log('Pusher state changed:', states.current);

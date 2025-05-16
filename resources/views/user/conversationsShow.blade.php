@@ -1,61 +1,66 @@
 <x-layout>
-<x-slot:title>Conve</x-slot:title>
-<x-user-sidebar>
-    <h1>Your Conversations</h1>
-    <h1>Chat with {{ Auth::id() === $conversation->user_one_id ? $conversation->userTwo->username : $conversation->userOne->username }}</h1>
+    <x-slot:title>Conversation with {{ Auth::id() === $conversation->user_one_id ? $conversation->userTwo->username : $conversation->userOne->username }}</x-slot:title>
 
-    <div class="border p-3 mb-4" id="chat-messages" style="height: 400px; overflow-y: scroll;">
-        @foreach($messages as $msg)
-        <div class="mb-2 {{ $msg->sender_id === Auth::id() ? 'text-end' : '' }}">
-            <small class="text-muted">{{ $msg->sender->username }}:</small>
-            <p>{{ $msg->message }}</p>
-        </div>
-        @endforeach
-    </div>
+    <x-user-sidebar>
+        <div class="d-flex flex-column" style="height: 100vh;">
+            <!-- Conversation header -->
+            <div class="bg-white border-bottom p-3 d-flex align-items-center shadow-sm">
+                <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mr-3" style="width: 40px; height: 40px;">
+                    <span class="text-muted font-weight-bold">
+                        {{ substr(Auth::id() === $conversation->user_one_id ? $conversation->userTwo->username : $conversation->userOne->username, 0, 1) }}
+                    </span>
+                </div>
+                <div>
+                    <h5 class="font-weight-bold mb-0">{{ Auth::id() === $conversation->user_one_id ? $conversation->userTwo->username : $conversation->userOne->username }}</h5>
+                </div>
+            </div>
 
-    <form action="{{route('conversations.messages.store', $conversation)}}" method="POST">
-        @csrf
-        <input type="text" name="message" id="message">
-        <button>Send</button>
-    </form>
-
-    <!-- Add this script section -->
-
-    <!-- At the bottom of your file, before closing body tag -->
-@vite(['resources/js/app.js'])
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Scroll to bottom of chat on page load
-        const chatContainer = document.getElementById('chat-messages');
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-
-        const conversationId = {{ $conversation->id }};
-
-        // Make sure Echo is properly initialized
-        if (typeof Echo !== 'undefined') {
-            console.log('Echo initialized, subscribing to channel...');
-
-            Echo.channel(`conversation.${conversationId}`)
-                .listen('.message.sent', (data) => {
-                    console.log('New message received:', data);
-
-                    const isCurrentUser = data.sender_id === {{ Auth::id() }};
-                    const messageClass = isCurrentUser ? 'text-end' : '';
-
-                    const messageHtml = `
-                        <div class="mb-2 ${messageClass}">
-                            <small class="text-muted">${data.sender?.username || 'User'}:</small>
-                            <p>${data.message}</p>
+            <!-- Messages container -->
+            <div class="flex-grow-1 p-3 overflow-auto bg-light" id="chat-messages">
+                @foreach($messages as $msg)
+                <div class="mb-3 d-flex {{ $msg->sender_id === Auth::id() ? 'justify-content-end' : 'justify-content-start' }}">
+                    <div class="rounded p-3 {{ $msg->sender_id === Auth::id() ? 'bg-primary text-white' : 'bg-white border' }}"
+                         style="max-width: 70%;">
+                        <div class="small font-weight-bold {{ $msg->sender_id === Auth::id() ? 'text-white-50' : 'text-muted' }}">
+                            {{ $msg->sender->username }}
                         </div>
-                    `;
+                        <p class="mb-1">{{ $msg->message }}</p>
+                        <div class="text-right">
+                            <small class="{{ $msg->sender_id === Auth::id() ? 'text-white-50' : 'text-muted' }}">
+                                {{ $msg->created_at->format('h:i A') }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
 
-                    chatContainer.insertAdjacentHTML('beforeend', messageHtml);
-                    chatContainer.scrollTop = chatContainer.scrollHeight;
-                });
-        } else {
-            console.error('Echo is not defined. Check your JavaScript setup.');
-        }
-    });
-    </script>
-</x-user-sidebar>
+            <!-- Message input -->
+            <div class="bg-white border-top p-3">
+                <form id="chat-form" action="{{ route('messages.store') }}" method="POST" class="d-flex">
+                    @csrf
+                    <input type="hidden" name="recipient_id" value="{{ Auth::id() === $conversation->user_one_id ? $conversation->user_two_id : $conversation->user_one_id }}">
+
+                    <input type="text" name="message" id="message" autocomplete="off"
+                        class="form-control rounded-0 rounded-start"
+                        placeholder="Type your message...">
+                    <button type="submit"
+                        class="btn btn-primary rounded-0 rounded-end">
+                        Send
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Hidden fields -->
+        <input type="hidden" id="conversation-id" value="{{ $conversation->id }}">
+        <input type="hidden" id="auth-user-id" value="{{ Auth::id() }}">
+
+        <script>
+            window.pusherKey = "{{ env('PUSHER_APP_KEY') }}";
+            window.pusherCluster = "{{ env('PUSHER_APP_CLUSTER') }}";
+            window.conversationId = {{ $conversation->id }};
+        </script>
+        <script src="{{asset('js/chat.js')}}"></script>
+    </x-user-sidebar>
 </x-layout>

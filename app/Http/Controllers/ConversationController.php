@@ -16,7 +16,7 @@ class ConversationController extends Controller
         ->with(['userOne', 'userTwo', 'messages' => fn($q) => $q->latest()->take(1)])
         ->latest()
         ->get();
-        
+
 
         return view('user.conversations', compact('conversations'));
     }

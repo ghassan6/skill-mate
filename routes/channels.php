@@ -6,6 +6,12 @@ use Illuminate\Support\Facades\Broadcast;
 //     return (int) $user->id === (int) $id;
 // });
 
-Broadcast::channel('conversation.{id}', function ($user, $id) {
-    return $user->conversations()->where('id', $id)->exists();
+use App\Models\Conversation;
+
+Broadcast::channel('conversation.{conversationId}', function ($user, $conversationId) {
+    return Conversation::where('id', $conversationId)
+        ->where(function ($query) use ($user) {
+            $query->where('user_one_id', $user->id)
+                  ->orWhere('user_two_id', $user->id);
+        })->exists();
 });

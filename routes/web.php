@@ -23,6 +23,8 @@ use App\Http\Controllers\SavedServiceController;
 use App\Http\Controllers\ServiceImageController;
 use App\Mail\userBanned;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Message;
+use App\Events\MessageSent;
 
 
 Route::get('/', [HomeController::class, 'index'])
@@ -106,8 +108,8 @@ Route::middleware(['auth', 'user' , 'banned'])->group(function () {
     Route::post('/conversations', [ConversationController::class, 'store'])
     ->name('conversations.store');
 
-    Route::post('/conversations/{conversation}/messages', [MessageController::class, 'store'])
-    ->name('conversations.messages.store');
+    Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
+
 
     // own services actions
     Route::put('/{service}/activate', [ServiceController::class, 'activate'])->name('services.toggle-status');
@@ -154,6 +156,20 @@ Route::middleware(['auth', 'admin'])
     Route::put('/reports/{report}/resolve', [AdminReportController::class, 'markAsResolved'])->name('reports.resolve');
 
 
+});
+
+Route::get('/test-broadcast', function () {
+    $message = new Message();
+    $message->id = 123;
+    $message->sender_id = 1;
+    $message->message = 'Test message';
+    $message->conversation_id = 1;
+    $message->created_at = now();
+    $message->setRelation('sender', \App\Models\User::find(1)); // Fake sender relation
+
+    event(new MessageSent($message));
+
+    return 'Broadcast fired!';
 });
 
 require __DIR__.'/auth.php';
