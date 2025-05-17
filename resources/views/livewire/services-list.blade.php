@@ -129,7 +129,7 @@
 
                     <!-- Image with Badges -->
                     <div class="position-relative overflow-hidden" style="height: 200px;">
-                        <img src="{{ $service->images->first() ? asset($service->images->first()->image) : asset('images/services/service-default.png') }}"
+                        <img src="{{ Str::contains($service->images->first(), 'service-images') ? asset('storage/' . $service->images->first()->image) : asset('images/services/service-default.png') }}"
                              class="img-fluid w-100 h-100 object-cover" alt="{{ $service->title }}"
                              @if($service->is_featured)
                              <div class="position-absolute end-0 top-0 bg-warning text-dark px-3 py-1 small fw-bold" style="z-index: 999">

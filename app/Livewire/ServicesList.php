@@ -8,6 +8,7 @@ use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Models\User;
 
 class ServicesList extends Component
 {
@@ -16,12 +17,19 @@ class ServicesList extends Component
     public int $city = 0;
     public int $rating = 0;
     public string $priceRange = '';
+    public ?User $user = null;
+
 
     public function filterServices(): void
     {
         $this->resetPage();
     }
 
+    public function mount()
+{
+    $userId = request()->query('user');
+    $this->user = $userId ? User::find($userId) : null;
+}
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     public function render()
@@ -31,8 +39,11 @@ class ServicesList extends Component
 
         $query = Service::with(['user', 'category', 'city', 'reviews', 'images']);
 
+        if ($this->user) {
+            $query->where('user_id', $this->user->id);
+        }
         // if the user is logged in and is not a service provider
-        if(Auth::check()) {
+        else if(Auth::check()) {
             $query->where('user_id', '!=', Auth::id());
         }
 

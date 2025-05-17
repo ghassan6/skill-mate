@@ -60,7 +60,7 @@ class ServiceController extends Controller
         $service->save();
 
           foreach ($request->uploaded_images as $filePath) {
-            
+
             ServiceImage::create([
                 'image' => $filePath,
                 'service_id' => $service->id
