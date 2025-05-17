@@ -114,7 +114,7 @@
                         <span class="text-muted">Showing {{ $services->firstItem() }}-{{ $services->lastItem() }} of {{ $services->total() }} services</span>
                     </div>
                     <div>
-                        <select class="form-select form-select-sm" wire:model="sort">
+                        <select class="form-select form-select-sm" wire:model="sort"  wire:change="resetPage">
                             <option value="recommended">Sort by: Recommended</option>
                             <option value="price_low">Price: Low to High</option>
                             <option value="price_high">Price: High to Low</option>

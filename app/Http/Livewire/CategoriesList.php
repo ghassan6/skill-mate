@@ -14,6 +14,14 @@ class CategoriesList extends Component
     {
         $this->search = '';
     }
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+        protected $queryString = [
+        'search' => ['except' => ''],
+    ];
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';

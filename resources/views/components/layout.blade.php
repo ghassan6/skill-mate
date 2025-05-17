@@ -7,12 +7,7 @@
     <meta content="" name="description">
     <link rel="icon" type="image/x-icon" href="{{ asset('images/main/wrench-tool.png')}}">
     @livewireStyles
-    @livewireScripts
-    <script src="https://js.pusher.com/8.4/pusher.min.js"></script>
 
-    <script src="https://js.pusher.com/8.3.0/pusher.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.15.0/dist/echo.iife.js"></script>
 
     <title>{{ $title}}</title>
 
@@ -190,6 +185,9 @@
 
 
   <x-footer></x-footer>
+  @livewireScripts
+  @stack('scripts')
+
 
 
 </body>

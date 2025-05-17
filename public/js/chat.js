@@ -7,6 +7,9 @@ document.getElementById('chat-form').addEventListener('submit', function(e) {
 
     const token = document.querySelector('input[name=_token]').value;
     const recipient_id = document.querySelector('input[name=recipient_id]').value;
+    // Show loading indicator
+    const loadingIndicator = document.getElementById('loading-indicator');
+    loadingIndicator.style.display = 'block';
 
     fetch(this.action, {
         method: "POST",
@@ -83,6 +86,10 @@ function appendMessageToChat(message, sender) {
     // Append bubble to parent, then parent to chat container
     parent.appendChild(bubble);
     chatMessages.appendChild(parent);
+    const loadingIndicator = document.getElementById('loading-indicator');
+
+    loadingIndicator.style.display = 'none';
+
 
     // Scroll to bottom so new message is visible
     chatMessages.scrollTop = chatMessages.scrollHeight;

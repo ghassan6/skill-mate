@@ -158,18 +158,5 @@ Route::middleware(['auth', 'admin'])
 
 });
 
-Route::get('/test-broadcast', function () {
-    $message = new Message();
-    $message->id = 123;
-    $message->sender_id = 1;
-    $message->message = 'Test message';
-    $message->conversation_id = 1;
-    $message->created_at = now();
-    $message->setRelation('sender', \App\Models\User::find(1)); // Fake sender relation
-
-    event(new MessageSent($message));
-
-    return 'Broadcast fired!';
-});
 
 require __DIR__.'/auth.php';

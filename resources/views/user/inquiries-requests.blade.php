@@ -60,7 +60,7 @@
                                                     <div class="d-flex justify-content-between align-items-center mb-1">
                                                         <h6 class="fw-bold mb-0">
                                                                 <!-- Inquiry Notification Title -->
-                                                                <a href="{{ $notification->data['inquiry_id'] ? route('inquiries.show', $notification->data['inquiry_id']) : '#' }}"
+                                                                <a href="{{route('services.show', \App\Models\Service::find($notification->data['service_id']))}}"
                                                                    class="text-decoration-none text-dark">
                                                                     New Inquiry: {{ $notification->data['service_title'] }}
                                                                 </a>

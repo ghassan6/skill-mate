@@ -6,6 +6,8 @@ use App\Http\Requests\StoreContactRequest;
 use App\Http\Requests\UpdateContactRequest;
 use App\Models\Contact;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactMail;
 
 class ContactController extends Controller
 {
@@ -33,8 +35,11 @@ class ContactController extends Controller
 
 
         $validatedData = $request->validated();
-        Contact::create($validatedData);
+        $contactData = Contact::create($validatedData);
+
         // Send email to admin
+        Mail::to('skillmate.services@gmail.com')
+            ->send(new ContactMail($contactData));
 
 
         return redirect()->route('contact.index')->with('success', 'Your message has been sent!, We will get back to shortly!');

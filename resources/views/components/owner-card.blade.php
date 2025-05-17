@@ -71,6 +71,13 @@
                                     </a>
                                 </div>
                             </div>
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body text-center">
+                                    <button class="btn btn-primary w-100 mb-3 rounded-pill py-2 fw-bold" data-bs-toggle="modal" data-bs-target="#contactModal">
+                                        <i class="fas fa-paper-plane me-2"></i> Contact {{ $service->user->username }}
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                         @elseif($existingInquiry->status === 'rejected')
                         <div class="alert alert-warning border-warning border-2  fade show" role="alert">
@@ -323,3 +330,29 @@
         </div>
     </div>
 </div>
+
+    <!-- Contact Modal -->
+    <div class="modal fade" id="contactModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold">Contact {{ $service->user->username }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('conversations.store') }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" name="recipient_id" value="{{ $service->user->id }}">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Message</label>
+                            <textarea name="message" rows="5" class="form-control rounded-3" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary rounded-pill px-4">Send Message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

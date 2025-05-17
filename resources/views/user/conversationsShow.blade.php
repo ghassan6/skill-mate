@@ -49,6 +49,7 @@
                         Send
                     </button>
                 </form>
+                    <div id="loading-indicator" style="display:none; color: #007bff;">Sending...</div>
             </div>
         </div>
 
@@ -56,11 +57,33 @@
         <input type="hidden" id="conversation-id" value="{{ $conversation->id }}">
         <input type="hidden" id="auth-user-id" value="{{ Auth::id() }}">
 
+        @push('scripts')
+            <script src="https://js.pusher.com/8.4/pusher.min.js"></script>
+
+    <script src="https://js.pusher.com/8.3.0/pusher.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.15.0/dist/echo.iife.js"></script>
+         <script src="https://js.pusher.com/8.4/pusher.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.15.0/dist/echo.iife.js"></script>
+
+    <!-- Polyfill & Livewire hook -->
+    <script>
+      if (window.Echo?.connector?.pusher) {
+        if (!window.Echo.socketId) {
+          window.Echo.socketId = () => window.Echo.connector.pusher.connection.socket_id;
+        }
+        Livewire.hook('request', ({ options }) => {
+          const sid = window.Echo.socketId();
+          if (sid) options.headers['X-Socket-ID'] = sid;
+        });
+      }
+    </script>
         <script>
             window.pusherKey = "{{ env('PUSHER_APP_KEY') }}";
             window.pusherCluster = "{{ env('PUSHER_APP_CLUSTER') }}";
             window.conversationId = {{ $conversation->id }};
         </script>
         <script src="{{asset('js/chat.js')}}"></script>
+        @endpush
     </x-user-sidebar>
 </x-layout>

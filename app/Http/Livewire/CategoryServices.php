@@ -127,6 +127,9 @@ class CategoryServices extends Component
             });
         }
 
+        $query->orderByDesc('is_featured')
+            ->orderBy('featured_until');
+
         // Apply sorting
         switch ($this->sort) {
             case 'price_low':
@@ -135,14 +138,13 @@ class CategoryServices extends Component
                 break;
 
             case 'price_high':
-                // Sort by hourly_rate descending (nulls last)
+                //(nulls last)
                 $query->orderByRaw("CASE WHEN hourly_rate IS NULL THEN 1 ELSE 0 END, hourly_rate DESC");
                 break;
 
             case 'rating':
-                $query->withCount(['reviews as average_rating' => function($query) {
-                    $query->select(DB::raw('coalesce(avg(rating),0)'));
-                }])->orderBy('average_rating', 'desc');
+                $query->withAvg('reviews', 'rating')  // adds reviews_avg_rating
+                    ->orderByDesc('reviews_avg_rating');
                 break;
 
             case 'newest':
@@ -150,10 +152,9 @@ class CategoryServices extends Component
                 break;
 
             default: // recommended
-                $query->withCount(['reviews as average_rating' => function($query) {
-                    $query->select(DB::raw('coalesce(avg(rating),0)'));
-                }])->orderBy('average_rating', 'desc')
-                   ->orderBy('views', 'desc');
+                 $query->withAvg('reviews', 'rating')  // adds reviews_avg_rating
+                    ->orderByDesc('reviews_avg_rating')
+                    ->orderBy('views', 'desc');
                 break;
         }
 
@@ -161,8 +162,6 @@ class CategoryServices extends Component
         $services = $query
         ->with('images')
         ->where('status', 'active')
-        ->orderByDesc('is_featured')
-        ->orderBy('featured_until')
         ->paginate(12);
         $cities = City::all();
 
